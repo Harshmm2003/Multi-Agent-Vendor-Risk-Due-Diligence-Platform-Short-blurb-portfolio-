@@ -1,0 +1,37 @@
+{
+  "scenarios": [
+    {
+      "scenario": "vendor_breach",
+      "label": "Illustrative: hospital shares ~200K patient records with a SaaS vendor",
+      "threat_event_frequency": {"min": 0.5, "mode": 2, "max": 6, "source": "assumption",
+        "rationale": "Illustrative: serious attack attempts on the vendor per year"},
+      "vulnerability": {"min": 0.02, "mode": 0.05, "max": 0.15, "source": "assumption",
+        "rationale": "Illustrative: verified SOC 2 Type 2, no known breach history"},
+      "primary_loss": {
+        "response":     {"min": 150000, "mode": 600000, "max": 2500000, "source": "assumption",
+          "rationale": "Illustrative: forensics, notification, legal, call centre"},
+        "productivity": {"min": 20000, "mode": 100000, "max": 500000, "source": "assumption"},
+        "replacement":  {"min": 0, "mode": 50000, "max": 400000, "source": "assumption"}
+      },
+      "secondary_probability": {"min": 0.3, "mode": 0.6, "max": 0.9, "source": "assumption",
+        "rationale": "Illustrative: health data breaches usually draw regulator attention"},
+      "secondary_loss": {
+        "fines_judgments": {"min": 50000, "mode": 400000, "max": 3000000, "source": "assumption"},
+        "reputation":      {"min": 100000, "mode": 500000, "max": 4000000, "source": "assumption"}
+      }
+    },
+    {
+      "scenario": "vendor_insolvency",
+      "label": "Illustrative: vendor in the Altman grey zone",
+      "threat_event_frequency": {"min": 0.005, "mode": 0.02, "max": 0.05, "source": "assumption",
+        "rationale": "Illustrative: annual probability of default"},
+      "vulnerability": {"min": 1, "mode": 1, "max": 1, "source": "assumption",
+        "rationale": "Every default is a loss event"},
+      "primary_loss": {
+        "replacement":  {"min": 200000, "mode": 500000, "max": 1500000, "source": "assumption",
+          "rationale": "Illustrative: migration to a new vendor plus lost prepaid fees"},
+        "productivity": {"min": 50000, "mode": 200000, "max": 800000, "source": "assumption"}
+      }
+    }
+  ]
+}
