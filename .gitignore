@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+chroma_db/
+node_modules/
+
+# make audit scratch file
+backend/.audit-requirements.txt
+

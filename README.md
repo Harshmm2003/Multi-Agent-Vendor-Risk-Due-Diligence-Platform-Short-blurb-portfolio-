@@ -1,117 +1,333 @@
-# VendorIQ — Multi-Agent Vendor Risk & Due-Diligence Platform
+# Third-Party Vendor Risk Assessment AI
 
-> Five specialized AI agents independently investigate a vendor — financial, compliance, operational, reputation, and strategic fit — then a meta-agent fuses their findings into a single CPO-ready recommendation: **Approve, Review, or Reject**, with evidence, confidence, and red flags.
+A multi-agent system that runs vendor due diligence. You give it a vendor's name and a short profile of your own company. It gathers public data on the vendor, has five specialist AI agents score it, and returns a recommendation of **APPROVE**, **REVIEW** or **REJECT**. Every score comes with the evidence and reasoning behind it.
 
-Built on **IBM watsonx** (Llama-3.3-70B via `ChatWatsonx`) for the IBM watsonx challenge.
+In the code and the UI, the project is called **VendorIQ**.
+
+> **Decision support, not a decision.** The output is a starting point for a procurement or compliance reviewer. It is not legal, financial or compliance advice. Sanctions results in particular must be confirmed by a person before you act on them.
+
+---
+
+## Contents
+
+- [What it does](#what-it-does)
+- [How an evaluation works](#how-an-evaluation-works)
+- [The five agents](#the-five-agents)
+- [How the recommendation is decided](#how-the-recommendation-is-decided)
+- [Certification evidence tiers](#certification-evidence-tiers)
+- [Tech stack](#tech-stack)
+- [Repository layout](#repository-layout)
+- [Running it](#running-it)
+- [Configuration](#configuration)
+- [API](#api)
+- [Development workflow](#development-workflow)
+- [Known limitations](#known-limitations)
+- [Roadmap](#roadmap)
 
 ---
 
 ## What it does
 
-Enterprise vendor due diligence is slow, manual, and inconsistent. VendorIQ automates the first pass: given just a vendor name, it scrapes real public data, runs five domain experts in parallel, and returns an auditable decision a Chief Procurement Officer can act on.
+Vendor onboarding usually means one analyst checking a vendor's finances, certifications, sanctions status, news coverage and fit with the business, then writing a memo. This project automates the first pass:
 
-**The pipeline:**
+- **Collects data** from public sources: Yahoo Finance, Wikipedia, SEC EDGAR, the FedRAMP marketplace dataset, the OFAC sanctions list and news feeds.
+- **Screens for sanctions** against the U.S. Treasury OFAC SDN list. This is a rule-based check, not an AI judgement.
+- **Verifies certifications** such as SOC 2, ISO 27001 and FedRAMP, and grades each one by how strong the evidence is.
+- **Scores the vendor** in five areas, each handled by its own LLM agent.
+- **Combines the scores** using weights you can adjust. Hard rules (sanctions, dealbreakers, missing data) override the scores.
+- **Explains the result.** Each agent's score, confidence, red flags and cited evidence appear in a report.
 
-1. **Scrape** — Pulls live data from Yahoo Finance (`yfinance`), Wikipedia, Macrotrends, OFAC sanctions lists, certification trust pages, and news sources.
-2. **Five domain agents** — Each runs a two-pass routine: a chain-of-thought reasoning pass that cites every figure to its source, then a structured JSON scoring pass (0–100 + confidence + evidence + red flags).
-   - **Financial** — liquidity, solvency, profitability, revenue stability, credit rating
-   - **Compliance** — certifications (SOC2/ISO27001), OFAC sanctions, regulatory actions
-   - **Operational** — scale, continuity, delivery capability
-   - **Reputation** — news signals, track record, certifications
-   - **Strategic** — fit against the client's priorities, dealbreakers, and nice-to-haves
-3. **Meta-agent** — Applies company-defined weights (and redistributes them if an agent is missing), computes a composite score plus separate **Risk** and **Strategic-Fit** scores, enforces hard overrides (an OFAC match is an automatic reject), gates on a 95% confidence threshold for auto-approval, and writes a plain-English explanation with concrete action items.
+## How an evaluation works
 
----
+An evaluation runs as a background job. The frontend submits the request, then polls the job for progress until the result is ready.
 
-## Engineering highlights
+```mermaid
+flowchart TD
+    A[POST /api/v1/evaluate<br/>vendor + client profile + weights] --> B[Job created<br/>returns job_id]
+    B --> C[Scrape financials<br/>yfinance · Wikipedia · news]
+    C --> D[OFAC SDN screening<br/>deterministic name matching]
+    D --> E{Cert cache hit?<br/>Redis → Postgres}
+    E -- no --> F[Certification discovery<br/>SEC EDGAR → FedRAMP → CSA STAR → web]
+    E -- yes --> G
+    F --> G[Build agent context<br/>+ RAG: industry benchmarks,<br/>compliance requirements, past evaluations]
+    G --> H1[Financial agent]
+    G --> H2[Compliance agent]
+    G --> H3[Operational agent]
+    G --> H4[Reputation agent]
+    G --> H5[Strategic fit agent]
+    H1 & H2 & H3 & H4 & H5 --> I[Meta-agent<br/>hard rules + weighted composite]
+    I --> J[APPROVE / REVIEW / REJECT<br/>saved to Postgres + vector store]
+```
 
-- **Two-pass agent design** — Reasoning is separated from scoring so every number in the final JSON traces back to a cited source, not a hallucination.
-- **Source-grounded evidence** — Each data point carries its origin (`current_ratio: 1.4 [Source: Yahoo Finance]`) for a fully auditable trail.
-- **Resilient JSON parsing** — Agent output is fence-stripped and brace-extracted, with a safe fallback object so one malformed response never crashes the pipeline.
-- **Graceful degradation** — Missing agents have their weight redistributed across the rest; the decision still completes.
-- **Hard-rule overrides** — Deterministic guardrails (OFAC, confidence floor) sit on top of the LLM scores so critical compliance rules can't be reasoned away.
-- **Deterministic mode** — `temperature=0` + greedy decoding for reproducible, structured outputs.
+The specialist agents run one after another, which keeps the system within the LLM provider's per-minute token limits. Each agent makes two calls:
 
----
+1. **A reasoning pass** that writes free-text analysis citing the data it was given.
+2. **A scoring pass** that returns structured JSON (`score`, `confidence`, `red_flags`, `evidence`, `explanation`). The JSON is requested with a schema, then validated again in code. See [ADR 0002](docs/adr/0002-structured-agent-output.md).
+
+If an agent fails or returns something unusable, it is marked **unavailable**, not scored as zero. Its weight is shared among the agents that did report, and the evaluation is sent to human review.
+
+## The five agents
+
+| Agent | Default weight | What it looks at |
+|---|---|---|
+| **Financial** | 30% | Revenue and growth, liquidity (current ratio), leverage, interest coverage, years in operation |
+| **Compliance & Legal** | 25% | Certifications against the ones the vendor's industry requires, regulatory disclosures, OFAC result, legal news |
+| **Operational** | 20% | Company size and scale, operating history, ability to deliver at the contract's size |
+| **Reputation** | 10% | Recent news coverage and red-flag stories |
+| **Strategic Fit** | 15% | Match against *your* priorities, dealbreakers, nice-to-haves, risk appetite and contract size |
+
+You can change the weights for each evaluation. They must cover exactly these five keys and add up to 1.
+
+Alongside the composite score, the report shows two summary scores:
+
+- **Risk score** = Financial × 0.55 + Compliance × 0.45. Lower means more risk.
+- **Fit score** = Strategic × 0.50 + Operational × 0.35 + Reputation × 0.15.
+
+Agents also draw on a small vector store (ChromaDB) that holds industry benchmarks, compliance requirements by industry, and summaries of past evaluations. This gives them a baseline to compare against.
+
+## How the recommendation is decided
+
+The meta-agent (`backend/app/agents/meta_agent.py`) applies rules in a fixed order. The first rule that matches decides the outcome. **The LLM cannot override the hard rules.**
+
+| # | Condition | Result |
+|---|---|---|
+| 1 | Confirmed OFAC sanctions match | **REJECT** |
+| 2 | A dealbreaker is definitely violated (e.g. "must have SOC 2 Type 2" and it isn't there) | **REJECT** |
+| 3 | Possible OFAC match (name overlap, or a name too short or generic to confirm) | REVIEW |
+| 4 | OFAC screening couldn't be completed (list unreachable) | REVIEW |
+| 5 | A dealbreaker can't be confirmed either way | REVIEW |
+| 6 | Any agent unavailable | REVIEW |
+| 7 | Any agent's output was truncated | REVIEW |
+| 8 | Composite < 45 **and** average confidence ≥ 50% | **REJECT** |
+| 9 | Composite < 45 but confidence < 50% (the low score may just mean missing data) | REVIEW |
+| 10 | Average confidence < 95% | REVIEW |
+| 11 | Composite ≥ 70 **and** confidence ≥ 95% | **APPROVE** |
+| 12 | Everything else (composite 45–70) | REVIEW |
+
+The system leans toward REVIEW on purpose. An automated APPROVE needs a strong score *and* very high confidence, because a wrong approval costs more than an extra human check.
+
+## Certification evidence tiers
+
+Every certification found is labelled with how much the evidence can be trusted:
+
+| Tier | Meaning | Typical source |
+|---|---|---|
+| `VERIFIED_REGISTRY` | Confirmed in an official registry or regulatory filing | SEC EDGAR filings, FedRAMP "Authorized", CSA STAR Level 2 |
+| `CORROBORATED` | Supported by a credible but weaker source | FedRAMP "Ready", CSA STAR Level 1, the vendor's own trust/compliance pages |
+| `SELF_REPORTED_UNVERIFIABLE` | A claim that couldn't be checked | Reserved for future sources |
+| `CONTRADICTED` | Evidence suggests the claim is false | Reserved for future sources |
+
+When a dealbreaker names a certification, the meta-agent uses these tiers to decide whether it is met. For SOC 2, a dealbreaker that requires a Type 2 report is only met by Type 2.
+
+Regulations such as GDPR, CCPA, SOX and FCPA are listed separately under `regulatory_frameworks_disclosed`. They are laws a company is subject to, not certifications it earns.
+
+Discovery checks sources in order: **SEC EDGAR → FedRAMP → CSA STAR → the vendor's own website**. The website step is skipped when two or more registry-verified certifications have already been found. Results are cached for 7 days in Redis, backed by Postgres.
 
 ## Tech stack
 
-`Python` · `IBM watsonx` · `LangChain (langchain-ibm / langchain-core)` · `Llama-3.3-70B` · `yfinance` · `BeautifulSoup` · `asyncio`
+| Layer | Technology |
+|---|---|
+| LLM | [Groq](https://console.groq.com) (`openai/gpt-oss-120b`) via LangChain |
+| Backend API | Python 3.11, FastAPI, Uvicorn, async SQLAlchemy |
+| Database | PostgreSQL 16 (local Docker or Supabase), Alembic migrations |
+| Cache | Redis 7. If Redis is down, the app falls back to Postgres |
+| Vector store | ChromaDB (embedded, in-process) |
+| Frontend | React 18, TypeScript, Vite, Tailwind CSS, React Router |
+| Tests | pytest (backend), Vitest + Testing Library (frontend) |
+| Tooling | uv, ruff, mypy, GitHub Actions, gitleaks, Trivy, pip-audit |
+| Runtime | Docker Compose (frontend, backend, Postgres, Redis) |
 
----
-
-## Architecture
+## Repository layout
 
 ```
-                         ┌──────────────────┐
-   vendor name  ─────▶   │     Scraper      │  yfinance · Wikipedia
-                         │  (live sources)  │  Macrotrends · OFAC · news
-                         └────────┬─────────┘
-                                  │  builds VendorRiskState
-        ┌────────────┬────────────┼────────────┬────────────┐
-        ▼            ▼            ▼            ▼            ▼
-   ┌─────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
-   │Financial│ │Compliance│ │Operational│ │Reputation│ │Strategic │
-   └────┬────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘
-        └────────────┴────────────┼────────────┴────────────┘
-                                  ▼
-                         ┌──────────────────┐
-                         │    Meta-Agent    │  weights · risk/fit
-                         │  (synthesis)     │  OFAC override · gating
-                         └────────┬─────────┘
-                                  ▼
-                  APPROVE / REVIEW / REJECT  + evidence + action items
+.
+├── backend/
+│   ├── main_api.py              FastAPI app: middleware, CORS, health, error handling
+│   ├── app/
+│   │   ├── api/routes.py        REST endpoints + the evaluation pipeline (background job)
+│   │   ├── agents/              Five specialist agents, the meta-agent, structured-output schema
+│   │   ├── services/
+│   │   │   ├── scraper.py             Financial data, news, industry
+│   │   │   ├── ofac_screening.py      OFAC SDN download + name matching
+│   │   │   ├── name_matching.py       Whole-token company-name matching
+│   │   │   ├── compliance_discovery.py  Certification discovery entry point
+│   │   │   ├── edgar_pipeline.py      SEC EDGAR filings
+│   │   │   ├── fedramp_connector.py   FedRAMP marketplace data
+│   │   │   ├── csa_star_connector.py  CSA STAR registry (demo dataset by default)
+│   │   │   ├── cert_pipeline.py / cert_*_agent.py  Vendor website crawl + LLM extraction
+│   │   │   ├── rag_service.py         ChromaDB collections and retrieval
+│   │   │   └── cache.py               Redis layer
+│   │   ├── db/                  SQLAlchemy models (evaluations, jobs, cert_cache) + engine
+│   │   ├── llm/config.py        Groq model setup
+│   │   ├── orchestrator/state.py  Shared evaluation state
+│   │   └── settings.py          Environment-variable validation
+│   ├── migrations/              Alembic migrations
+│   ├── scripts/lint_baseline.py Lint ratchet (only new findings fail)
+│   └── tests/                   pytest suite (offline by default)
+├── frontend/
+│   └── src/
+│       ├── pages/               Evaluate, Job progress, History, Report
+│       ├── components/          Score summary, OFAC banner, cert tiers, red flags, weights editor…
+│       └── api/                 Typed API client
+├── docs/
+│   ├── IMPLEMENTATION_PLAN.md   Phased roadmap
+│   └── adr/                     Architecture Decision Records
+├── .github/workflows/ci.yml     Lint, tests, build, security scans
+├── .githooks/                   pre-commit hook (lint + secret scan)
+├── docker-compose.yml
+└── Makefile                     Developer commands (`make help`)
 ```
 
----
+## Running it
 
-## Getting started
+### Prerequisites
+
+- A free **Groq API key** from [console.groq.com](https://console.groq.com). Evaluations need one; the rest of the app runs without it.
+- **Option A:** Docker with Docker Compose.
+- **Option B:** Python 3.11+, [uv](https://docs.astral.sh/uv/), Node.js 22, plus a PostgreSQL database and (optionally) Redis.
+
+### Option A — Docker (recommended)
 
 ```bash
-# 1. Clone
-git clone https://github.com/<your-username>/vendoriq.git
-cd vendoriq
+git clone <this-repo-url>
+cd <repo-folder>
+make up        # first run creates backend/.env from the example
+```
 
-# 2. Install
-pip install -r requirements.txt
+Open `backend/.env`, set `GROQ_API_KEY`, then run `make up` again. This starts:
 
-# 3. Configure credentials
-cp backend/.env.example backend/.env
-#   then edit backend/.env with your IBM watsonx API key + project ID
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:8000 |
+| Interactive API docs | http://localhost:8000/docs |
+| Postgres | 127.0.0.1:5432 (local only) |
+| Redis | localhost:6379 |
 
-# 4. Run the full pipeline (from the backend directory)
+Database migrations run automatically when the backend container starts.
+
+No `make`? Use `cp backend/.env.example backend/.env`, edit it, then `docker compose up --build`.
+
+### Option B — Run the services yourself
+
+```bash
+# Backend
 cd backend
-python test_all_agents.py
+cp .env.example .env          # set DATABASE_URL and GROQ_API_KEY
+uv sync --locked
+uv run alembic upgrade head
+uv run uvicorn main_api:app --reload --port 8000
+
+# Frontend (new terminal)
+cd frontend
+npm ci
+npm run dev                   # http://localhost:5173
 ```
 
-To evaluate a different vendor, change the `VENDOR_NAME` and `CLIENT_PROFILE` at the top of `backend/test_all_agents.py`.
+The frontend calls `http://localhost:8000` by default. Set `VITE_API_BASE_URL` to change that.
 
-> **Requirements:** an active IBM watsonx project with access to `meta-llama/llama-3-3-70b-instruct`, plus outbound internet for the scrapers.
+> On first start, ChromaDB downloads a ~80 MB embedding model, so the first run needs internet access.
+
+## Configuration
+
+All settings live in `backend/.env`. See [`backend/.env.example`](backend/.env.example) for the full annotated list.
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `DATABASE_URL` | yes | Postgres URL using the asyncpg driver, e.g. `postgresql+asyncpg://user:pass@host:5432/db` |
+| `GROQ_API_KEY` | yes | LLM access |
+| `DATABASE_SSL` | no | `require` (default, for Supabase) or `disable` (local Postgres) |
+| `REDIS_URL` | no | Defaults to `redis://localhost:6379` |
+| `CHROMA_PATH` | no | Vector store directory (default `./chroma_db`) |
+| `LOG_LEVEL` / `LOG_FORMAT` | no | `INFO` / `json` by default; `console` is easier to read locally |
+| `AGENT_STRUCTURED_OUTPUT` | no | `true` (JSON schema, default) or `false` (text parsing) |
+| `CORS_ALLOW_ORIGINS` | no | Allowed browser origins, comma-separated |
+| `CERT_CACHE_VALID_AFTER` | no | Treat cached certification results older than this date as expired |
+| `CSA_STAR_API_KEY` | no | Live CSA STAR API (only when demo mode is off) |
+
+Never commit `.env`. CI scans for secrets with gitleaks.
+
+## API
+
+Interactive docs are at `/docs` when the backend is running. The main endpoints, all under `/api/v1`:
+
+| Method | Path | Purpose |
+|---|---|---|
+| `POST` | `/evaluate` | Start an evaluation. Returns `job_id` and `evaluation_id` |
+| `GET` | `/jobs/{job_id}` | Job status, progress %, current step, and the result once complete |
+| `GET` | `/jobs` | Recent jobs |
+| `GET` | `/evaluations` | Past evaluations |
+| `GET` | `/evaluations/{id}` | One evaluation |
+| `GET` | `/evaluations/{id}/report` | Full report with each agent's reasoning and evidence |
+| `GET` | `/companies/search` | Company name lookup for the search box |
+| `GET` | `/rag/stats` | Vector store collection sizes |
+| `GET` | `/health` | Database and Redis health |
+
+Example request:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/evaluate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "vendor_name": "Microsoft",
+    "client_profile": {
+      "company_name": "Acme Manufacturing Corp",
+      "industry": "Manufacturing",
+      "contract_value": 5000000,
+      "contract_years": 3,
+      "risk_appetite": "medium",
+      "priorities": ["cloud infrastructure", "cybersecurity"],
+      "dealbreakers": ["no SOC2 certification", "active OFAC sanctions"],
+      "nice_to_have": ["ISO27001 certified"]
+    }
+  }'
+```
+
+Then poll `GET /api/v1/jobs/<job_id>` until `status` is `complete`. A full evaluation takes about 1–3 minutes, mostly spent waiting on LLM calls and rate limits.
+
+## Development workflow
+
+```bash
+make install   # backend + frontend dependencies, and enables the git hooks
+make check     # lint + type check + all tests: must pass before every commit
+make help      # every available command
+```
+
+- **Tests are offline.** They use SQLite, mocked HTTP and a temporary vector store; they never touch a real database or the real `chroma_db`. Tests that call real services are marked `live` and run only with `pytest -m live` and a real Groq key.
+- **Lint is a ratchet.** Existing findings are recorded in `backend/lint-baseline.json`; only new ones fail.
+- **Schema changes** go through Alembic migrations, never `create_all`. See [ADR 0001](docs/adr/0001-schema-migrations.md).
+- **Branches and commits:** one branch per task (`phase-N/<topic>`), pull requests into a protected `main`, and Conventional Commit messages (`feat:`, `fix:`, `docs:`…).
+- **CI** (`.github/workflows/ci.yml`) runs lint, backend tests (including migrations against real Postgres), the frontend type check, tests and build, and security scans (gitleaks, Trivy, pip-audit, npm audit).
+- **Design decisions** are recorded in [`docs/adr/`](docs/adr/).
+
+## Known limitations
+
+Current limitations, stated plainly:
+
+- **CSA STAR uses a curated demo dataset.** The live registry API needs a paid membership. These entries are marked "[demo dataset]" in the evidence text.
+- **FedRAMP data** comes from the public 18F dataset, which can lag the live marketplace by days or weeks.
+- **Web-scraped sources** (Yahoo Finance, Wikipedia, Macrotrends, news) can change format or block requests. When a source fails, its fields are left empty and the agents' confidence drops. Scores are not invented to fill the gap.
+- **Macrotrends revenue parsing** can pick up a quarterly figure instead of the annual one, and doesn't convert its values from millions. Check revenue numbers against the source.
+- **Industry fallback.** If the vendor's industry can't be found, the client's industry is used instead. That can check the vendor against the wrong set of required certifications.
+- **First run needs internet** for ChromaDB's embedding model, including the first run of the test suite.
+- **Single tenant.** There are no user accounts or organisation isolation yet (planned in Phase 1).
+
+## Roadmap
+
+The phased plan is in [`docs/IMPLEMENTATION_PLAN.md`](docs/IMPLEMENTATION_PLAN.md):
+
+| Phase | Focus |
+|---|---|
+| 0 | Foundations: migrations, structured output, CI, branch protection, git hooks |
+| 1 | Multi-tenancy, authentication and data isolation |
+| 2 | Evaluation harness for measuring prompt and model changes |
+| 3 | Guardrails |
+| 4 | Scalability (move from ChromaDB to pgvector) |
+| 5 | Owned data sources |
+| 6 | Observability, load testing and SLOs |
+| 7 | Cloud deployment on free tiers |
+| 8 | SaaS polish |
 
 ---
 
-## Project structure
-
-```
-vendoriq/
-├── backend/
-│   ├── app/
-│   │   ├── agents/          # 5 domain agents + base class + meta-agent
-│   │   ├── orchestrator/    # VendorRiskState schema
-│   │   ├── services/        # scraper.py (live data collection)
-│   │   └── config_watsonx.py
-│   ├── test_all_agents.py   # full end-to-end pipeline runner
-│   ├── test_financial_agent.py
-│   └── .env.example
-├── requirements.txt
-├── LICENSE
-└── README.md
-```
-
----
-
-## License
-
-MIT — see [LICENSE](LICENSE).
-
-Built by [Harsh Motiramani](https://harshmotiramani.com) · [LinkedIn](https://www.linkedin.com/in/harsh-motiramani-608321201/)
+**Author:** Harsh Motiramani · [LinkedIn](https://www.linkedin.com/in/harsh-motiramani-608321201/) · [harshmotiramani.com](https://harshmotiramani.com)
