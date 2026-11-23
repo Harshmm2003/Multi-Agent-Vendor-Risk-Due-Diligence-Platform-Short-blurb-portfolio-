@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ApiError, submitEvaluation } from "../api/client";
-import type { EvaluateRequest, Weights } from "../api/types";
+import { type Criticality, DATA_TYPES, type DataType, type EvaluateRequest, type ExposureProfile, type Weights } from "../api/types";
 import CompanySearch from "../components/CompanySearch";
 import ListInput from "../components/ListInput";
 import WeightsEditor from "../components/WeightsEditor";
@@ -24,6 +24,54 @@ interface FormState {
   dealbreakers: string[];
   niceToHave: string[];
   weights: Weights;
+  exposure: ExposureForm;
+}
+
+/** Optional facts for the FAIR agent, as typed (strings until submitted). */
+interface ExposureForm {
+  dataTypes: DataType[];
+  recordsShared: string;
+  criticality: "" | Criticality;
+  revenuePerHour: string;
+  tolerance: string;
+  liabilityCap: string;
+  insurance: string;
+}
+
+const EMPTY_EXPOSURE: ExposureForm = {
+  dataTypes: [], recordsShared: "", criticality: "", revenuePerHour: "",
+  tolerance: "", liabilityCap: "", insurance: "",
+};
+
+const DATA_TYPE_LABELS: Record<DataType, string> = {
+  none: "No data", internal: "Internal data", pii: "Personal data (PII)",
+  phi: "Health data (PHI)", payment: "Payment data",
+};
+
+const EXPOSURE_NUMBERS: [keyof ExposureForm, string, string][] = [
+  ["recordsShared", "exposure-records", "Records the vendor will hold"],
+  ["revenuePerHour", "exposure-revenue", "Revenue at risk per hour of outage (USD)"],
+  ["tolerance", "exposure-tolerance", "Annual loss you can absorb (USD)"],
+  ["liabilityCap", "exposure-cap", "Contract liability cap (USD)"],
+  ["insurance", "exposure-insurance", "Cyber insurance cover (USD)"],
+];
+
+function toExposure(e: ExposureForm): ExposureProfile | undefined {
+  const num = (v: string) => (v.trim() === "" ? undefined : Number(v));
+  const out: ExposureProfile = {
+    ...(e.dataTypes.length ? { data_types: e.dataTypes } : {}),
+    ...(e.criticality ? { service_criticality: e.criticality } : {}),
+  };
+  const fields: [keyof ExposureProfile, string][] = [
+    ["records_shared", e.recordsShared], ["revenue_at_risk_per_hour", e.revenuePerHour],
+    ["risk_tolerance_usd", e.tolerance], ["liability_cap_usd", e.liabilityCap],
+    ["cyber_insurance_usd", e.insurance],
+  ];
+  for (const [key, raw] of fields) {
+    const v = num(raw);
+    if (v !== undefined) (out as Record<string, unknown>)[key] = v;
+  }
+  return Object.keys(out).length ? out : undefined;
 }
 
 const INITIAL: FormState = {
@@ -37,6 +85,7 @@ const INITIAL: FormState = {
   dealbreakers: [],
   niceToHave: [],
   weights: DEFAULT_WEIGHTS,
+  exposure: EMPTY_EXPOSURE,
 };
 
 /** Client-side checks that mirror routes.EvaluateRequest / ClientProfile. */
@@ -50,6 +99,14 @@ function localErrors(f: FormState): Record<string, string> {
     errors["client_profile.contract_value"] = "Enter a contract value greater than 0.";
   const years = Number(f.contractYears);
   if (!Number.isInteger(years) || years < 1) errors["client_profile.contract_years"] = "Enter a whole number of years (1 or more).";
+  for (const [key, id] of EXPOSURE_NUMBERS) {
+    const raw = f.exposure[key] as string;
+    if (raw.trim() === "") continue;
+    const v = Number(raw);
+    if (!Number.isFinite(v) || v < 0 || (key === "tolerance" && v === 0))
+      errors[id] = key === "tolerance" ? "Enter an amount greater than 0." : "Enter 0 or more.";
+    else if (key === "recordsShared" && !Number.isInteger(v)) errors[id] = "Enter a whole number.";
+  }
   const weights = checkWeights(f.weights);
   if (!weights.valid) errors.weights = weights.error!;
   return errors;
@@ -67,6 +124,7 @@ function toRequest(f: FormState): EvaluateRequest {
       priorities: f.priorities,
       dealbreakers: f.dealbreakers,
       nice_to_have: f.niceToHave,
+      ...(toExposure(f.exposure) ? { exposure: toExposure(f.exposure) } : {}),
     },
     weights: f.weights,
   };
@@ -115,7 +173,7 @@ export default function EvaluatePage() {
         "vendor_name", "client_profile.company_name", "client_profile.industry",
         "client_profile.contract_value", "client_profile.contract_years", "client_profile.risk_appetite",
         "client_profile.priorities", "client_profile.dealbreakers", "client_profile.nice_to_have", "weights",
-      ].includes(key),
+      ].includes(key) && !key.startsWith("exposure-"),
   );
 
   return (
@@ -200,6 +258,57 @@ export default function EvaluatePage() {
           <ListInput label="Nice to have" placeholder="e.g. ISO 27001 certified" values={form.niceToHave}
             onChange={(v) => set("niceToHave", v)} error={err("client_profile.nice_to_have")} />
         </section>
+
+        <details className="card" open={Object.keys(shownErrors).some((k) => k.startsWith("exposure"))}>
+          <summary className="cursor-pointer">
+            <span className="section-title">Financial exposure details (optional)</span>
+            <span className="ml-2 text-sm text-slate-500">
+              Helps the FAIR agent estimate what this vendor could cost you; anything left blank uses benchmarks.
+            </span>
+          </summary>
+          <div className="mt-4 space-y-4">
+            <fieldset>
+              <legend className="label">Data the vendor will hold</legend>
+              <div className="flex flex-wrap gap-x-4 gap-y-2">
+                {DATA_TYPES.map((t) => (
+                  <label key={t} className="inline-flex items-center gap-2 text-sm text-slate-700">
+                    <input type="checkbox" checked={form.exposure.dataTypes.includes(t)}
+                      onChange={(e) => set("exposure", {
+                        ...form.exposure,
+                        dataTypes: e.target.checked
+                          ? [...form.exposure.dataTypes, t]
+                          : form.exposure.dataTypes.filter((x) => x !== t),
+                      })} />
+                    {DATA_TYPE_LABELS[t]}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="exposure-criticality" className="label">How critical is the service?</label>
+                <select id="exposure-criticality" className="input" value={form.exposure.criticality}
+                  onChange={(e) => set("exposure", { ...form.exposure, criticality: e.target.value as ExposureForm["criticality"] })}>
+                  <option value="">Not sure</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="critical">Critical</option>
+                </select>
+              </div>
+              {EXPOSURE_NUMBERS.map(([key, id, label]) => (
+                <div key={id}>
+                  <label htmlFor={id} className="label">{label}</label>
+                  <input id={id} type="number" min={0} inputMode="decimal"
+                    className={`input tabular-nums ${err(id) ? "input-error" : ""}`}
+                    value={form.exposure[key] as string}
+                    onChange={(e) => set("exposure", { ...form.exposure, [key]: e.target.value })} />
+                  <FieldError message={err(id)} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </details>
 
         <section className="card">
           <WeightsEditor weights={form.weights} onChange={(w) => set("weights", w)}

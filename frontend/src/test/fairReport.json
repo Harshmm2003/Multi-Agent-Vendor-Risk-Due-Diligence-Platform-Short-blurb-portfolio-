@@ -1,0 +1,1766 @@
+{
+ "subject": "Example Health SaaS Inc.",
+ "context": {
+  "subject": "Example Health SaaS Inc.",
+  "client_name": "Northwind Health",
+  "industry": "Healthcare",
+  "annual_contract_value": 400000.0,
+  "risk_appetite": "low",
+  "exposure": {
+   "data_types": [
+    "phi"
+   ],
+   "records_shared": 200000,
+   "service_criticality": "high",
+   "revenue_at_risk_per_hour": null,
+   "risk_tolerance_usd": null,
+   "liability_cap_usd": null,
+   "cyber_insurance_usd": null
+  },
+  "candidate_scenarios": [
+   "vendor_breach",
+   "vendor_insolvency"
+  ],
+  "seed_key": "",
+  "ofac_status": null
+ },
+ "status": "complete",
+ "generated_by": "agent",
+ "scenarios": [
+  {
+   "run_id": "run_01",
+   "scenario": "vendor_breach",
+   "title": "Vendor data breach",
+   "label": "Baseline from benchmarks",
+   "loss_event_frequency_mean": 0.0995,
+   "loss": {
+    "ale_mean": 603463.1872179311,
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 0.0,
+    "p95": 5677204.962744837,
+    "p99": 10775981.625174116,
+    "prob_any_loss": 0.09575,
+    "prob_exceeds_tolerance": 0.09575,
+    "loss_exceedance_curve": [
+     {
+      "loss": 793764.2767321679,
+      "probability": 0.09575
+     },
+     {
+      "loss": 847027.7186846434,
+      "probability": 0.09524999999999995
+     },
+     {
+      "loss": 903865.2623342912,
+      "probability": 0.09524999999999995
+     },
+     {
+      "loss": 964516.7382754869,
+      "probability": 0.09524999999999995
+     },
+     {
+      "loss": 1029238.0702971618,
+      "probability": 0.09499999999999997
+     },
+     {
+      "loss": 1098302.3552738547,
+      "probability": 0.09475
+     },
+     {
+      "loss": 1172001.0155199808,
+      "probability": 0.09475
+     },
+     {
+      "loss": 1250645.02846975,
+      "probability": 0.09450000000000003
+     },
+     {
+      "loss": 1334566.2388715218,
+      "probability": 0.09450000000000003
+     },
+     {
+      "loss": 1424118.7590334387,
+      "probability": 0.09399999999999997
+     },
+     {
+      "loss": 1519680.463028844,
+      "probability": 0.09299999999999997
+     },
+     {
+      "loss": 1621654.5811663875,
+      "probability": 0.09199999999999997
+     },
+     {
+      "loss": 1730471.401452779,
+      "probability": 0.09075
+     },
+     {
+      "loss": 1846590.0852277058,
+      "probability": 0.08999999999999997
+     },
+     {
+      "loss": 1970500.604632108,
+      "probability": 0.08950000000000002
+     },
+     {
+      "loss": 2102725.810085079,
+      "probability": 0.08825000000000005
+     },
+     {
+      "loss": 2243823.636493341,
+      "probability": 0.08699999999999997
+     },
+     {
+      "loss": 2394389.4575025444,
+      "probability": 0.08525000000000005
+     },
+     {
+      "loss": 2555058.5977243013,
+      "probability": 0.08325000000000005
+     },
+     {
+      "loss": 2726509.013539602,
+      "probability": 0.08199999999999996
+     },
+     {
+      "loss": 2909464.1537903505,
+      "probability": 0.08025000000000004
+     },
+     {
+      "loss": 3104696.0124300467,
+      "probability": 0.07625000000000004
+     },
+     {
+      "loss": 3313028.386014488,
+      "probability": 0.07374999999999998
+     },
+     {
+      "loss": 3535340.349777658,
+      "probability": 0.07225000000000004
+     },
+     {
+      "loss": 3772569.966960549,
+      "probability": 0.06999999999999995
+     },
+     {
+      "loss": 4025718.2470445326,
+      "probability": 0.06799999999999995
+     },
+     {
+      "loss": 4295853.369591536,
+      "probability": 0.06425000000000003
+     },
+     {
+      "loss": 4584115.191513743,
+      "probability": 0.060250000000000026
+     },
+     {
+      "loss": 4891720.0567916995,
+      "probability": 0.058250000000000024
+     },
+     {
+      "loss": 5219965.9289356675,
+      "probability": 0.05525000000000002
+     },
+     {
+      "loss": 5570237.867847297,
+      "probability": 0.05149999999999999
+     },
+     {
+      "loss": 5944013.874191401,
+      "probability": 0.04700000000000004
+     },
+     {
+      "loss": 6342871.125938848,
+      "probability": 0.04249999999999998
+     },
+     {
+      "loss": 6768492.63339612,
+      "probability": 0.040000000000000036
+     },
+     {
+      "loss": 7222674.340802794,
+      "probability": 0.03425
+     },
+     {
+      "loss": 7707332.704463056,
+      "probability": 0.030000000000000027
+     },
+     {
+      "loss": 8224512.779387366,
+      "probability": 0.025249999999999995
+     },
+     {
+      "loss": 8776396.848566892,
+      "probability": 0.02100000000000002
+     },
+     {
+      "loss": 9365313.63129236,
+      "probability": 0.01749999999999996
+     },
+     {
+      "loss": 9993748.109372787,
+      "probability": 0.014499999999999957
+     },
+     {
+      "loss": 10664352.012716286,
+      "probability": 0.010499999999999954
+     },
+     {
+      "loss": 11379955.0085182,
+      "probability": 0.007750000000000035
+     },
+     {
+      "loss": 12143576.64126965,
+      "probability": 0.006000000000000005
+     },
+     {
+      "loss": 12958439.073968833,
+      "probability": 0.0040000000000000036
+     },
+     {
+      "loss": 13827980.684297461,
+      "probability": 0.00275000000000003
+     },
+     {
+      "loss": 14755870.573132211,
+      "probability": 0.0014999999999999458
+     },
+     {
+      "loss": 15746024.046611672,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 16802619.137085836,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 17930114.23266029,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 19133266.88972397,
+      "probability": 0.00024999999999997247
+     }
+    ]
+   },
+   "breakdown": {
+    "primary_loss.response": 603463.1872179311
+   },
+   "inputs": [
+    {
+     "path": "threat_event_frequency",
+     "min": 0.02,
+     "mode": 0.093,
+     "max": 0.25,
+     "source": "benchmark:cyentia_iris_2025.major_event_annual_prob",
+     "rationale": "Annual chance of a major cyber event at an average organisation, used as the vendor's loss-event rate. Vendor evidence (certifications, breach history) should narrow it."
+    },
+    {
+     "path": "vulnerability",
+     "min": 1.0,
+     "mode": 1.0,
+     "max": 1.0,
+     "source": "derived:loss_event_benchmark",
+     "rationale": "The frequency benchmark already counts loss events, not attempts."
+    },
+    {
+     "path": "primary_loss.response",
+     "min": 742000.0,
+     "mode": 4452000.0,
+     "max": 18550000.0,
+     "source": "benchmark:ibm_codb_2025.healthcare_avg",
+     "rationale": "IBM Cost of a Data Breach Report 2025: mean total breach cost (healthcare), spread around the mean; sensitive data shared (phi). It includes response, fines and lost business, so no separate secondary loss is added."
+    }
+   ],
+   "assumption_count": 0,
+   "drivers": [
+    {
+     "path": "primary_loss.response",
+     "low_ale": 73829.0,
+     "high_ale": 1845725.0,
+     "swing": 1771896.0,
+     "share": 0.5757953965438406
+    },
+    {
+     "path": "threat_event_frequency",
+     "low_ale": 112552.12667043718,
+     "high_ale": 1417957.5615822896,
+     "swing": 1305405.4349118525,
+     "share": 0.4242046034561593
+    }
+   ]
+  },
+  {
+   "run_id": "run_02",
+   "scenario": "vendor_insolvency",
+   "title": "Vendor insolvency",
+   "label": "Baseline from benchmarks",
+   "loss_event_frequency_mean": 0.00225,
+   "loss": {
+    "ale_mean": 1156.4123095964842,
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 0.0,
+    "p95": 0.0,
+    "p99": 0.0,
+    "prob_any_loss": 0.00225,
+    "prob_exceeds_tolerance": 0.00225,
+    "loss_exceedance_curve": [
+     {
+      "loss": 236583.32338956418,
+      "probability": 0.0022499999999999742
+     },
+     {
+      "loss": 242897.86281800974,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 249380.9407876423,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 256037.05568511295,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 262870.82596149266,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 269886.99333685957,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 277090.4260904185,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 284486.12243843026,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 292079.21400230564,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 299874.96936926345,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 307878.7977480207,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 316096.2527220591,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 324533.0361030696,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 333195.0018872403,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 342088.1603171499,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 351218.6820520656,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 360592.9024495549,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 370217.325961376,
+      "probability": 0.0020000000000000018
+     },
+     {
+      "loss": 380098.63064669125,
+      "probability": 0.0017500000000000293
+     },
+     {
+      "loss": 390243.67280574626,
+      "probability": 0.0014999999999999458
+     },
+     {
+      "loss": 400659.4917372253,
+      "probability": 0.0014999999999999458
+     },
+     {
+      "loss": 411353.314622576,
+      "probability": 0.0014999999999999458
+     },
+     {
+      "loss": 422332.5615407058,
+      "probability": 0.0014999999999999458
+     },
+     {
+      "loss": 433604.85061652487,
+      "probability": 0.0012499999999999734
+     },
+     {
+      "loss": 445178.0033068976,
+      "probability": 0.0012499999999999734
+     },
+     {
+      "loss": 457060.0498276872,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 469259.2347256515,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 481784.0225990473,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 494643.1039709285,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 507845.4013192075,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 521400.07526765164,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 535316.5309421305,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 549604.4244965154,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 564273.6698127477,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 579334.4453797521,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 594797.2013559343,
+      "probability": 0.0007500000000000284
+     },
+     {
+      "loss": 610672.6668201938,
+      "probability": 0.0007500000000000284
+     },
+     {
+      "loss": 626971.857216469,
+      "probability": 0.0007500000000000284
+     },
+     {
+      "loss": 643706.0819969706,
+      "probability": 0.0004999999999999449
+     },
+     {
+      "loss": 660886.9524694284,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 678526.3898537857,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 696636.6335539191,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 715230.2496501475,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 734320.1396184105,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 753919.5492821542,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 774042.0780031605,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 794701.6881176848,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 815912.7146244359,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 837689.8751311465,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 860048.280066626,
+      "probability": 0.00024999999999997247
+     }
+    ]
+   },
+   "breakdown": {
+    "primary_loss.productivity": 427.5860102899871,
+    "primary_loss.replacement": 728.826299306497
+   },
+   "inputs": [
+    {
+     "path": "threat_event_frequency",
+     "min": 0.0005,
+     "mode": 0.0022,
+     "max": 0.01,
+     "source": "benchmark:sp_default.bbb_us_longrun",
+     "rationale": "Altman z_double_prime = 3.20 (safe zone), centred on the S&P long-run default rate of the rating band this zone approximates; treating a zone as a rating band is an approximation."
+    },
+    {
+     "path": "vulnerability",
+     "min": 1.0,
+     "mode": 1.0,
+     "max": 1.0,
+     "source": "derived:every_default_is_loss",
+     "rationale": "Every default is a loss event."
+    },
+    {
+     "path": "primary_loss.replacement",
+     "min": 100000.0,
+     "mode": 300000.0,
+     "max": 800000.0,
+     "source": "assumption",
+     "rationale": "Switching and migration cost assumed at 0.25-2x the annual contract value."
+    },
+    {
+     "path": "primary_loss.productivity",
+     "min": 40000.0,
+     "mode": 200000.0,
+     "max": 600000.0,
+     "source": "assumption",
+     "rationale": "Disruption while switching, 'high' service: about 0.5x the annual contract value."
+    }
+   ],
+   "assumption_count": 2,
+   "drivers": [
+    {
+     "path": "threat_event_frequency",
+     "low_ale": 0.0,
+     "high_ale": 5136.9048676131515,
+     "swing": 5136.9048676131515,
+     "share": 0.6443760873869008
+    },
+    {
+     "path": "primary_loss.replacement",
+     "low_ale": 652.586010289987,
+     "high_ale": 2227.586010289987,
+     "swing": 1575.0,
+     "share": 0.1975688403406107
+    },
+    {
+     "path": "primary_loss.productivity",
+     "low_ale": 818.826299306497,
+     "high_ale": 2078.826299306497,
+     "swing": 1259.9999999999998,
+     "share": 0.15805507227248852
+    }
+   ]
+  }
+ ],
+ "combined": {
+  "ale_mean": 604619.5995275276,
+  "p10": 0.0,
+  "p50": 0.0,
+  "p90": 0.0,
+  "p95": 5677204.962744837,
+  "p99": 10775981.625174116,
+  "prob_any_loss": 0.098,
+  "prob_exceeds_tolerance": 0.098,
+  "loss_exceedance_curve": [
+   {
+    "loss": 236583.32338956418,
+    "probability": 0.09799999999999998
+   },
+   {
+    "loss": 258772.97823132205,
+    "probability": 0.09775
+   },
+   {
+    "loss": 283043.8481601877,
+    "probability": 0.09775
+   },
+   {
+    "loss": 309591.1347811284,
+    "probability": 0.09775
+   },
+   {
+    "loss": 338628.3480742634,
+    "probability": 0.09775
+   },
+   {
+    "loss": 370389.02357644023,
+    "probability": 0.09775
+   },
+   {
+    "loss": 405128.60062094644,
+    "probability": 0.09724999999999995
+   },
+   {
+    "loss": 443126.47674132086,
+    "probability": 0.09699999999999998
+   },
+   {
+    "loss": 484688.2547620961,
+    "probability": 0.09675
+   },
+   {
+    "loss": 530148.2006489636,
+    "probability": 0.09675
+   },
+   {
+    "loss": 579871.9318859669,
+    "probability": 0.09675
+   },
+   {
+    "loss": 634259.3580013127,
+    "probability": 0.09650000000000003
+   },
+   {
+    "loss": 693747.8968913922,
+    "probability": 0.09599999999999997
+   },
+   {
+    "loss": 758815.992810677,
+    "probability": 0.09599999999999997
+   },
+   {
+    "loss": 829986.964321418,
+    "probability": 0.09550000000000003
+   },
+   {
+    "loss": 907833.2131507341,
+    "probability": 0.09524999999999995
+   },
+   {
+    "loss": 992980.8278054185,
+    "probability": 0.09499999999999997
+   },
+   {
+    "loss": 1086114.6189695722,
+    "probability": 0.09475
+   },
+   {
+    "loss": 1187983.6271829624,
+    "probability": 0.09475
+   },
+   {
+    "loss": 1299407.1470962523,
+    "probability": 0.09450000000000003
+   },
+   {
+    "loss": 1421281.3167540259,
+    "probability": 0.09399999999999997
+   },
+   {
+    "loss": 1554586.3249006905,
+    "probability": 0.09250000000000003
+   },
+   {
+    "loss": 1700394.2942750251,
+    "probability": 0.09075
+   },
+   {
+    "loss": 1859877.9042957027,
+    "probability": 0.08999999999999997
+   },
+   {
+    "loss": 2034319.8224869443,
+    "probability": 0.08875
+   },
+   {
+    "loss": 2225123.020497656,
+    "probability": 0.08699999999999997
+   },
+   {
+    "loss": 2433822.0576820816,
+    "probability": 0.08525000000000005
+   },
+   {
+    "loss": 2662095.4229914993,
+    "probability": 0.08250000000000002
+   },
+   {
+    "loss": 2911779.034438356,
+    "probability": 0.08025000000000004
+   },
+   {
+    "loss": 3184881.0047038724,
+    "probability": 0.07550000000000001
+   },
+   {
+    "loss": 3483597.791643592,
+    "probability": 0.07250000000000001
+   },
+   {
+    "loss": 3810331.863583215,
+    "probability": 0.06974999999999998
+   },
+   {
+    "loss": 4167711.021480338,
+    "probability": 0.06599999999999995
+   },
+   {
+    "loss": 4558609.53335287,
+    "probability": 0.060250000000000026
+   },
+   {
+    "loss": 4986171.250950717,
+    "probability": 0.057499999999999996
+   },
+   {
+    "loss": 5453834.894589313,
+    "probability": 0.05249999999999999
+   },
+   {
+    "loss": 5965361.709501798,
+    "probability": 0.04674999999999996
+   },
+   {
+    "loss": 6524865.716139326,
+    "probability": 0.04125000000000001
+   },
+   {
+    "loss": 7136846.797711791,
+    "probability": 0.035250000000000004
+   },
+   {
+    "loss": 7806226.891079413,
+    "probability": 0.029249999999999998
+   },
+   {
+    "loss": 8538389.57206551,
+    "probability": 0.022249999999999992
+   },
+   {
+    "loss": 9339223.353559997,
+    "probability": 0.01749999999999996
+   },
+   {
+    "loss": 10215169.044644687,
+    "probability": 0.013249999999999984
+   },
+   {
+    "loss": 11173271.551631758,
+    "probability": 0.009000000000000008
+   },
+   {
+    "loss": 12221236.537632467,
+    "probability": 0.005750000000000033
+   },
+   {
+    "loss": 13367492.396347424,
+    "probability": 0.0030000000000000027
+   },
+   {
+    "loss": 14621258.038511287,
+    "probability": 0.0017500000000000293
+   },
+   {
+    "loss": 15992617.036172375,
+    "probability": 0.0007500000000000284
+   },
+   {
+    "loss": 17492598.721122928,
+    "probability": 0.00024999999999997247
+   },
+   {
+    "loss": 19133266.88972397,
+    "probability": 0.00024999999999997247
+   }
+  ]
+ },
+ "tolerance": {
+  "value_usd": 200000.0,
+  "source": "derived",
+  "rationale": "Not stated; derived as 0.5 x annual contract value for 'low' risk appetite."
+ },
+ "input_count": 7,
+ "assumption_count": 2,
+ "assumption_share": 0.2857142857142857,
+ "missing_inputs": [
+  "risk_tolerance_usd",
+  "revenue_at_risk_per_hour",
+  "liability_cap_usd",
+  "cyber_insurance_usd"
+ ],
+ "sharpen": [
+  "risk_tolerance_usd",
+  "vendor security evidence (attestations, breach history)",
+  "revenue_at_risk_per_hour"
+ ],
+ "controls": [
+  {
+   "run_id": "run_04",
+   "base_run_id": "run_01",
+   "scenario": "vendor_breach",
+   "control_id": "limit_records_shared",
+   "title": "Share fewer records with the vendor",
+   "parameter": null,
+   "tested_by": "agent",
+   "recommended": true,
+   "ale_before": 603463.1872179311,
+   "ale_after": 301731.5936089656,
+   "p99_before": 10775981.625174116,
+   "p99_after": 5387990.812587058,
+   "combined_after": {
+    "ale_mean": 302888.00591856206,
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 0.0,
+    "p95": 2838602.4813724183,
+    "p99": 5387990.812587058,
+    "prob_any_loss": 0.098,
+    "prob_exceeds_tolerance": 0.098,
+    "loss_exceedance_curve": [
+     {
+      "loss": 236583.32338956418,
+      "probability": 0.09799999999999998
+     },
+     {
+      "loss": 255138.18097501254,
+      "probability": 0.09775
+     },
+     {
+      "loss": 275148.26682880847,
+      "probability": 0.09775
+     },
+     {
+      "loss": 296727.71221298235,
+      "probability": 0.09775
+     },
+     {
+      "loss": 319999.5995247593,
+      "probability": 0.09775
+     },
+     {
+      "loss": 345096.66432000464,
+      "probability": 0.09775
+     },
+     {
+      "loss": 372162.0523952546,
+      "probability": 0.09775
+     },
+     {
+      "loss": 401350.13624650415,
+      "probability": 0.09699999999999998
+     },
+     {
+      "loss": 432827.39556157315,
+      "probability": 0.09675
+     },
+     {
+      "loss": 466773.3667680953,
+      "probability": 0.09624999999999995
+     },
+     {
+      "loss": 503381.66705306794,
+      "probability": 0.09599999999999997
+     },
+     {
+      "loss": 542861.0986946442,
+      "probability": 0.09575
+     },
+     {
+      "loss": 585436.8400049174,
+      "probability": 0.09575
+     },
+     {
+      "loss": 631351.7296764911,
+      "probability": 0.09524999999999995
+     },
+     {
+      "loss": 680867.6518583099,
+      "probability": 0.09450000000000003
+     },
+     {
+      "loss": 734267.0298608188,
+      "probability": 0.09375
+     },
+     {
+      "loss": 791854.437010069,
+      "probability": 0.09225000000000005
+     },
+     {
+      "loss": 853958.3338385588,
+      "probability": 0.09099999999999997
+     },
+     {
+      "loss": 920932.9415212406,
+      "probability": 0.08999999999999997
+     },
+     {
+      "loss": 993160.2622421411,
+      "probability": 0.08950000000000002
+     },
+     {
+      "loss": 1071052.258015169,
+      "probability": 0.08799999999999997
+     },
+     {
+      "loss": 1155053.2003864134,
+      "probability": 0.08599999999999997
+     },
+     {
+      "loss": 1245642.2044198688,
+      "probability": 0.08450000000000002
+     },
+     {
+      "loss": 1343335.961419708,
+      "probability": 0.08225000000000005
+     },
+     {
+      "loss": 1448691.685975623,
+      "probability": 0.08025000000000004
+     },
+     {
+      "loss": 1562310.2941403165,
+      "probability": 0.07574999999999998
+     },
+     {
+      "loss": 1684839.8308664542,
+      "probability": 0.07299999999999995
+     },
+     {
+      "loss": 1816979.1662520687,
+      "probability": 0.07150000000000001
+     },
+     {
+      "loss": 1959481.9816767198,
+      "probability": 0.06925000000000003
+     },
+     {
+      "loss": 2113161.068563988,
+      "probability": 0.06525000000000003
+     },
+     {
+      "loss": 2278892.9642891744,
+      "probability": 0.060250000000000026
+     },
+     {
+      "loss": 2457622.9516739524,
+      "probability": 0.058250000000000024
+     },
+     {
+      "loss": 2650370.4505834607,
+      "probability": 0.05449999999999999
+     },
+     {
+      "loss": 2858234.832377945,
+      "probability": 0.049250000000000016
+     },
+     {
+      "loss": 3082401.690382611,
+      "probability": 0.04425000000000001
+     },
+     {
+      "loss": 3324149.602140602,
+      "probability": 0.04025000000000001
+     },
+     {
+      "loss": 3584857.4220188484,
+      "probability": 0.03474999999999995
+     },
+     {
+      "loss": 3866012.1457614307,
+      "probability": 0.030000000000000027
+     },
+     {
+      "loss": 4169217.3918475998,
+      "probability": 0.023249999999999993
+     },
+     {
+      "loss": 4496202.548029232,
+      "probability": 0.019499999999999962
+     },
+     {
+      "loss": 4848832.635216907,
+      "probability": 0.015750000000000042
+     },
+     {
+      "loss": 5229118.9449749915,
+      "probability": 0.01200000000000001
+     },
+     {
+      "loss": 5639230.511298764,
+      "probability": 0.008000000000000007
+     },
+     {
+      "loss": 6081506.482104906,
+      "probability": 0.006000000000000005
+     },
+     {
+      "loss": 6558469.4609985165,
+      "probability": 0.0034999999999999476
+     },
+     {
+      "loss": 7072839.8954139585,
+      "probability": 0.0024999999999999467
+     },
+     {
+      "loss": 7627551.593194884,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 8225768.456115294,
+      "probability": 0.0004999999999999449
+     },
+     {
+      "loss": 8870902.52578413,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 9566633.444861986,
+      "probability": 0.00024999999999997247
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run_05",
+   "base_run_id": "run_01",
+   "scenario": "vendor_breach",
+   "control_id": "client_held_encryption",
+   "title": "Encrypt shared data with client-held keys",
+   "parameter": null,
+   "tested_by": "code",
+   "recommended": false,
+   "ale_before": 603463.1872179311,
+   "ale_after": 362077.9123307587,
+   "p99_before": 10775981.625174116,
+   "p99_after": 6465588.975104471,
+   "combined_after": {
+    "ale_mean": 363234.3246403552,
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 0.0,
+    "p95": 3406322.977646902,
+    "p99": 6465588.975104471,
+    "prob_any_loss": 0.098,
+    "prob_exceeds_tolerance": 0.098,
+    "loss_exceedance_curve": [
+     {
+      "loss": 236583.32338956418,
+      "probability": 0.09799999999999998
+     },
+     {
+      "loss": 256089.27974008676,
+      "probability": 0.09775
+     },
+     {
+      "loss": 277203.47426943516,
+      "probability": 0.09775
+     },
+     {
+      "loss": 300058.503913301,
+      "probability": 0.09775
+     },
+     {
+      "loss": 324797.898034916,
+      "probability": 0.09775
+     },
+     {
+      "loss": 351577.019788052,
+      "probability": 0.09775
+     },
+     {
+      "loss": 380564.0417961088,
+      "probability": 0.09750000000000003
+     },
+     {
+      "loss": 411941.0022745529,
+      "probability": 0.09724999999999995
+     },
+     {
+      "loss": 445904.94822913216,
+      "probability": 0.09699999999999998
+     },
+     {
+      "loss": 482669.17290915176,
+      "probability": 0.09650000000000003
+     },
+     {
+      "loss": 522464.5552869952,
+      "probability": 0.09624999999999995
+     },
+     {
+      "loss": 565541.0099758247,
+      "probability": 0.09624999999999995
+     },
+     {
+      "loss": 612169.0566909118,
+      "probability": 0.09575
+     },
+     {
+      "loss": 662641.5191108058,
+      "probability": 0.09499999999999997
+     },
+     {
+      "loss": 717275.3638071875,
+      "probability": 0.09499999999999997
+     },
+     {
+      "loss": 776413.6907918429,
+      "probability": 0.09475
+     },
+     {
+      "loss": 840427.8881813863,
+      "probability": 0.09424999999999994
+     },
+     {
+      "loss": 909719.9645110192,
+      "probability": 0.09299999999999997
+     },
+     {
+      "loss": 984725.0733442039,
+      "probability": 0.09199999999999997
+     },
+     {
+      "loss": 1065914.2460328012,
+      "probability": 0.09075
+     },
+     {
+      "loss": 1153797.349789357,
+      "probability": 0.08975
+     },
+     {
+      "loss": 1248926.2896482367,
+      "probability": 0.08825000000000005
+     },
+     {
+      "loss": 1351898.4744238511,
+      "probability": 0.08699999999999997
+     },
+     {
+      "loss": 1463360.5684321763,
+      "probability": 0.08525000000000005
+     },
+     {
+      "loss": 1584012.5525363646,
+      "probability": 0.08299999999999996
+     },
+     {
+      "loss": 1714612.1200197325,
+      "probability": 0.08050000000000002
+     },
+     {
+      "loss": 1855979.4348921764,
+      "probability": 0.07650000000000001
+     },
+     {
+      "loss": 2009002.2825121752,
+      "probability": 0.07325000000000004
+     },
+     {
+      "loss": 2174641.6448701737,
+      "probability": 0.07150000000000001
+     },
+     {
+      "loss": 2353937.7355460944,
+      "probability": 0.06925000000000003
+     },
+     {
+      "loss": 2548016.5322404993,
+      "probability": 0.06474999999999997
+     },
+     {
+      "loss": 2758096.847903554,
+      "probability": 0.060250000000000026
+     },
+     {
+      "loss": 2985497.9848684487,
+      "probability": 0.05774999999999997
+     },
+     {
+      "loss": 3231648.0200572163,
+      "probability": 0.052749999999999964
+     },
+     {
+      "loss": 3498092.773289848,
+      "probability": 0.04774999999999996
+     },
+     {
+      "loss": 3786505.5150177022,
+      "probability": 0.04249999999999998
+     },
+     {
+      "loss": 4098697.4744455824,
+      "probability": 0.03949999999999998
+     },
+     {
+      "loss": 4436629.214033525,
+      "probability": 0.032749999999999946
+     },
+     {
+      "loss": 4802422.941809894,
+      "probability": 0.02749999999999997
+     },
+     {
+      "loss": 5198375.838817114,
+      "probability": 0.022249999999999992
+     },
+     {
+      "loss": 5626974.485386173,
+      "probability": 0.016750000000000043
+     },
+     {
+      "loss": 6090910.476836905,
+      "probability": 0.013499999999999956
+     },
+     {
+      "loss": 6593097.326670313,
+      "probability": 0.009000000000000008
+     },
+     {
+      "loss": 7136688.763404904,
+      "probability": 0.006249999999999978
+     },
+     {
+      "loss": 7725098.5359610915,
+      "probability": 0.004249999999999976
+     },
+     {
+      "loss": 8362021.851971086,
+      "probability": 0.00275000000000003
+     },
+     {
+      "loss": 9051458.58364673,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 9797738.386938069,
+      "probability": 0.0004999999999999449
+     },
+     {
+      "loss": 10605547.89173044,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 11479960.13383438,
+      "probability": 0.00024999999999997247
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run_03",
+   "base_run_id": "run_01",
+   "scenario": "vendor_breach",
+   "control_id": "require_soc2_type2",
+   "title": "Require SOC 2 Type 2 with annual re-attestation",
+   "parameter": null,
+   "tested_by": "code",
+   "recommended": false,
+   "ale_before": 603463.1872179311,
+   "ale_after": 418519.9543089855,
+   "p99_before": 10775981.625174116,
+   "p99_after": 10014467.318032112,
+   "combined_after": {
+    "ale_mean": 419676.36661858193,
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 0.0,
+    "p95": 3508920.6650371933,
+    "p99": 10014467.318032112,
+    "prob_any_loss": 0.0685,
+    "prob_exceeds_tolerance": 0.0685,
+    "loss_exceedance_curve": [
+     {
+      "loss": 236583.32338956418,
+      "probability": 0.0685
+     },
+     {
+      "loss": 257836.75111141606,
+      "probability": 0.06825000000000003
+     },
+     {
+      "loss": 280999.47735632636,
+      "probability": 0.06825000000000003
+     },
+     {
+      "loss": 306243.02367356606,
+      "probability": 0.06825000000000003
+     },
+     {
+      "loss": 333754.32022531016,
+      "probability": 0.06825000000000003
+     },
+     {
+      "loss": 363737.0900170938,
+      "probability": 0.06825000000000003
+     },
+     {
+      "loss": 396413.35748039884,
+      "probability": 0.06774999999999998
+     },
+     {
+      "loss": 432025.0925785367,
+      "probability": 0.06774999999999998
+     },
+     {
+      "loss": 470836.00261053804,
+      "probability": 0.06725000000000003
+     },
+     {
+      "loss": 513133.48498147994,
+      "probability": 0.06725000000000003
+     },
+     {
+      "loss": 559230.7553996402,
+      "probability": 0.06725000000000003
+     },
+     {
+      "loss": 609469.1672599374,
+      "probability": 0.06699999999999995
+     },
+     {
+      "loss": 664220.7393888276,
+      "probability": 0.0665
+     },
+     {
+      "loss": 723890.9108687929,
+      "probability": 0.0665
+     },
+     {
+      "loss": 788921.5433420807,
+      "probability": 0.0665
+     },
+     {
+      "loss": 859794.1930259437,
+      "probability": 0.06625000000000003
+     },
+     {
+      "loss": 937033.6766689012,
+      "probability": 0.06599999999999995
+     },
+     {
+      "loss": 1021211.9578541337,
+      "probability": 0.06574999999999998
+     },
+     {
+      "loss": 1112952.3824283746,
+      "probability": 0.0655
+     },
+     {
+      "loss": 1212934.2944199287,
+      "probability": 0.0655
+     },
+     {
+      "loss": 1321898.0666269867,
+      "probability": 0.06525000000000003
+     },
+     {
+      "loss": 1440650.5831281205,
+      "probability": 0.06399999999999995
+     },
+     {
+      "loss": 1570071.2143132673,
+      "probability": 0.06325000000000003
+     },
+     {
+      "loss": 1711118.3286807504,
+      "probability": 0.062000000000000055
+     },
+     {
+      "loss": 1864836.3896206163,
+      "probability": 0.0615
+     },
+     {
+      "loss": 2032363.6897364329,
+      "probability": 0.06074999999999997
+     },
+     {
+      "loss": 2214940.779978773,
+      "probability": 0.05974999999999997
+     },
+     {
+      "loss": 2413919.6560086184,
+      "probability": 0.058499999999999996
+     },
+     {
+      "loss": 2630773.7698163693,
+      "probability": 0.05674999999999997
+     },
+     {
+      "loss": 2867108.9407331687,
+      "probability": 0.05525000000000002
+     },
+     {
+      "loss": 3124675.24663127,
+      "probability": 0.05249999999999999
+     },
+     {
+      "loss": 3405379.9833687204,
+      "probability": 0.05074999999999996
+     },
+     {
+      "loss": 3711301.7884436776,
+      "probability": 0.04949999999999999
+     },
+     {
+      "loss": 4044706.0334452773,
+      "probability": 0.04849999999999999
+     },
+     {
+      "loss": 4408061.599282937,
+      "probability": 0.044749999999999956
+     },
+     {
+      "loss": 4804059.158415884,
+      "probability": 0.04149999999999998
+     },
+     {
+      "loss": 5235631.099464195,
+      "probability": 0.03874999999999995
+     },
+     {
+      "loss": 5705973.241744076,
+      "probability": 0.03474999999999995
+     },
+     {
+      "loss": 6218568.500525437,
+      "probability": 0.030750000000000055
+     },
+     {
+      "loss": 6777212.678254202,
+      "probability": 0.02749999999999997
+     },
+     {
+      "loss": 7386042.572725313,
+      "probability": 0.022750000000000048
+     },
+     {
+      "loss": 8049566.6103492845,
+      "probability": 0.018750000000000044
+     },
+     {
+      "loss": 8772698.231353626,
+      "probability": 0.015249999999999986
+     },
+     {
+      "loss": 9560792.274139043,
+      "probability": 0.011750000000000038
+     },
+     {
+      "loss": 10419684.628218707,
+      "probability": 0.007750000000000035
+     },
+     {
+      "loss": 11355735.449373519,
+      "probability": 0.005750000000000033
+     },
+     {
+      "loss": 12375876.257034445,
+      "probability": 0.0034999999999999476
+     },
+     {
+      "loss": 13487661.262651056,
+      "probability": 0.0022499999999999742
+     },
+     {
+      "loss": 14699323.3091367,
+      "probability": 0.0007500000000000284
+     },
+     {
+      "loss": 16019834.835625159,
+      "probability": 0.00024999999999997247
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run_06",
+   "base_run_id": "run_02",
+   "scenario": "vendor_insolvency",
+   "control_id": "exit_plan_and_escrow",
+   "title": "Exit plan, data export and escrow terms",
+   "parameter": null,
+   "tested_by": "code",
+   "recommended": false,
+   "ale_before": 1156.4123095964842,
+   "ale_after": 578.2061547982421,
+   "p99_before": 0.0,
+   "p99_after": 0.0,
+   "combined_after": {
+    "ale_mean": 604041.3933727294,
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 0.0,
+    "p95": 5677204.962744837,
+    "p99": 10775981.625174116,
+    "prob_any_loss": 0.098,
+    "prob_exceeds_tolerance": 0.09725,
+    "loss_exceedance_curve": [
+     {
+      "loss": 118291.66169478209,
+      "probability": 0.09799999999999998
+     },
+     {
+      "loss": 131229.7791079466,
+      "probability": 0.09775
+     },
+     {
+      "loss": 145582.9994945462,
+      "probability": 0.09775
+     },
+     {
+      "loss": 161506.09934651316,
+      "probability": 0.09775
+     },
+     {
+      "loss": 179170.7837912969,
+      "probability": 0.09775
+     },
+     {
+      "loss": 198767.5381566366,
+      "probability": 0.09724999999999995
+     },
+     {
+      "loss": 220507.6820497176,
+      "probability": 0.09699999999999998
+     },
+     {
+      "loss": 244625.64810065774,
+      "probability": 0.09675
+     },
+     {
+      "loss": 271381.5099429247,
+      "probability": 0.09675
+     },
+     {
+      "loss": 301063.78669090936,
+      "probability": 0.09650000000000003
+     },
+     {
+      "loss": 333992.5541564417,
+      "probability": 0.09599999999999997
+     },
+     {
+      "loss": 370522.8963537511,
+      "probability": 0.09599999999999997
+     },
+     {
+      "loss": 411048.73451181094,
+      "probability": 0.09599999999999997
+     },
+     {
+      "loss": 456007.0748838364,
+      "probability": 0.09575
+     },
+     {
+      "loss": 505882.721159765,
+      "probability": 0.09575
+     },
+     {
+      "loss": 561213.5022975283,
+      "probability": 0.09575
+     },
+     {
+      "loss": 622596.0721469041,
+      "probability": 0.09575
+     },
+     {
+      "loss": 690692.3434056175,
+      "probability": 0.09575
+     },
+     {
+      "loss": 766236.6252875737,
+      "probability": 0.09575
+     },
+     {
+      "loss": 850043.5418715754,
+      "probability": 0.09524999999999995
+     },
+     {
+      "loss": 943016.816517205,
+      "probability": 0.09524999999999995
+     },
+     {
+      "loss": 1046159.0170737333,
+      "probability": 0.09499999999999997
+     },
+     {
+      "loss": 1160582.366968547,
+      "probability": 0.09475
+     },
+     {
+      "loss": 1287520.7387553202,
+      "probability": 0.09450000000000003
+     },
+     {
+      "loss": 1428342.9594531923,
+      "probability": 0.09375
+     },
+     {
+      "loss": 1584567.5711536787,
+      "probability": 0.09199999999999997
+     },
+     {
+      "loss": 1757879.2060648273,
+      "probability": 0.09075
+     },
+     {
+      "loss": 1950146.7525712803,
+      "probability": 0.08975
+     },
+     {
+      "loss": 2163443.5082020466,
+      "probability": 0.08725000000000005
+     },
+     {
+      "loss": 2400069.5368234813,
+      "probability": 0.08525000000000005
+     },
+     {
+      "loss": 2662576.471144042,
+      "probability": 0.08250000000000002
+     },
+     {
+      "loss": 2953795.027985994,
+      "probability": 0.07999999999999996
+     },
+     {
+      "loss": 3276865.533032343,
+      "probability": 0.07399999999999995
+     },
+     {
+      "loss": 3635271.7842093385,
+      "probability": 0.07150000000000001
+     },
+     {
+      "loss": 4032878.6188670606,
+      "probability": 0.06774999999999998
+     },
+     {
+      "loss": 4473973.589859808,
+      "probability": 0.0625
+     },
+     {
+      "loss": 4963313.199936116,
+      "probability": 0.05800000000000005
+     },
+     {
+      "loss": 5506174.193002336,
+      "probability": 0.052000000000000046
+     },
+     {
+      "loss": 6108410.455353737,
+      "probability": 0.044499999999999984
+     },
+     {
+      "loss": 6776516.140461839,
+      "probability": 0.040000000000000036
+     },
+     {
+      "loss": 7517695.698017813,
+      "probability": 0.031749999999999945
+     },
+     {
+      "loss": 8339941.562382813,
+      "probability": 0.023249999999999993
+     },
+     {
+      "loss": 9252120.338190822,
+      "probability": 0.018000000000000016
+     },
+     {
+      "loss": 10264068.41247779,
+      "probability": 0.013000000000000012
+     },
+     {
+      "loss": 11386698.024360638,
+      "probability": 0.007750000000000035
+     },
+     {
+      "loss": 12632114.9360577,
+      "probability": 0.004750000000000032
+     },
+     {
+      "loss": 14013748.974144028,
+      "probability": 0.00275000000000003
+     },
+     {
+      "loss": 15546498.84872024,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 17246892.81213724,
+      "probability": 0.00024999999999997247
+     },
+     {
+      "loss": 19133266.88972397,
+      "probability": 0.00024999999999997247
+     }
+    ]
+   }
+  }
+ ],
+ "narrative": "Breach risk dominates: a loss occurs in a small share of years, but a 1-in-100 year is costly. Insolvency risk is negligible.",
+ "key_findings": [
+  "SOC 2 Type 2 verified",
+  "No reported breaches in 3 years"
+ ],
+ "recommendations": [
+  "Share only the records the vendor needs"
+ ],
+ "notes": [],
+ "evidence": [],
+ "trace": [
+  {
+   "step": 1,
+   "kind": "tool_call",
+   "tool": "get_baseline_inputs",
+   "summary": "baselines for vendor_breach, vendor_insolvency",
+   "detail": {}
+  },
+  {
+   "step": 2,
+   "kind": "tool_call",
+   "tool": "get_agent_findings",
+   "summary": "compliance: 2 evidence items, reputation: 1 evidence items",
+   "detail": {}
+  },
+  {
+   "step": 3,
+   "kind": "tool_call",
+   "tool": "run_simulation",
+   "summary": "run_01 vendor_breach: expected $680K, P90 $0",
+   "detail": {}
+  },
+  {
+   "step": 4,
+   "kind": "guardrail",
+   "tool": "submit_report",
+   "summary": "submission rejected: dollar figures not produced by any tool: $2K",
+   "detail": {}
+  },
+  {
+   "step": 5,
+   "kind": "guardrail",
+   "tool": "submit_report",
+   "summary": "submission accepted: run_01, run_02",
+   "detail": {}
+  }
+ ],
+ "llm_calls": 5,
+ "tool_calls": 5,
+ "input_tokens": 15716,
+ "output_tokens": 1337,
+ "paced_seconds": 119.0
+}

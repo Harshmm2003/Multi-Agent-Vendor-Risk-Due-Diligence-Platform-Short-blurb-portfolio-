@@ -121,3 +121,45 @@ test("reports an unreachable API", async () => {
   await user.click(screen.getByRole("button", { name: "Start evaluation" }));
   await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent(/Could not reach the VendorIQ API/));
 });
+
+test("sends financial exposure details for the FAIR agent when given", async () => {
+  const fetchMock = mockFetch(
+    companySearch,
+    on("POST", "/api/v1/evaluate", () =>
+      json(202, { job_id: "job-abc", evaluation_id: "eval-1", vendor_name: "Okta, Inc.", status: "pending",
+                  message: "", poll_url: "/api/v1/jobs/job-abc" })),
+  );
+  const user = userEvent.setup({ delay: null });
+  renderPage();
+  await fillValidForm(user);
+  await user.click(screen.getByText("Financial exposure details (optional)"));
+  await user.click(screen.getByLabelText("Health data (PHI)"));
+  await user.selectOptions(screen.getByLabelText("How critical is the service?"), "high");
+  await user.type(screen.getByLabelText("Records the vendor will hold"), "200000");
+  await user.type(screen.getByLabelText("Annual loss you can absorb (USD)"), "250000");
+  await user.click(screen.getByRole("button", { name: "Start evaluation" }));
+
+  expect(await screen.findByText("job page")).toBeInTheDocument();
+  const post = fetchMock.mock.calls.find(([, init]) => init?.method === "POST")!;
+  expect(JSON.parse(post[1]!.body as string).client_profile.exposure).toEqual({
+    data_types: ["phi"],
+    service_criticality: "high",
+    records_shared: 200000,
+    risk_tolerance_usd: 250000,
+  });
+});
+
+test("rejects a zero tolerance or fractional record count before submitting", async () => {
+  const fetchMock = mockFetch(companySearch);
+  const user = userEvent.setup({ delay: null });
+  renderPage();
+  await fillValidForm(user);
+  await user.click(screen.getByText("Financial exposure details (optional)"));
+  await user.type(screen.getByLabelText("Annual loss you can absorb (USD)"), "0");
+  await user.type(screen.getByLabelText("Records the vendor will hold"), "10.5");
+  await user.click(screen.getByRole("button", { name: "Start evaluation" }));
+
+  expect(screen.getByText("Enter an amount greater than 0.")).toBeInTheDocument();
+  expect(screen.getByText("Enter a whole number.")).toBeInTheDocument();
+  expect(fetchMock.mock.calls.some(([, init]) => init?.method === "POST")).toBe(false);
+});
