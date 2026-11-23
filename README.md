@@ -85,6 +85,32 @@ Alongside the composite score, the report shows two summary scores:
 
 Agents also draw on a small vector store (ChromaDB) that holds industry benchmarks, compliance requirements by industry, and summaries of past evaluations. This gives them a baseline to compare against.
 
+## Financial exposure (FAIR agent)
+
+After the five agents, a sixth, **agentic** analyst quantifies what the vendor
+could cost you **in dollars per year**, using the FAIR model (Factor Analysis of
+Information Risk). It plans its investigation, calls tools (cited baselines,
+the other agents' findings, financials and Altman Z, SEC filings, a Monte Carlo
+simulation, sensitivity analysis, what-if contract controls) and submits a
+report that code checks before accepting:
+
+- every dollar figure must come from a simulation run (the model cannot invent one);
+- every input cites its source (evidence, a dated benchmark, or a labelled assumption);
+- a budget caps model calls, tool calls, tokens and time; if it cannot finish,
+  a deterministic benchmark baseline is reported instead.
+
+The meta-agent applies the result **after** its rules and can only make the
+decision stricter: REVIEW when the expected annual loss reaches your tolerance
+(or there is a 10%+ yearly chance of reaching it), REJECT only against a
+tolerance you stated. A contract control that fixes the exposure becomes a
+condition ("acceptable if…"). Reports that are partial or mostly assumptions
+are shown but never change the decision.
+
+It also runs standalone: `cd backend && uv run python -m fair analyze
+fair/examples/analyze_healthcare_vendor.json` (`--offline` for no model). See
+[ADR 0005](docs/adr/0005-fair-agent.md) for the design, the guardrails and
+measured token use.
+
 ## How the recommendation is decided
 
 The meta-agent (`backend/app/agents/meta_agent.py`) applies rules in a fixed order. The first rule that matches decides the outcome. **The LLM cannot override the hard rules.**
