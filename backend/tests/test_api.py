@@ -776,3 +776,62 @@ def test_pipeline_result_lists_truncated_agents(pipeline):
 
 def test_pipeline_result_has_empty_truncated_agents_when_none(pipeline):
     assert pipeline.run().result["truncated_agents"] == []
+
+
+# ── FAIR agent in the pipeline (ADR 0005) ─────────────────
+
+def _fair_report(status="complete"):
+    from test_fair_integration import real_report
+    return real_report(status=status)
+
+
+def test_pipeline_fair_escalates_and_is_saved(pipeline, monkeypatch):
+    seen = {}
+    fair_report = _fair_report()   # built outside the pipeline's event loop
+
+    async def fake_fair(state, client_profile, compliance_data, financial_data):
+        seen["outputs"] = [d for d in ("financial", "strategic") if state.get(f"{d}_output")]
+        return fair_report
+
+    monkeypatch.setattr(routes, "run_fair_analysis", fake_fair)
+    job = pipeline.run()
+    result = job.result
+    assert seen["outputs"] == ["financial", "strategic"]   # runs after the five agents
+    assert result["base_recommendation"] == "APPROVE"
+    assert result["recommendation"] == "REVIEW" and result["escalated_by_fair"] is True
+    assert result["financial_exposure"]["ale_mean"] > 0
+    assert result["fair"]["subject"] == "Okta"
+
+    [row] = fetch(pipeline.Session, Evaluation, evaluation_id="eval-job-p")
+    assert row.fair_analysis["status"] == "complete"
+    assert row.fair_ale_mean == result["financial_exposure"]["ale_mean"]
+    assert row.to_dict()["fair"]["expected_annual_loss"] == row.fair_ale_mean
+
+    report = call("GET", "/api/v1/evaluations/eval-job-p/report").json()
+    assert report["fair"]["generated_by"] == "fallback"
+
+
+def test_pipeline_survives_a_fair_failure(pipeline, monkeypatch):
+    async def broken(*args):
+        raise RuntimeError("FAIR blew up")
+
+    monkeypatch.setattr(routes, "run_fair_analysis", broken)
+    job = pipeline.run()
+    assert job.status == "complete"
+    assert job.result["recommendation"] == "APPROVE"
+    assert job.result["fair"] is None and job.result["fair_effect"] == "none"
+
+
+def test_evaluate_accepts_exposure(Session, pipeline_calls):
+    body = {**EVALUATE_BODY, "client_profile": {
+        **EVALUATE_BODY["client_profile"],
+        "exposure": {"data_types": ["pii"], "records_shared": 50000,
+                     "risk_tolerance_usd": 250000},
+    }}
+    assert call("POST", "/api/v1/evaluate", json=body).status_code == 202
+    [queued] = pipeline_calls
+    assert queued["client_profile"]["exposure"]["records_shared"] == 50000
+
+    bad = {**EVALUATE_BODY, "client_profile": {
+        **EVALUATE_BODY["client_profile"], "exposure": {"data_types": ["gold"]}}}
+    assert call("POST", "/api/v1/evaluate", json=bad).status_code == 422

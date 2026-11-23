@@ -52,6 +52,13 @@ class Settings(BaseSettings):
     cert_cache_valid_after: str | None = None
     csa_star_api_key: SecretStr | None = None
 
+    # FAIR agent (fair/): dollar loss exposure, run after the five agents.
+    # It shares the Groq key, so its pacing should match the key's limit.
+    fair_enabled: bool = True
+    fair_tokens_per_minute: int = Field(default=8_000, ge=0)  # 0 = no pacing
+    fair_reasoning_effort: Literal["low", "medium", "high"] = "low"
+    fair_max_seconds: float = Field(default=300.0, gt=0)
+
 
 class SettingsError(RuntimeError):
     """Configuration is missing or invalid."""
