@@ -1,0 +1,38 @@
+{
+  "context": {
+    "subject": "Example Health SaaS Inc.",
+    "client_name": "Northwind Health",
+    "industry": "Healthcare",
+    "annual_contract_value": 400000,
+    "risk_appetite": "low",
+    "exposure": {
+      "data_types": ["phi"],
+      "records_shared": 200000,
+      "service_criticality": "high"
+    }
+  },
+  "evidence": {
+    "findings": {
+      "compliance": [
+        {"kind": "finding", "title": "SOC 2 Type 2 report verified",
+         "detail": "Verified in the vendor's trust center; covers the last 12 months.",
+         "citation": "Compliance agent (VERIFIED_REGISTRY tier)"},
+        {"kind": "finding", "title": "HIPAA BAA offered", "detail": "Standard BAA available on request.",
+         "citation": "Compliance agent (CORROBORATED tier)"}
+      ],
+      "reputation": [
+        {"kind": "finding", "title": "No reported breaches in the last 3 years",
+         "detail": "No breach coverage found in news search.", "citation": "Reputation agent"}
+      ]
+    },
+    "financials": {
+      "statement": {
+        "working_capital": 120000000, "retained_earnings": 300000000, "ebit": 85000000,
+        "total_assets": 1000000000, "total_liabilities": 550000000, "sales": 900000000,
+        "market_value_equity": 1400000000, "book_equity": 450000000
+      },
+      "manufacturer": false,
+      "citation": "Illustrative statement (example file)"
+    }
+  }
+}

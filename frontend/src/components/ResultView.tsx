@@ -4,6 +4,7 @@ import { truncatedAgentsFromRedFlags } from "../lib/agents";
 import AgentEvidence from "./AgentEvidence";
 import AgentWarnings from "./AgentWarnings";
 import CertificationTiers from "./CertificationTiers";
+import FinancialExposure from "./fair/FinancialExposure";
 import OfacBanner from "./OfacBanner";
 import RecommendationBadge from "./RecommendationBadge";
 import RedFlagList from "./RedFlagList";
@@ -34,6 +35,11 @@ export default function ResultView({ result, report, reportError }: Props) {
         </div>
         <div className="text-right">
           <RecommendationBadge value={result.recommendation} />
+          {result.escalated_by_fair && (
+            <p className="mt-2 text-xs text-amber-800">
+              Raised from {result.base_recommendation ?? "the score-based result"} by financial exposure
+            </p>
+          )}
           {result.dealbreaker_status && (
             <p className="mt-2 text-xs text-slate-600">{DEALBREAKER_TEXT[result.dealbreaker_status] ?? result.dealbreaker_status}</p>
           )}
@@ -49,6 +55,8 @@ export default function ResultView({ result, report, reportError }: Props) {
         confidence={result.confidence}
         agentScores={result.agent_scores}
       />
+
+      <FinancialExposure fair={result.fair} decision={result} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <RedFlagList flags={result.red_flags} />

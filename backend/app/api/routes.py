@@ -61,6 +61,8 @@ from app.agents.meta_agent        import run_meta_agent
 from app.services.scraper         import scrape_vendor_financials, scrape_vendor_compliance
 from app.services.rag_service     import store_evaluation, retrieve_context
 from app.services.compliance_discovery import discover_certifications
+from app.integrations.fair_adapter import run_fair_analysis
+from fair.context import ExposureProfile
 
 # Redis cache layer — gracefully falls back to Supabase if Redis is down
 from app.services.cache import (
@@ -83,6 +85,9 @@ class ClientProfile(BaseModel):
     priorities:     list[str]
     dealbreakers:   list[str]
     nice_to_have:   list[str]
+    # Optional facts for the FAIR agent (data shared, criticality, tolerance,
+    # liability cap, insurance). Missing ones fall back to benchmarks.
+    exposure:       ExposureProfile | None = None
 
 
 AGENT_WEIGHT_KEYS = ("financial", "compliance", "operational", "reputation", "strategic")
@@ -538,9 +543,24 @@ async def _run_pipeline_steps(
                     agent_results["compliance"]["certification_evidence_tiers"] = \
                         compliance_data.get("certification_evidence_tiers", {})
 
+            # ── Step 4b: FAIR agent — loss exposure in dollars ────────────────
+            # After the five agents (it cites their findings), before the
+            # meta-agent (which applies it). Never fails the evaluation.
+            await _update_job(job_id, db,
+                              current_step="Quantifying financial exposure (FAIR agent)",
+                              progress=90)
+            try:
+                await asyncio.sleep(12)   # same spacing as between agents
+                state["fair_output"] = await run_fair_analysis(
+                    state, client_profile, compliance_data, financial_data
+                )
+            except Exception as e:
+                log.warning("fair.failed", error=str(e), exc_info=True)
+                state["fair_output"] = None
+
             # ── Step 5: Meta-agent synthesis ──────────────────────────────────
             await _update_job(job_id, db,
-                              current_step="Synthesising recommendation (meta-agent)", progress=92)
+                              current_step="Synthesising recommendation (meta-agent)", progress=94)
 
             meta_result = await run_meta_agent(state)
 
@@ -570,6 +590,11 @@ async def _run_pipeline_steps(
                 red_flags=         meta_result.get("all_red_flags", []),
                 weights=           weights,
                 agent_outputs=     agent_results,
+                fair_analysis=     state.get("fair_output"),
+                fair_ale_mean=     (meta_result.get("financial_exposure") or {}).get("ale_mean"),
+                fair_prob_exceeds_tolerance=(
+                    (meta_result.get("financial_exposure") or {}).get("prob_exceeds_tolerance")
+                ),
             )
             db.add(eval_row)
 
@@ -600,6 +625,15 @@ async def _run_pipeline_steps(
                 "cert_evidence":                   compliance_data.get("cert_evidence", []),
                 "edgar_cik":                       compliance_data.get("edgar_cik"),
                 "industry":                        industry,
+                # FAIR: decision effect, the numbers the rules used, the full report
+                "base_recommendation": meta_result.get("base_recommendation"),
+                "escalated_by_fair":   meta_result.get("escalated_by_fair"),
+                "fair_effect":         meta_result.get("fair_effect"),
+                "fair_reasons":        meta_result.get("fair_reasons", []),
+                "conditions":          meta_result.get("conditions", []),
+                "fair_note":           meta_result.get("fair_note"),
+                "financial_exposure":  meta_result.get("financial_exposure"),
+                "fair":                state.get("fair_output"),
             }
 
             # Store in ChromaDB for RAG cross-vendor context
@@ -654,7 +688,10 @@ async def evaluate_vendor(
         This is the correct semantics, not pedantry.
     """
     vendor_name    = request.vendor_name
-    client_profile = request.client_profile.model_dump()
+    # exposure is optional: left out when not given, so older callers see no change
+    client_profile = request.client_profile.model_dump(
+        mode="json", exclude={"exposure"} if request.client_profile.exposure is None else None
+    )
     weights        = request.weights
 
     # Generate IDs
@@ -848,6 +885,7 @@ async def get_evaluation_report(
         "red_flags":        row.red_flags,
         "full_explanation": row.final_explanation,
         "weights_used":     row.weights,
+        "fair":             row.fair_analysis,
     }
 
 

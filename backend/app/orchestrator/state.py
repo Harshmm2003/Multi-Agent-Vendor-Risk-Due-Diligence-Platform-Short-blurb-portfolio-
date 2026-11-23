@@ -39,6 +39,9 @@ class VendorRiskState(TypedDict):
     reputation_output: Optional[dict]
     strategic_output: Optional[dict]
 
+    # FAIR agent report (fair/), or {"skipped": reason}, or None when off
+    fair_output: dict | None
+
     # Gate B
     conflict_detected: bool
     conflict_details: Optional[str]

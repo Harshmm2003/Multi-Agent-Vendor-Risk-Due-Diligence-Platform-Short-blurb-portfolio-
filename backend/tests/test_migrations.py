@@ -67,6 +67,10 @@ def current_revision(db_path: Path) -> str | None:
         engine.dispose()
 
 
+HEAD = "0002"
+FAIR_COLUMNS = {"fair_analysis", "fair_ale_mean", "fair_prob_exceeds_tolerance"}
+
+
 @pytest.fixture
 def db(tmp_path):
     return tmp_path / "migrations.db"
@@ -77,7 +81,7 @@ def db(tmp_path):
 def test_upgrade_creates_every_table_at_the_baseline_revision(db):
     command.upgrade(alembic_config(db), "head")
     assert set(schema(db)) == TABLES
-    assert current_revision(db) == "0001"
+    assert current_revision(db) == HEAD
 
 
 def test_migrated_schema_is_identical_to_create_all(db, tmp_path):
@@ -116,7 +120,7 @@ def test_postgres_sql_renders_offline_without_a_database():
 def test_exactly_one_head():
     from alembic.script import ScriptDirectory
     heads = ScriptDirectory.from_config(alembic_config(Path("unused.db"))).get_heads()
-    assert heads == ["0001"]
+    assert heads == [HEAD]
 
 
 # ── Drift check (what CI runs as `alembic check`) ─────────
@@ -153,10 +157,11 @@ def test_upgrade_refuses_a_create_all_database_without_changing_it(db):
 
 
 def test_stamped_create_all_database_checks_clean(db):
+    # create_all builds the current models' schema, so it is stamped at head
     create_all(db)
     cfg = alembic_config(db)
-    command.stamp(cfg, "0001")
-    assert current_revision(db) == "0001"
+    command.stamp(cfg, HEAD)
+    assert current_revision(db) == HEAD
     command.check(cfg)
     command.upgrade(cfg, "head")   # already at head: a no-op, not an error
 
@@ -273,9 +278,38 @@ def test_postgres_migrated_schema_matches_create_all(pg_url):
 
 @requires_postgres
 def test_postgres_create_all_database_is_refused_then_stamped(pg_url):
-    pg_run(pg_url, Base.metadata.create_all)       # what Supabase looked like
+    pg_run(pg_url, Base.metadata.create_all)       # an unstamped create_all database
     cfg = pg_config(pg_url)
     with pytest.raises(Exception, match="alembic stamp 0001"):
         command.upgrade(cfg, "head")
-    command.stamp(cfg, "0001")
+    # create_all builds the current models' schema, so it is at head
+    command.stamp(cfg, HEAD)
     command.check(cfg)
+
+
+@requires_postgres
+def test_postgres_0002_upgrades_a_0001_database(pg_url):
+    cfg = pg_config(pg_url)
+    command.upgrade(cfg, "0001")
+    command.upgrade(cfg, "head")
+    command.check(cfg)                              # matches the models, JSONB included
+    command.downgrade(cfg, "0001")
+
+
+# ── 0002: FAIR agent columns ──────────────────────────────
+
+def evaluation_columns(db_path) -> set[str]:
+    import sqlite3
+    with sqlite3.connect(db_path) as conn:
+        return {row[1] for row in conn.execute("PRAGMA table_info(evaluations)")}
+
+
+def test_0002_adds_and_removes_fair_columns(db):
+    cfg = alembic_config(db)
+    command.upgrade(cfg, "0001")
+    assert not FAIR_COLUMNS & evaluation_columns(db)
+    command.upgrade(cfg, "0002")
+    assert FAIR_COLUMNS <= evaluation_columns(db)
+    command.downgrade(cfg, "0001")
+    assert not FAIR_COLUMNS & evaluation_columns(db)
+    assert current_revision(db) == "0001"

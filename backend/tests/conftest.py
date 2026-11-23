@@ -62,6 +62,10 @@ TEST_ENV = {
     "LOG_LEVEL": "WARNING",                       # quiet test output
     "LOG_FORMAT": "json",
     "AGENT_STRUCTURED_OUTPUT": "true",
+    "FAIR_ENABLED": "false",                      # pipeline tests opt in with a fake
+    "FAIR_TOKENS_PER_MINUTE": "8000",
+    "FAIR_REASONING_EFFORT": "low",
+    "FAIR_MAX_SECONDS": "300",
 }
 os.environ.update(TEST_ENV)
 
@@ -86,6 +90,22 @@ def pytest_collection_modifyitems(config, items):
     for item in items:
         if "live" in item.keywords:
             item.add_marker(skip)
+
+
+# ── async def tests ───────────────────────────────────────────────────────
+# Run them with asyncio.run, as the sync tests here already drive async code
+# (see test_cache.py), without adding pytest-asyncio.
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_pyfunc_call(pyfuncitem):
+    import asyncio
+    import inspect
+
+    if not inspect.iscoroutinefunction(pyfuncitem.obj):
+        return None
+    names = pyfuncitem._fixtureinfo.argnames
+    asyncio.run(pyfuncitem.obj(**{n: pyfuncitem.funcargs[n] for n in names}))
+    return True
 
 
 # ── Network guard ─────────────────────────────────────────────────────────

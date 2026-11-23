@@ -4,6 +4,7 @@ import { ApiError, getReport } from "../api/client";
 import { AGENT_KEYS, type AgentKey, type EvaluationReport } from "../api/types";
 import AgentEvidence from "../components/AgentEvidence";
 import AgentWarnings from "../components/AgentWarnings";
+import FinancialExposure from "../components/fair/FinancialExposure";
 import OfacBanner from "../components/OfacBanner";
 import RecommendationBadge from "../components/RecommendationBadge";
 import RedFlagList from "../components/RedFlagList";
@@ -77,6 +78,9 @@ export default function ReportPage() {
         confidence={report.scores.confidence}
         agentScores={agentScores(report)}
       />
+
+      {/* The stored report has the figures; the decision effect is in the summary below */}
+      <FinancialExposure fair={report.fair} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <RedFlagList flags={report.red_flags} />

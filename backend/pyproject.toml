@@ -24,6 +24,7 @@ dependencies = [
     "pydantic-settings==2.15.0",
     "alembic==1.20.1",
     "structlog==26.1.0",
+    "numpy==2.4.6",
 ]
 
 [dependency-groups]
@@ -44,6 +45,6 @@ package = false
 
 [tool.mypy]
 python_version = "3.11"
-files = ["app", "main_api.py"]
+files = ["app", "fair", "main_api.py"]
 # Most third-party libraries here ship no type information
 ignore_missing_imports = true

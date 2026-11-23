@@ -8,8 +8,12 @@ export const AGENT_LABELS: Record<AgentKey, string> = {
   strategic: "Strategic fit",
 };
 
+// Red-flag sources that are not one of the five scoring agents
+const OTHER_SOURCES: Record<string, string> = { fair: "Financial exposure" };
+
 export function agentLabel(name: string): string {
-  return (AGENT_LABELS as Record<string, string>)[name.toLowerCase()] ?? name;
+  const key = name.toLowerCase();
+  return (AGENT_LABELS as Record<string, string>)[key] ?? OTHER_SOURCES[key] ?? name;
 }
 
 // meta_agent.py prefixes every red flag with "[AGENT] "; base_agent.py adds

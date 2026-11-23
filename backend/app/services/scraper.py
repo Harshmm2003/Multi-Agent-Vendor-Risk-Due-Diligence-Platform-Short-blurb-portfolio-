@@ -329,11 +329,59 @@ def _scrape_yfinance(company_name: str) -> dict:
         except Exception:
             pass
 
+        # Balance-sheet lines for the FAIR agent's Altman Z-score. The leading
+        # underscore keeps them out of the specialist agents' prompts.
+        altman = _altman_inputs(ticker, info)
+        if altman:
+            result["_altman_inputs"] = altman
+
         return {k: v for k, v in result.items() if v is not None}
 
     except Exception as e:
         log.warning("scraper.yfinance_failed", error=str(e))
         return {}
+
+
+# yfinance row labels for the Altman Z inputs (fair/model/altman.py)
+_ALTMAN_BALANCE_SHEET = {
+    "working_capital":   "Working Capital",
+    "retained_earnings": "Retained Earnings",
+    "total_assets":      "Total Assets",
+    "total_liabilities": "Total Liabilities Net Minority Interest",
+    "book_equity":       "Stockholders Equity",
+}
+_ALTMAN_INCOME = {"ebit": "EBIT", "sales": "Total Revenue"}
+
+
+def _latest(frame, label: str) -> float | None:
+    """The most recent value of a row in a yfinance statement, if present."""
+    try:
+        if frame is None or frame.empty or label not in frame.index:
+            return None
+        for value in frame.loc[label].tolist():   # newest column first
+            if value is not None and str(value) != "nan":
+                return float(value)
+    except Exception:  # noqa: BLE001 - a malformed statement means "not found"
+        return None
+    return None
+
+
+def _altman_inputs(ticker, info: dict) -> dict:
+    """Latest annual figures for Altman Z; only the ones that were found."""
+    out: dict = {}
+    try:
+        sheet = ticker.balance_sheet
+        income = ticker.financials
+    except Exception as e:  # noqa: BLE001 - yfinance raises many types; FAIR copes without
+        log.info("scraper.altman_inputs_unavailable", error=str(e))
+        return out
+    for key, label in _ALTMAN_BALANCE_SHEET.items():
+        out[key] = _latest(sheet, label)
+    for key, label in _ALTMAN_INCOME.items():
+        out[key] = _latest(income, label)
+    out["market_value_equity"] = info.get("marketCap")
+    out["manufacturer"] = "manufactur" in (info.get("industry") or "").lower()
+    return {k: v for k, v in out.items() if v is not None}
 
 
 def _scrape_years_from_wikipedia(company_name: str) -> int:

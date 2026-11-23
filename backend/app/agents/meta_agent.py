@@ -1,6 +1,11 @@
 import re
 
+from pydantic import ValidationError
+
 from app.orchestrator.state import VendorRiskState
+from fair.agent.report import FairReport
+from fair.decision import FairDecisionSignals, signals_from_report
+from fair.format import format_percent, format_usd
 
 TRACKED_CERTS = [
     "SOC1", "SOC2", "SOC3", "ISO27001", "ISO27701", "ISO9001", "ISO14001",
@@ -22,6 +27,14 @@ APPROVE_MIN_CONFIDENCE = 0.95
 # A low composite only auto-rejects if the agents are at least this sure of
 # it; below this, a low score may just reflect thin data → human review.
 REJECT_MIN_CONFIDENCE  = 0.50
+
+# ── FAIR overlay (ADR 0005) ───────────────────────────────
+# The FAIR agent's dollar figures are applied after the rules above and can
+# only make the decision stricter. Rare events have P90 = $0, so the rules use
+# expected loss and the chance of reaching the tolerance, not P90.
+FAIR_REVIEW_PROB_EXCEEDS  = 0.10  # losses reach tolerance in 1 year in 10, or more often
+FAIR_LOSS_TO_CONTRACT_MAX = 1.0   # expected yearly loss above the yearly fee
+SEVERITY = {"APPROVE": 0, "REVIEW": 1, "REJECT": 2}
 
 TIER_RANK = {
     "VERIFIED_REGISTRY": 3,
@@ -334,12 +347,32 @@ async def run_meta_agent(state: VendorRiskState) -> dict:
             f"Proceed with caution — additional due diligence recommended."
         )
 
+    # ── FAIR overlay: stricter of the two, never looser ───
+    base_recommendation = recommendation
+    fair_eval = evaluate_fair(state.get("fair_output"), avg_conf)
+    fair_recommendation = {"reject": "REJECT", "review": "REVIEW"}.get(fair_eval["effect"])
+    escalated_by_fair = (
+        fair_recommendation is not None
+        and SEVERITY[fair_recommendation] > SEVERITY[recommendation]
+    )
+    if escalated_by_fair and fair_recommendation is not None:
+        recommendation = fair_recommendation
+        decision_reason = (
+            "Financial exposure (FAIR): " + "; ".join(fair_eval["reasons"]) +
+            f". Scores alone would have recommended {base_recommendation}."
+        )
+        if fair_eval["conditions"]:
+            decision_reason += " Acceptable if: " + "; ".join(fair_eval["conditions"]) + "."
+
     # ── Collect all red flags across agents ───────────────
     all_red_flags = []
     for k in available:
         flags = outputs[k].get("red_flags", [])
         for f in flags:
             all_red_flags.append(f"[{k.upper()}] {f}")
+
+    if fair_eval["effect"] != "none":
+        all_red_flags += [f"[FAIR] {r}" for r in fair_eval["reasons"]]
 
     # ── Build CPO explanation ─────────────────────────────
     score_lines = "\n".join([
@@ -370,7 +403,7 @@ RED FLAGS ({len(all_red_flags)} total):
 
 WHAT YOU SHOULD DO:
 {_get_action_items(recommendation, composite, avg_conf, all_red_flags, ofac_status, unavailable_agents, truncated_agents)}
-"""
+{_fair_section(fair_eval, base_recommendation, recommendation, state.get("fair_output"))}"""
 
     return {
         "composite_score":     round(composite, 2),
@@ -385,6 +418,13 @@ WHAT YOU SHOULD DO:
         "truncated_agents":    truncated_agents,
         "all_red_flags":       all_red_flags,
         "final_explanation":   explanation.strip(),
+        "base_recommendation": base_recommendation,
+        "escalated_by_fair":   escalated_by_fair,
+        "fair_effect":         fair_eval["effect"],
+        "fair_reasons":        fair_eval["reasons"],
+        "conditions":          fair_eval["conditions"],
+        "fair_note":           fair_eval["note"],
+        "financial_exposure":  fair_eval["signals"],
         "pipeline_status":     "complete"
     }
 
@@ -493,3 +533,132 @@ def _get_action_items(
         action_num += 1
 
     return "\n".join(actions)
+
+def evaluate_fair(fair_output: dict | None, avg_conf: float) -> dict:
+    """
+    VendorIQ's policy on the FAIR agent's figures.
+
+    Returns {"effect": "none" | "review" | "reject", "reasons", "signals", "note"}.
+    REJECT needs a tolerance the client stated (a derived one can only cause
+    REVIEW) and a typical year (P50) at or above it. A report that is partial
+    or mostly assumptions is shown but never changes the decision.
+    """
+    none: dict = {
+        "effect": "none", "reasons": [], "conditions": [], "signals": None, "note": None,
+    }
+    if not fair_output:
+        return none
+    if "skipped" in fair_output:
+        return {**none, "note": f"FAIR not run: {fair_output['skipped']}."}
+    try:
+        s = signals_from_report(FairReport.model_validate(fair_output))
+    except ValidationError:
+        return {**none, "note": "FAIR report could not be read."}
+    return apply_fair_rules(s, avg_conf)
+
+
+def apply_fair_rules(s: FairDecisionSignals, avg_conf: float) -> dict:
+    """The rules on already-computed signals (see evaluate_fair)."""
+    if not s.decision_grade:
+        return {
+            "effect": "none",
+            "reasons": [],
+            "conditions": [],
+            "signals": s.model_dump(),
+            "note": f"FAIR is informational only: {s.not_decision_grade_reason}.",
+        }
+
+    reject, review = [], []
+    tol = s.tolerance_usd
+    if tol is not None:
+        if (s.tolerance_source == "client" and s.p50 >= tol
+                and avg_conf >= REJECT_MIN_CONFIDENCE):
+            reject.append(
+                f"in a typical year (P50) losses of {format_usd(s.p50)} reach the "
+                f"client's stated tolerance of {format_usd(tol)}"
+            )
+        if s.ale_mean >= tol:
+            review.append(
+                f"expected annual loss {format_usd(s.ale_mean)} reaches the "
+                f"{s.tolerance_source} tolerance of {format_usd(tol)}"
+            )
+        if (s.prob_exceeds_tolerance or 0) >= FAIR_REVIEW_PROB_EXCEEDS:
+            review.append(
+                f"{format_percent(s.prob_exceeds_tolerance or 0)} chance per year that "
+                f"losses reach {format_usd(tol)}"
+            )
+        if s.uninsured_p99 and s.uninsured_p99 > tol:
+            review.append(
+                f"a 1-in-100-year loss leaves {format_usd(s.uninsured_p99)} not covered "
+                "by the liability cap and insurance"
+            )
+    if s.loss_to_contract_ratio and s.loss_to_contract_ratio > FAIR_LOSS_TO_CONTRACT_MAX:
+        review.append(
+            f"expected annual loss {format_usd(s.ale_mean)} exceeds the annual "
+            f"contract value of {format_usd(s.annual_contract_value or 0)}"
+        )
+    # A control that brings the exposure within tolerance turns the finding
+    # into a contract condition: REVIEW with that condition, never REJECT.
+    conditions = []
+    best = s.best_control
+    if best is not None and best.fixes_tolerance and (reject or review):
+        chance = (
+            f", chance of reaching tolerance {format_percent(best.prob_exceeds_after)}"
+            if best.prob_exceeds_after is not None else ""
+        )
+        conditions.append(
+            f"{best.title}: expected annual loss falls to {format_usd(best.ale_after)}"
+            f"{chance} [{best.run_id}]"
+        )
+        review, reject = reject + review, []
+    effect = "reject" if reject else "review" if review else "none"
+    return {
+        "effect": effect,
+        "reasons": reject + review,
+        "conditions": conditions,
+        "signals": s.model_dump(),
+        "note": None,
+    }
+
+
+def _fair_section(fair_eval: dict, base: str, final: str, fair_output: dict | None) -> str:
+    """The FINANCIAL EXPOSURE part of the CPO explanation."""
+    s = fair_eval["signals"]
+    if s is None:
+        return f"\nFINANCIAL EXPOSURE (FAIR):\n  {fair_eval['note']}\n" if fair_eval["note"] else ""
+    tol = (
+        f"{format_percent(s['prob_exceeds_tolerance'] or 0)} / year "
+        f"(tolerance {format_usd(s['tolerance_usd'])}, {s['tolerance_source']})"
+        if s["tolerance_usd"] is not None else "no tolerance given"
+    )
+    effect = (
+        f"escalated {base} → {final}" if base != final
+        else {"none": "none", "review": "supports REVIEW", "reject": "supports REJECT"}[fair_eval["effect"]]
+    )
+    lines = [
+        "",
+        "FINANCIAL EXPOSURE (FAIR):",
+        f"  Expected annual loss : {format_usd(s['ale_mean'])}",
+        f"  Chance of any loss   : {format_percent(s['prob_any_loss'])} / year",
+        f"  1-in-100-year loss   : {format_usd(s['p99'])}",
+        f"  Chance ≥ tolerance   : {tol}",
+        f"  Main scenario        : {s['dominant_scenario']}",
+        f"  Assumed inputs       : {s['assumption_share']:.0%}",
+        f"  Effect on decision   : {effect}",
+    ]
+    if fair_eval["note"]:
+        lines.append(f"  Note                 : {fair_eval['note']}")
+    if fair_eval["conditions"]:
+        lines += ["  Acceptable if:"] + [f"    - {c}" for c in fair_eval["conditions"]]
+    actions = []
+    if s["tolerance_source"] == "derived":
+        actions.append("State a dollar risk tolerance; FAIR used one derived from risk appetite.")
+    if s["uninsured_p99"]:
+        actions.append(
+            f"Negotiate a liability cap or insurance covering the 1-in-100-year loss "
+            f"({format_usd(s['p99'])})."
+        )
+    actions.extend(((fair_output or {}).get("recommendations") or [])[:2])
+    if actions:
+        lines += ["  Actions:"] + [f"    - {a}" for a in actions]
+    return "\n".join(lines) + "\n"

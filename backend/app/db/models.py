@@ -72,6 +72,14 @@ class Evaluation(Base):
         JSON().with_variant(JSONB(), "postgresql"), nullable=True
     )
 
+    # FAIR agent (ADR 0005): full report and trace, plus the two figures the
+    # history list shows without loading the report
+    fair_analysis: Mapped[dict | None] = mapped_column(
+        JSON().with_variant(JSONB(), "postgresql"), nullable=True
+    )
+    fair_ale_mean:               Mapped[float | None] = mapped_column(Float, nullable=True)
+    fair_prob_exceeds_tolerance: Mapped[float | None] = mapped_column(Float, nullable=True)
+
     # When it ran
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
@@ -98,6 +106,10 @@ class Evaluation(Base):
             "confidence":     self.confidence,
             "recommendation": self.recommendation,
             "red_flags":      self.red_flags,
+            "fair": {
+                "expected_annual_loss":   self.fair_ale_mean,
+                "prob_exceeds_tolerance": self.fair_prob_exceeds_tolerance,
+            },
             "created_at":     self.created_at.isoformat(),
         }
 
