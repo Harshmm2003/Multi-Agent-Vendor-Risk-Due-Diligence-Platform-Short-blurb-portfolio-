@@ -3,16 +3,26 @@ Command line for the FAIR engine.
 
     python -m fair simulate FILE [--iterations N] [--seed-key KEY] [--tolerance USD] [--json]
     python -m fair altman FILE [--manufacturer] [--json]
+    python -m fair analyze FILE [--offline] [--interactive] [--json]
 
 simulate: FILE holds one scenario, or {"scenarios": [...]}. Several scenarios
 are also reported combined. The seed comes from --seed-key (default: the file
 name) and each scenario's position, so a re-run gives the same numbers.
 
 altman: FILE holds a FinancialStatement.
+
+analyze: run the FAIR agent (env: FAIR_MODEL, FAIR_REASONING_EFFORT=low,
+FAIR_TPM=8000 tokens/minute pacing, 0 to disable). FILE holds {"context": AnalysisContext,
+"evidence": {"findings": {domain: [...]}, "financials": {...}}}. Needs
+GROQ_API_KEY (environment or .env) unless --offline, which skips the model
+and reports the benchmark baseline. --interactive lets the agent ask you
+questions.
 """
 
 import argparse
+import asyncio
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -43,6 +53,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command == "simulate":
             return _simulate(args, data)
+        if args.command == "analyze":
+            return asyncio.run(_analyze(args, data))
         return _altman(args, data)
     except ValidationError as e:
         print(f"error: invalid input in {args.file}:\n{e}", file=sys.stderr)
@@ -72,7 +84,70 @@ def _parser() -> argparse.ArgumentParser:
         "--manufacturer", action="store_true", help="use the original Z model"
     )
     a.add_argument("--json", action="store_true")
+
+    z = sub.add_parser("analyze", help="run the FAIR agent on a context file")
+    z.add_argument("file")
+    z.add_argument(
+        "--offline", action="store_true", help="benchmark baseline, no model"
+    )
+    z.add_argument("--interactive", action="store_true", help="let the agent ask you")
+    z.add_argument("--iterations", type=int, default=DEFAULT_ITERATIONS)
+    z.add_argument("--json", action="store_true")
     return p
+
+
+async def _analyze(args: argparse.Namespace, data: dict) -> int:
+    # Imported here so simulate/altman work without the agent's dependencies
+    from fair.agent import FairAgent, Session, fallback_report, render_text
+    from fair.context import AnalysisContext
+    from fair.ports import StaticEvidenceProvider
+
+    context = AnalysisContext.model_validate(data["context"])
+    provider = StaticEvidenceProvider.from_dict(data.get("evidence", {}))
+
+    if args.offline:
+        session = Session(context, provider, args.iterations)
+        report = await fallback_report(session, "offline run, model not used")
+    else:
+        llm = _groq_model()
+        if llm is None:
+            print("error: GROQ_API_KEY is not set (or use --offline)", file=sys.stderr)
+            return 2
+        ask = _ask_stdin if args.interactive else None
+        agent = FairAgent(
+            llm,
+            iterations=args.iterations,
+            # Groq free tier: 8,000 tokens/minute. Set FAIR_TPM=0 to disable pacing.
+            tokens_per_minute=int(os.environ.get("FAIR_TPM", "8000")) or None,
+        )
+        report = await agent.run(context, provider, ask)
+
+    print(report.model_dump_json(indent=2) if args.json else render_text(report))
+    return 0
+
+
+def _groq_model():
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    if not os.environ.get("GROQ_API_KEY"):
+        return None
+    from langchain_groq import ChatGroq
+
+    return ChatGroq(
+        model=os.environ.get("FAIR_MODEL", "openai/gpt-oss-120b"),
+        temperature=0,
+        max_tokens=2_000,
+        # gpt-oss "thinks" before answering, and those hidden tokens count
+        # against the tokens-per-minute limit. Picking tools from a clear
+        # brief needs little of it.
+        reasoning_effort=os.environ.get("FAIR_REASONING_EFFORT", "low"),
+    )
+
+
+async def _ask_stdin(question: str) -> str:
+    print(f"\n[agent asks] {question}")
+    return await asyncio.to_thread(input, "> ")
 
 
 def _simulate(args: argparse.Namespace, data: dict) -> int:
@@ -163,7 +238,7 @@ def _altman(args: argparse.Namespace, data: dict) -> int:
     )
     print(
         f"  Annual default probability: {format_percent(pd.min)} - {format_percent(pd.max)} "
-        f"(most likely {format_percent(pd.mode)}; uncalibrated placeholder)"
+        f"(most likely {format_percent(pd.mode)}; {pd.source})"
     )
     return 0
 

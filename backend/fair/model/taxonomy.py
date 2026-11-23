@@ -28,7 +28,9 @@ MAX_THREAT_EVENTS_PER_YEAR = 365.0
 #   ev_<id>         an evidence item a tool returned (fair/agent/ledger.py)
 #   benchmark:<id>  a cited default from fair/data/benchmarks.json
 #   derived:<id>    computed from other inputs, e.g. derived:altman_z
-_SOURCE = re.compile(r"^(client|assumption|ev_\w+|benchmark:[\w.-]+|derived:[\w.-]+)$")
+_SOURCE_ID = r"(?:client|assumption|ev_\w+|benchmark:[\w.-]+|derived:[\w.-]+)"
+# One id, or several separated by commas: "ev_1, ev_3"
+_SOURCE = re.compile(rf"^{_SOURCE_ID}(?:\s*,\s*{_SOURCE_ID})*$")
 
 
 class Scenario(StrEnum):
@@ -81,8 +83,8 @@ class Range(BaseModel):
     def _known_source(cls, v: str) -> str:
         if not _SOURCE.match(v):
             raise ValueError(
-                "source must be 'client', 'assumption', 'ev_<id>', "
-                f"'benchmark:<id>' or 'derived:<id>', got {v!r}"
+                "source must be 'client', 'assumption', 'ev_<id>', 'benchmark:<id>' "
+                f"or 'derived:<id>' (several may be comma-separated), got {v!r}"
             )
         return v
 
@@ -95,12 +97,17 @@ class Range(BaseModel):
         return self
 
     @classmethod
-    def fixed(cls, value: float, source: str, rationale: str = "") -> "Range":
+    def fixed(cls, value: float, source: str, rationale: str = "") -> Self:
         return cls(min=value, mode=value, max=value, source=source, rationale=rationale)
 
     @property
+    def source_ids(self) -> list[str]:
+        return [part.strip() for part in self.source.split(",")]
+
+    @property
     def is_assumption(self) -> bool:
-        return self.source == "assumption"
+        """Only a pure guess counts; a range citing evidence too is not one."""
+        return self.source_ids == ["assumption"]
 
 
 class ProbabilityRange(Range):

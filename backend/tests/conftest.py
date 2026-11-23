@@ -88,6 +88,22 @@ def pytest_collection_modifyitems(config, items):
             item.add_marker(skip)
 
 
+# ── async def tests ───────────────────────────────────────────────────────
+# Run them with asyncio.run, as the sync tests here already drive async code
+# (see test_cache.py), without adding pytest-asyncio.
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_pyfunc_call(pyfuncitem):
+    import asyncio
+    import inspect
+
+    if not inspect.iscoroutinefunction(pyfuncitem.obj):
+        return None
+    names = pyfuncitem._fixtureinfo.argnames
+    asyncio.run(pyfuncitem.obj(**{n: pyfuncitem.funcargs[n] for n in names}))
+    return True
+
+
 # ── Network guard ─────────────────────────────────────────────────────────
 
 _LOOPBACK = {"127.0.0.1", "::1", "localhost"}

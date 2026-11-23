@@ -1,0 +1,127 @@
+{
+  "checked": "2026-11-22",
+  "note": "Published figures the FAIR agent may cite as benchmark:<id>. Each was checked against the source on the date above. Add an entry only with a source, URL and year.",
+  "benchmarks": [
+    {
+      "id": "ibm_codb_2026.global_avg",
+      "topics": ["breach_cost"],
+      "value": 4990000,
+      "unit": "usd_per_breach",
+      "description": "Global average total cost of a data breach (mean), incl. detection, notification, response and lost business.",
+      "source": "IBM Cost of a Data Breach Report 2026",
+      "url": "https://www.ibm.com/reports/data-breach",
+      "year": 2026
+    },
+    {
+      "id": "ibm_codb_2025.global_avg",
+      "topics": ["breach_cost"],
+      "value": 4440000,
+      "unit": "usd_per_breach",
+      "description": "Global average total cost of a data breach (mean), previous edition.",
+      "source": "IBM Cost of a Data Breach Report 2025",
+      "url": "https://www.ibm.com/reports/data-breach",
+      "year": 2025
+    },
+    {
+      "id": "ibm_codb_2025.us_avg",
+      "topics": ["breach_cost"],
+      "value": 10220000,
+      "unit": "usd_per_breach",
+      "description": "United States average total cost of a data breach (mean); the report links the level to higher regulatory fines and containment costs.",
+      "source": "IBM Cost of a Data Breach Report 2025",
+      "url": "https://www.ibm.com/reports/data-breach",
+      "year": 2025
+    },
+    {
+      "id": "ibm_codb_2025.healthcare_avg",
+      "topics": ["breach_cost", "healthcare"],
+      "value": 7420000,
+      "unit": "usd_per_breach",
+      "description": "Healthcare average total cost of a data breach (mean), the costliest industry.",
+      "source": "IBM Cost of a Data Breach Report 2025",
+      "url": "https://www.ibm.com/reports/data-breach",
+      "year": 2025
+    },
+    {
+      "id": "verizon_dbir_2025.third_party_share",
+      "topics": ["breach_frequency", "third_party"],
+      "value": 0.30,
+      "unit": "share_of_breaches",
+      "description": "Share of confirmed breaches involving a third party (up from 15% the year before).",
+      "source": "Verizon 2025 Data Breach Investigations Report",
+      "url": "https://www.verizon.com/business/resources/reports/dbir/",
+      "year": 2025
+    },
+    {
+      "id": "cyentia_iris_2025.major_event_annual_prob",
+      "topics": ["breach_frequency"],
+      "value": 0.093,
+      "unit": "annual_probability",
+      "description": "Average organisation's annual chance of a major cyber event in 2024 (2.5% in 2008). Varies by revenue tier; see the report's likelihood tables.",
+      "source": "Cyentia Institute, Information Risk Insights Study (IRIS) 2025",
+      "url": "https://www.cyentia.com/wp-content/uploads/2026/03/IRIS-2025.pdf",
+      "year": 2025,
+      "measures": "loss_events"
+    },
+    {
+      "id": "sp_default.bbb_us_longrun",
+      "topics": ["default_rate", "insolvency"],
+      "value": 0.0022,
+      "unit": "annual_probability",
+      "description": "Long-run average one-year default rate of US corporates rated BBB (lowest investment grade).",
+      "source": "S&P Global Ratings, 2019 Annual U.S. Corporate Default and Rating Transition Study",
+      "url": "https://www.spglobal.com/ratings/en/research/articles/200617-default-transition-and-recovery-2019-annual-u-s-corporate-default-and-rating-transition-study-11498915",
+      "year": 2020
+    },
+    {
+      "id": "sp_default.spec_grade_us_longrun",
+      "topics": ["default_rate", "insolvency"],
+      "value": 0.041,
+      "unit": "annual_probability",
+      "description": "Long-run weighted average one-year default rate of US speculative-grade corporates.",
+      "source": "S&P Global Ratings, 2020 Annual U.S. Corporate Default and Rating Transition Study",
+      "url": "https://www.spglobal.com/ratings/en/research/articles/210506-default-transition-and-recovery-2020-annual-u-s-corporate-default-and-rating-transition-study-11937151",
+      "year": 2021
+    },
+    {
+      "id": "sp_default.ccc_c_global_longrun",
+      "topics": ["default_rate", "insolvency"],
+      "value": 0.283,
+      "unit": "annual_probability",
+      "description": "Long-run (1981-2020) weighted average one-year default rate of corporates rated CCC/C, globally.",
+      "source": "S&P Global Ratings, 2021 Annual Global Corporate Default and Rating Transition Study",
+      "url": "https://www.spglobal.com/ratings/en/research/articles/220413-default-transition-and-recovery-2021-annual-global-corporate-default-and-rating-transition-study-12336975",
+      "year": 2022
+    },
+    {
+      "id": "ccpa_fine_2025.per_violation",
+      "topics": ["fines", "privacy", "ccpa"],
+      "value": 2663,
+      "unit": "usd_per_violation",
+      "description": "CCPA maximum administrative fine / civil penalty per violation from 1 Jan 2025 (CPI-adjusted from $2,500).",
+      "source": "California Privacy Protection Agency, Updated Monetary Thresholds in CCPA",
+      "url": "https://www.cppa.ca.gov/regulations/cpi_adjustment.html",
+      "year": 2025
+    },
+    {
+      "id": "ccpa_fine_2025.per_intentional_violation",
+      "topics": ["fines", "privacy", "ccpa"],
+      "value": 7988,
+      "unit": "usd_per_violation",
+      "description": "CCPA maximum per intentional violation, or violation involving consumers known to be under 16, from 1 Jan 2025.",
+      "source": "California Privacy Protection Agency, Updated Monetary Thresholds in CCPA",
+      "url": "https://www.cppa.ca.gov/regulations/cpi_adjustment.html",
+      "year": 2025
+    },
+    {
+      "id": "gdpr.art83_5_cap",
+      "topics": ["fines", "privacy", "gdpr"],
+      "value": 20000000,
+      "unit": "eur_or_4pct_turnover",
+      "description": "GDPR maximum fine for the most serious infringements: EUR 20 million or 4% of total worldwide annual turnover, whichever is higher.",
+      "source": "Regulation (EU) 2016/679 (GDPR), Article 83(5)",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+      "year": 2016
+    }
+  ]
+}

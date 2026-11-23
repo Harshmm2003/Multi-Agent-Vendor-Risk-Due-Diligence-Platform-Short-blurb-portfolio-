@@ -112,3 +112,13 @@ def test_ranges_lists_every_input_path():
         "secondary_loss.fines_judgments",
     ]
     assert inputs.assumption_count == 4
+
+
+def test_several_sources_and_assumption_counting():
+    r = Range.fixed(1, "ev_1, benchmark:ibm.x")
+    assert r.source_ids == ["ev_1", "benchmark:ibm.x"]
+    assert not r.is_assumption
+    assert not Range.fixed(1, "ev_2,assumption").is_assumption  # partly evidenced
+    assert Range.fixed(1, "assumption").is_assumption
+    with pytest.raises(ValidationError):
+        Range.fixed(1, "ev_1, Reuters")

@@ -2,8 +2,9 @@
 
 import pytest
 
+from fair import benchmarks
 from fair.model import FinancialStatement, Zone, altman_z
-from fair.model.altman import AltmanModel
+from fair.model.altman import ZONE_DEFAULT_PROBABILITY, AltmanModel
 
 # Ratios chosen so the arithmetic is easy to check by hand:
 # A = 0.10, B = 0.20, C = 0.05, D (market) = 1.00, D'' (book) = 0.50, E = 0.80
@@ -50,13 +51,19 @@ def test_zones(retained, zone):
     assert altman_z(s).zone is zone
 
 
-def test_default_probability_is_labelled_uncalibrated():
-    r = altman_z(STATEMENT)
-    pd = r.annual_default_probability
+@pytest.mark.parametrize("zone", list(Zone))
+def test_default_probability_cites_a_real_benchmark(zone):
+    lo, mode, hi, benchmark_id = ZONE_DEFAULT_PROBABILITY[zone]
+    assert 0 < lo <= mode <= hi <= 1
+    # the mode is the cited long-run rate itself
+    assert benchmarks.get(benchmark_id).value == pytest.approx(mode)
+
+
+def test_default_probability_source_and_rationale():
+    pd = altman_z(STATEMENT).annual_default_probability
     assert pd is not None
-    assert pd.source == "assumption"
-    assert "uncalibrated" in pd.rationale
-    assert 0 <= pd.min <= pd.mode <= pd.max <= 1
+    assert benchmarks.exists(pd.source)
+    assert "approximation" in pd.rationale
 
 
 def test_riskier_zone_has_higher_default_probability():

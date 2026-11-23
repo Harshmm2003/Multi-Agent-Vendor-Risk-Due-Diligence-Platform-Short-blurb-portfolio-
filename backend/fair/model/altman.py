@@ -15,9 +15,11 @@ Two published variants:
   C = EBIT / total assets                  D = market value of equity / total liabilities
   E = sales / total assets                 D'' = book equity / total liabilities
 
-The zone becomes the insolvency scenario's annual default probability. That
-zone-to-probability mapping is NOT calibrated yet: it is returned as a labelled
-assumption until step 2 replaces it with cited default-rate benchmarks.
+The zone becomes the insolvency scenario's annual default probability, centred
+on S&P long-run default rates for the rating band the zone roughly corresponds
+to (safe ~ BBB, grey ~ speculative grade, distress ~ CCC/C). Treating a zone
+as a rating band is an approximation, and the ranges are wide to reflect it;
+the rationale says so wherever the figure is used.
 """
 
 import math
@@ -46,11 +48,13 @@ ZONE_CUTOFFS: dict[AltmanModel, tuple[float, float]] = {
     AltmanModel.NON_MANUFACTURING: (1.10, 2.60),
 }
 
-# Placeholder annual default probabilities per zone (min, mode, max).
-_UNCALIBRATED_PD: dict[Zone, tuple[float, float, float]] = {
-    Zone.SAFE: (0.001, 0.002, 0.005),
-    Zone.GREY: (0.005, 0.02, 0.05),
-    Zone.DISTRESS: (0.05, 0.15, 0.40),
+# Annual default probability per zone: (min, mode, max, benchmark id). The
+# mode is the cited long-run rate; min and max widen it for the zone-to-band
+# approximation.
+ZONE_DEFAULT_PROBABILITY: dict[Zone, tuple[float, float, float, str]] = {
+    Zone.SAFE: (0.0005, 0.0022, 0.01, "sp_default.bbb_us_longrun"),
+    Zone.GREY: (0.01, 0.041, 0.10, "sp_default.spec_grade_us_longrun"),
+    Zone.DISTRESS: (0.10, 0.283, 0.50, "sp_default.ccc_c_global_longrun"),
 }
 
 _REQUIRED: dict[AltmanModel, tuple[str, ...]] = {
@@ -129,15 +133,16 @@ def altman_z(
         z = 6.56 * a + 3.26 * b + 6.72 * c + 1.05 * d
 
     zone = _zone(model, z)
-    lo, mode, hi = _UNCALIBRATED_PD[zone]
+    lo, mode, hi, benchmark_id = ZONE_DEFAULT_PROBABILITY[zone]
     pd = ProbabilityRange(
         min=lo,
         mode=mode,
         max=hi,
-        source="assumption",
+        source=f"benchmark:{benchmark_id}",
         rationale=(
-            f"Altman {model} = {z:.2f} ({zone} zone). The zone-to-default-probability "
-            "mapping is an uncalibrated placeholder."
+            f"Altman {model} = {z:.2f} ({zone} zone), centred on the S&P long-run "
+            "default rate of the rating band this zone approximates; treating a "
+            "zone as a rating band is an approximation."
         ),
     )
     return AltmanResult(

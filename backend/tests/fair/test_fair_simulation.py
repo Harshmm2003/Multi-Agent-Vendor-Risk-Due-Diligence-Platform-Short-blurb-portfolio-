@@ -228,3 +228,22 @@ def test_combine_rejects_mismatched_sizes():
 def test_iterations_must_be_positive():
     with pytest.raises(ValueError):
         simulate(breach(), seed=1, iterations=0)
+
+
+def test_changing_one_input_leaves_other_draws_alone():
+    """Common random numbers: what-if differences come from the change only."""
+    base = breach(tef=2.0, vuln=0.5, response=100_000.0)
+    a = simulate(base, seed=9, iterations=5_000)
+    wider = base.model_copy(
+        update={
+            "vulnerability": ProbabilityRange(
+                min=0.1, mode=0.5, max=0.9, source="assumption"
+            )
+        }
+    )
+    b = simulate(wider, seed=9, iterations=5_000)
+    halved = breach(tef=2.0, vuln=0.5, response=50_000.0)
+    c = simulate(halved, seed=9, iterations=5_000)
+    # same event counts (vulnerability fixed at its mode), so losses exactly halve
+    assert np.allclose(c.distribution.samples, a.distribution.samples / 2)
+    assert not np.array_equal(a.distribution.samples, b.distribution.samples)

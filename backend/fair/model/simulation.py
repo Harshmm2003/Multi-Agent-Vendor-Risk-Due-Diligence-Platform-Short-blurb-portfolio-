@@ -10,8 +10,10 @@ Each iteration is one possible year:
                 if so, each secondary form    ~ PERT
     annual loss = sum over that year's events
 
-Draws happen in a fixed order from one seeded generator, so the same inputs and
-seed always give the same result. The samples are kept (not serialised) so
+Each input draws from its own random stream, derived from the seed and the
+input's name. The same inputs and seed always give the same result, and
+changing one input never changes another input's draws ("common random
+numbers"), so a what-if comparison shows the effect of the change, not noise. The samples are kept (not serialised) so
 results can be combined across scenarios and queried for any threshold.
 """
 
@@ -144,11 +146,13 @@ def simulate(
     if iterations < 1:
         raise ValueError("iterations must be at least 1")
     n = iterations
-    rng = np.random.default_rng(seed)
 
-    tef = _pert(inputs.threat_event_frequency, n, rng)
-    vuln = _pert(inputs.vulnerability, n, rng)
-    events = rng.poisson(tef * vuln)
+    def rng(stream: str) -> np.random.Generator:
+        return np.random.default_rng([seed, _stream_id(stream)])
+
+    tef = _pert(inputs.threat_event_frequency, n, rng("threat_event_frequency"))
+    vuln = _pert(inputs.vulnerability, n, rng("vulnerability"))
+    events = rng("events").poisson(tef * vuln)
     if TEMPLATES[inputs.scenario].one_shot:
         events = np.minimum(events, 1)
 
@@ -167,18 +171,17 @@ def simulate(
     # change the draws
     for form in PrimaryForm:
         if form in inputs.primary_loss:
-            add(
-                f"primary_loss.{form}",
-                _pert(inputs.primary_loss[form], total_events, rng),
-            )
+            path = f"primary_loss.{form}"
+            add(path, _pert(inputs.primary_loss[form], total_events, rng(path)))
 
     if inputs.secondary_probability is not None:
-        slp = _pert(inputs.secondary_probability, n, rng)
-        follows = rng.random(total_events) < slp[owner]
+        slp = _pert(inputs.secondary_probability, n, rng("secondary_probability"))
+        follows = rng("secondary_follows").random(total_events) < slp[owner]
         for sform in SecondaryForm:
             if sform in inputs.secondary_loss:
-                magnitude = _pert(inputs.secondary_loss[sform], total_events, rng)
-                add(f"secondary_loss.{sform}", magnitude * follows)
+                path = f"secondary_loss.{sform}"
+                magnitude = _pert(inputs.secondary_loss[sform], total_events, rng(path))
+                add(path, magnitude * follows)
 
     return SimulationResult(
         run_id=run_id or _default_run_id(inputs, seed, n),
@@ -210,6 +213,11 @@ def combine(results: Sequence[SimulationResult]) -> CombinedResult:
 
 def _pert(r: Range, n: int, rng: np.random.Generator) -> np.ndarray:
     return sample_pert(r, n, rng) if n else np.zeros(0)
+
+
+def _stream_id(name: str) -> int:
+    """A stable number per input, so each input draws from its own stream."""
+    return int.from_bytes(hashlib.sha256(name.encode()).digest()[:4], "big")
 
 
 def _default_run_id(inputs: ScenarioInputs, seed: int, n: int) -> str:
