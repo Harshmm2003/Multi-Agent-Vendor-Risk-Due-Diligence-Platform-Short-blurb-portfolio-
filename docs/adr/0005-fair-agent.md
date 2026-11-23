@@ -117,6 +117,25 @@ What each does:
   Several evidence ids may back one range ("ev_1, ev_3").
 - Provider errors are stored without account ids.
 
+End-to-end runs in VendorIQ (healthcare client / Veeva; CVS Health / Veeva):
+
+- The narrative called a vendor "low risk" while P99 was 34× the tolerance.
+  A tail-risk note is now written in code whenever P99 exceeds tolerance;
+  a prompt rule alone was not enough (the model still wrote "comfortably
+  within tolerance" once).
+- "Acceptable if: share fewer records" was offered although, with that
+  control, expected loss stayed above the contract value and the uncovered
+  P99 stayed far above tolerance. A control now "fixes" the exposure only if
+  no VendorIQ REVIEW trigger would remain.
+- In the pipeline, the other five agents use the minute's tokens just before
+  FAIR runs, so it waited 300s on pacing and nearly hit its time budget.
+  Rate-limit waits no longer count against that budget.
+- The model once wrote its full submission as JSON text. It is now read as
+  the submit_report call (same guardrails), saving a model call (~5K tokens).
+- Measured: 29K and 43K tokens, 6 and 8 model calls, per FAIR run in the
+  pipeline (more than standalone, because it tests controls and runs
+  sensitivity there).
+
 ## VendorIQ integration (step 3)
 
 - **Adapter** (`app/integrations/fair_adapter.py`): the five agents' outputs

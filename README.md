@@ -13,6 +13,7 @@ In the code and the UI, the project is called **VendorIQ**.
 - [What it does](#what-it-does)
 - [How an evaluation works](#how-an-evaluation-works)
 - [The five agents](#the-five-agents)
+- [Financial exposure (FAIR agent)](#financial-exposure-fair-agent)
 - [How the recommendation is decided](#how-the-recommendation-is-decided)
 - [Certification evidence tiers](#certification-evidence-tiers)
 - [Tech stack](#tech-stack)
@@ -89,22 +90,63 @@ Agents also draw on a small vector store (ChromaDB) that holds industry benchmar
 
 After the five agents, a sixth, **agentic** analyst quantifies what the vendor
 could cost you **in dollars per year**, using the FAIR model (Factor Analysis of
-Information Risk). It plans its investigation, calls tools (cited baselines,
-the other agents' findings, financials and Altman Z, SEC filings, a Monte Carlo
-simulation, sensitivity analysis, what-if contract controls) and submits a
-report that code checks before accepting:
+Information Risk). It models the scenarios that apply (data breach, outage,
+insolvency, sanctions exit), runs a 10,000-year Monte Carlo simulation, and
+reports the expected annual loss, the P50/P90/P99 losses, the chance of
+reaching your tolerance, and a loss exceedance curve.
+
+**How it works.** The agent plans its own investigation and calls tools:
+cited baselines, the other agents' findings, financials and Altman Z, SEC
+filings (cyber incidents, going concern), the simulation, sensitivity
+analysis, and what-if contract controls (share fewer records, client-held
+encryption, a fallback service, an exit plan). Code checks its report before
+accepting it:
 
 - every dollar figure must come from a simulation run (the model cannot invent one);
-- every input cites its source (evidence, a dated benchmark, or a labelled assumption);
-- a budget caps model calls, tool calls, tokens and time; if it cannot finish,
-  a deterministic benchmark baseline is reported instead.
+- every input cites its source (evidence, a dated benchmark such as IBM Cost of a
+  Data Breach or S&P default rates, or a labelled assumption);
+- the same evidence cannot be counted twice (for example lowering both how often
+  a breach happens and how likely it is to succeed);
+- a budget caps model calls, tool calls and tokens; time spent waiting on the
+  provider's rate limit is not counted. If it cannot finish, a deterministic
+  benchmark baseline is reported instead.
 
-The meta-agent applies the result **after** its rules and can only make the
-decision stricter: REVIEW when the expected annual loss reaches your tolerance
-(or there is a 10%+ yearly chance of reaching it), REJECT only against a
-tolerance you stated. A contract control that fixes the exposure becomes a
-condition ("acceptable if…"). Reports that are partial or mostly assumptions
-are shown but never change the decision.
+A tail-risk note is written by code, not the model, whenever the 1-in-100-year
+loss exceeds your tolerance, so the wording of the narrative can never hide it.
+
+**What you can tell it** (all optional, under "Financial exposure details" on
+the form): data types shared (`pii`, `phi`, `payment`, `internal`), records
+shared, service criticality, revenue at risk per hour, your dollar risk
+tolerance, the vendor's liability cap and your cyber insurance. Without them it
+uses benchmarks and derives a tolerance from your risk appetite and contract
+value, and says so.
+
+**How it affects the decision.** The meta-agent applies the result **after**
+its rules and can only make the decision stricter:
+
+| FAIR finding | Effect |
+|---|---|
+| Expected annual loss reaches the tolerance | REVIEW |
+| 10%+ yearly chance of losses reaching the tolerance | REVIEW |
+| 1-in-100-year loss, less liability cap and insurance, exceeds the tolerance | REVIEW |
+| Expected annual loss exceeds the annual contract value | REVIEW |
+| Typical-year (P50) loss reaches a tolerance **you stated**, confidence ≥ 50% | REJECT |
+
+A contract control counts as a fix only if none of those findings would remain
+with it in place; it then becomes a condition ("acceptable if…") instead of a
+REJECT. Reports that are partial or mostly assumptions are shown but never
+change the decision.
+
+**Tested live** (Groq `gpt-oss-120b`, free tier):
+
+| Client / vendor | FAIR result | Decision |
+|---|---|---|
+| Example healthcare client / example SaaS (standalone CLI) | $152K expected per year; 4 model calls, 15.5K tokens | within tolerance |
+| Healthcare client, $250K tolerance / Veeva Systems | $305K expected, $7.75M of a 1-in-100 loss uncovered; 6 calls, 29K tokens | REVIEW, three FAIR reasons |
+| CVS Health, $1M tolerance / Veeva Systems | $490K expected, P99 $9.41M (covered), 9.9% chance of reaching $1M; 8 calls, 43K tokens | REVIEW (from the score); FAIR within limits |
+
+A full evaluation takes about 5–9 minutes on the free tier, mostly waiting on
+its 8,000 tokens-per-minute limit, and uses about 60–90K of the 200K daily tokens.
 
 It also runs standalone: `cd backend && uv run python -m fair analyze
 fair/examples/analyze_healthcare_vendor.json` (`--offline` for no model). See
@@ -336,6 +378,7 @@ Current limitations, stated plainly:
 - **Macrotrends revenue parsing** can pick up a quarterly figure instead of the annual one, and doesn't convert its values from millions. Check revenue numbers against the source.
 - **Industry fallback.** If the vendor's industry can't be found, the client's industry is used instead. That can check the vendor against the wrong set of required certifications.
 - **First run needs internet** for ChromaDB's embedding model, including the first run of the test suite.
+- **FAIR estimates vary between runs.** The model's reading of the evidence moves the breach estimate (one example ranged $169K–$387K across runs). Control effect sizes and outage frequency are labelled assumptions, and benchmarks need refreshing as new editions come out.
 - **Single tenant.** There are no user accounts or organisation isolation yet (planned in Phase 1).
 
 ## Roadmap
