@@ -135,13 +135,15 @@ def assemble(
     controls = _controls(session, final, tolerance, set(recommended_control_runs or []))
     n_inputs = sum(len(s.inputs) for s in scenarios)
     n_assumed = sum(s.assumption_count for s in scenarios)
+    combined = loss_summary(combine(final).distribution, tolerance)
+    tail = tail_note(combined, tolerance)
     return FairReport(
         subject=ctx.subject,
         context=ctx,
         status=status,
         generated_by=generated_by,
         scenarios=scenarios,
-        combined=loss_summary(combine(final).distribution, tolerance),
+        combined=combined,
         tolerance=tolerance,
         input_count=n_inputs,
         assumption_count=n_assumed,
@@ -152,7 +154,7 @@ def assemble(
         narrative=narrative,
         key_findings=key_findings or [],
         recommendations=recommendations or [],
-        notes=notes or [],
+        notes=[*(notes or []), *([tail] if tail else [])],
         evidence=session.evidence.items(),
         trace=session.trace,
         llm_calls=session.llm_calls,
@@ -160,6 +162,28 @@ def assemble(
         input_tokens=session.input_tokens,
         output_tokens=session.output_tokens,
         paced_seconds=session.paced_seconds,
+    )
+
+
+def tail_note(combined: LossSummary, tolerance: Tolerance | None) -> str | None:
+    """
+    Written in code, not by the model: when the expected loss sits within the
+    tolerance but the 1-in-100-year loss does not, the reader must still see
+    the tail, whatever the narrative says.
+    """
+    if (
+        tolerance is None
+        or tolerance.value_usd <= 0
+        or combined.p99 <= tolerance.value_usd
+    ):
+        return None
+    kind = "your" if tolerance.source == "client" else "the derived"
+    multiple = combined.p99 / tolerance.value_usd
+    within = combined.ale_mean < tolerance.value_usd
+    return (
+        f"Tail risk: a 1-in-100-year loss of {format_usd(combined.p99)} is "
+        f"{multiple:.0f}× {kind} tolerance of {format_usd(tolerance.value_usd)}"
+        + (", even though the expected annual loss is within it." if within else ".")
     )
 
 
@@ -339,6 +363,14 @@ def render_text(report: FairReport) -> str:
             lines.append(
                 f"  - {i.path}: {fmt(i.min)} / {fmt(i.mode)} / {fmt(i.max)}  "
                 f"[{i.source}] {i.rationale}"
+            )
+    if report.controls:
+        lines += ["", "Controls (expected annual loss before -> after):"]
+        for ctl in report.controls:
+            lines.append(
+                f"  - {ctl.title} on {ctl.scenario} [{ctl.run_id}, by {ctl.tested_by}]: "
+                f"{format_usd(ctl.ale_before)} -> {format_usd(ctl.ale_after)}"
+                + ("  (recommended)" if ctl.recommended else "")
             )
     lines += ["", report.narrative]
     for title, items in (

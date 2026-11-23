@@ -377,6 +377,49 @@ async def test_time_budget():
     assert "ran out of time" in report.notes[0]
 
 
+async def test_rate_limit_waits_do_not_count_against_the_time_budget():
+    # Live run, Veeva: the pipeline's other agents had used the minute's
+    # tokens, so the FAIR agent waited 300s on pacing and nearly fell back.
+    ctx, provider = load_example()
+    now = [0.0]
+
+    async def wait(seconds):
+        now[0] += seconds
+
+    a, _ = agent(
+        HAPPY_PATH, clock=lambda: now[0], tokens_per_minute=1_000, budget=Budget()
+    )
+    a._sleep = wait
+    report = await a.run(ctx, provider)
+    assert report.paced_seconds > Budget().max_seconds
+    assert report.generated_by == "agent"
+
+
+async def test_plain_text_submission_is_read_as_the_tool_call():
+    # Live run, CVS/Veeva: the model wrote its submission as JSON text.
+    def as_text(messages):
+        args = submit_with()(messages).tool_calls[0]["args"]
+        return AIMessage(
+            content="Here is the report:\n```json\n" + json.dumps(args) + "\n```"
+        )
+
+    ctx, provider = load_example()
+    a, llm = agent([*HAPPY_PATH[:-1], as_text])
+    report = await a.run(ctx, provider)
+    assert report.generated_by == "agent" and report.status == "complete"
+    assert llm.calls == len(HAPPY_PATH)  # no extra call to recover
+    assert any("plain-text submission" in t.summary for t in report.trace)
+
+
+async def test_plain_text_that_is_not_a_submission_is_still_nudged():
+    ctx, provider = load_example()
+    a, llm = agent(
+        [*HAPPY_PATH[:-1], AIMessage(content='{"note": "thinking"}'), submit_with()]
+    )
+    report = await a.run(ctx, provider)
+    assert report.generated_by == "agent" and llm.calls == len(HAPPY_PATH) + 1
+
+
 async def test_model_that_stops_calling_tools_falls_back():
     ctx, provider = load_example()
     a, _ = agent(
@@ -908,3 +951,30 @@ async def test_other_errors_are_redacted_in_the_trace():
     report = await a.run(ctx, provider)
     text = report.model_dump_json()
     assert "org_SECRET123" not in text and "org_<redacted>" in text
+
+
+def test_tail_note_is_written_in_code_when_p99_exceeds_tolerance():
+    from fair.agent.report import LossSummary, tail_note
+    from fair.context import Tolerance
+
+    def summary(ale, p99):
+        return LossSummary(
+            ale_mean=ale,
+            p10=0,
+            p50=0,
+            p90=0,
+            p95=0,
+            p99=p99,
+            prob_any_loss=0.03,
+            prob_exceeds_tolerance=0.03,
+            loss_exceedance_curve=[],
+        )
+
+    derived = Tolerance(value_usd=200_000, source="derived", rationale="0.5x ACV")
+    note = tail_note(summary(152_000, 6_890_000), derived)
+    assert note == (
+        "Tail risk: a 1-in-100-year loss of $6.89M is 34× the derived tolerance of "
+        "$200K, even though the expected annual loss is within it."
+    )
+    assert tail_note(summary(152_000, 150_000), derived) is None
+    assert tail_note(summary(152_000, 6_890_000), None) is None

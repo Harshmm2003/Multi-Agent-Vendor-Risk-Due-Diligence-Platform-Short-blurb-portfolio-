@@ -58,7 +58,7 @@ class ControlEffect(BaseModel):
     ale_after: float
     p50_after: float
     prob_exceeds_after: float | None
-    fixes_tolerance: bool  # expected loss and typical year below it, and < 10% chance
+    fixes_tolerance: bool  # with the control, no VendorIQ REVIEW trigger would fire
 
 
 FairDecisionSignals.model_rebuild()
@@ -107,7 +107,9 @@ def signals_from_report(report: FairReport) -> FairDecisionSignals:
     if uninsured:
         flags.append(f"{format_usd(uninsured)} of a 1-in-100-year loss is not covered")
 
-    best = _best_control(report, tol.value_usd if tol else None)
+    best = _best_control(
+        report, tol.value_usd if tol else None, acv, sum(cover) if cover else None
+    )
 
     return FairDecisionSignals(
         best_control=best,
@@ -133,18 +135,29 @@ def signals_from_report(report: FairReport) -> FairDecisionSignals:
     )
 
 
-def _best_control(report: FairReport, tolerance: float | None) -> ControlEffect | None:
+def _best_control(
+    report: FairReport,
+    tolerance: float | None,
+    annual_contract_value: float | None,
+    cover: float | None,
+) -> ControlEffect | None:
     if not report.controls:
         return None
     c = min(
         report.controls, key=lambda c: (not c.recommended, c.combined_after.ale_mean)
     )
     after = c.combined_after
+    # "Fixes" means no VendorIQ REVIEW trigger would still fire with the
+    # control in place, not just the tolerance tests: otherwise the meta-agent
+    # would offer "acceptable if" for a vendor still over the contract value
+    # or with a 1-in-100 loss far beyond the cap and insurance.
     fixes = (
         tolerance is not None
         and after.ale_mean < tolerance
         and after.p50 < tolerance
         and (after.prob_exceeds_tolerance or 0) < FIXED_PROB_EXCEEDS
+        and (not annual_contract_value or after.ale_mean <= annual_contract_value)
+        and (cover is None or after.p99 - cover <= tolerance)
     )
     return ControlEffect(
         control_id=c.control_id,

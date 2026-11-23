@@ -22,7 +22,7 @@ from fair.model.taxonomy import ScenarioInputs
 class Budget:
     max_llm_calls: int = 12
     max_tool_calls: int = 24
-    max_seconds: float = 300.0  # free-tier Groq allows ~8K tokens/minute
+    max_seconds: float = 300.0  # working time; rate-limit waits are not counted
     max_total_tokens: int = 60_000  # input + output, summed over all calls
 
 

@@ -413,3 +413,33 @@ def test_condition_reaches_decision_reason():
     assert r["final_recommendation"] == "REVIEW"
     assert r["conditions"] and "Acceptable if:" in r["decision_reason"]
     assert "Acceptable if:" in r["final_explanation"]
+
+
+@pytest.mark.parametrize(
+    ("acv", "cover", "p99_after", "fixes"),
+    [
+        (400_000, None, 5_000_000, True),  # within tolerance, no cover given
+        (100_000, None, 300_000, False),  # still above the contract value
+        (400_000, 1_400_000, 9_000_000, False),  # tail far beyond cap + insurance
+        (400_000, 1_400_000, 1_500_000, True),  # uncovered $100K, within $200K
+    ],
+)
+def test_a_control_fixes_only_if_no_review_trigger_remains(
+    acv, cover, p99_after, fixes
+):
+    # Live run, Veeva: sharing fewer records cut the expected loss under the
+    # tolerance but not under the contract value, and left a $4M+ uncovered
+    # tail; offering it as "acceptable if" was wrong.
+    from fair.agent.report import FairReport
+    from fair.decision import signals_from_report
+
+    report = real_report()
+    report["context"]["annual_contract_value"] = acv
+    report["context"]["exposure"]["cyber_insurance_usd"] = cover
+    best = report["controls"][0]
+    best["recommended"] = True
+    best["combined_after"].update(
+        ale_mean=150_000.0, p50=0.0, p99=p99_after, prob_exceeds_tolerance=0.02
+    )
+    s = signals_from_report(FairReport.model_validate(report))
+    assert s.best_control.fixes_tolerance is fixes

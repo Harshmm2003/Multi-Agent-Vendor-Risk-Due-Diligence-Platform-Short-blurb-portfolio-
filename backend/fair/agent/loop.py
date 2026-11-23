@@ -128,6 +128,16 @@ class FairAgent:
             if isinstance(reply.content, str) and reply.content.strip():
                 session.record("thought", reply.content.strip())
 
+            if not reply.tool_calls and (salvaged := _salvage_submission(reply)):
+                # gpt-oss sometimes writes the final submission as plain JSON
+                # instead of calling the tool (live run, CVS/Veeva: one wasted
+                # call, ~5K tokens). Treat it as the call; the same guardrails
+                # still decide whether it is accepted.
+                reply = salvaged
+                messages[-1] = reply
+                session.record(
+                    "guardrail", "plain-text submission read as submit_report"
+                )
             if not reply.tool_calls:
                 idle += 1
                 if idle >= MAX_IDLE_TURNS:
@@ -190,7 +200,9 @@ class FairAgent:
             raise _Stop(f"used all {b.max_llm_calls} model calls")
         if session.tool_calls >= b.max_tool_calls:
             raise _Stop(f"used all {b.max_tool_calls} tool calls")
-        if self._clock() - started >= b.max_seconds:
+        # Waiting on the rate limit is deliberate, not a runaway loop: the
+        # call and token caps bound it, so it doesn't count against the time.
+        if self._clock() - started - session.paced_seconds >= b.max_seconds:
             raise _Stop(f"ran out of time ({b.max_seconds:g}s)")
         if session.input_tokens + session.output_tokens >= b.max_total_tokens:
             raise _Stop(f"used the token budget ({b.max_total_tokens:,} tokens)")
@@ -326,6 +338,29 @@ def fallback_narrative(subject: str, total, agent_runs: int, n_runs: int) -> str
     return (
         f"Estimate for {subject}: expected annual loss {format_usd(total.ale_mean)}; "
         f"{tail}. {basis}, so treat it as indicative."
+    )
+
+
+_SUBMIT_KEYS = {"final_run_ids", "narrative"}
+
+
+def _salvage_submission(reply: AIMessage) -> AIMessage | None:
+    """A text reply that is a complete submit_report payload, as that call."""
+    text = reply.content if isinstance(reply.content, str) else ""
+    start = text.find("{")
+    if start < 0:
+        return None
+    try:
+        args, _ = json.JSONDecoder().raw_decode(text[start:])
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(args, dict) or not _SUBMIT_KEYS <= args.keys():
+        return None
+    call_id = f"salvaged_{abs(hash(text)) % 10**8}"
+    return AIMessage(
+        content="",
+        tool_calls=[{"name": "submit_report", "args": args, "id": call_id}],
+        usage_metadata=reply.usage_metadata,
     )
 
 

@@ -109,6 +109,13 @@ export default function FinancialExposure({ fair, decision }: Props) {
       </dl>
 
       {r.narrative && <p className="text-sm leading-6 text-slate-700">{r.narrative}</p>}
+      {r.notes.length > 0 && (
+        <ul aria-label="Notes" className="space-y-1 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+          {r.notes.map((n) => (
+            <li key={n}>{n}</li>
+          ))}
+        </ul>
+      )}
 
       <LossExceedanceChart points={c.loss_exceedance_curve} tolerance={tol?.value_usd} />
 

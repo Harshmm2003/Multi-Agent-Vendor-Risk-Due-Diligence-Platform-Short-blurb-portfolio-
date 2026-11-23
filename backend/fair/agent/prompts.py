@@ -62,7 +62,8 @@ Rules:
 - The baseline breach cost is a total that already includes fines and lost business.
   Do not add secondary losses on top of it unless you replace it with components.
 - For rare events the P90 is often $0; then describe the chance of any loss and the
-  P99 instead.
+  P99 instead. If the P99 is above the tolerance, say so, and do not call the risk
+  low or comfortably within tolerance.
 - Act only through tool calls. Never write the report or a tool's arguments as plain
   text; call submit_report.
 - If the brief marks the risk tolerance as derived, call it a derived tolerance, not

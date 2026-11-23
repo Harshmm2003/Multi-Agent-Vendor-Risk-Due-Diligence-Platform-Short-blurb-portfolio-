@@ -104,3 +104,9 @@ test("controls, the facts that would sharpen the estimate, and the investigation
   expect(screen.getByText(/How the agent investigated \(5 steps\)/)).toBeInTheDocument();
   expect(screen.getByText(/17,053 tokens/)).toBeInTheDocument();
 });
+
+test("notes written in code, such as the tail-risk warning, are shown", () => {
+  const note = "Tail risk: a 1-in-100-year loss of $6.89M is 34× the derived tolerance of $200K.";
+  render(<FinancialExposure fair={copy({ notes: [note] })} />);
+  expect(within(screen.getByRole("list", { name: "Notes" })).getByText(note)).toBeInTheDocument();
+});
