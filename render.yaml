@@ -12,10 +12,7 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     healthCheckPath: /health
-    dockerCommand: >-
-      sh -c "alembic upgrade head
-      && python scripts/demo_reports.py import
-      && exec uvicorn main_api:app --host 0.0.0.0 --port ${PORT:-8000} --loop asyncio"
+    dockerCommand: sh scripts/start_hosted.sh   # migrate, load demo reports, serve
     envVars:
       - key: GROQ_API_KEY
         sync: false
