@@ -40,6 +40,7 @@ from fair.model.simulation import DEFAULT_ITERATIONS, SimulationResult, combine
 from fair.ports import AskUser, EvidenceProvider
 
 MAX_RATE_LIMIT_RETRIES = 3
+MAX_TOOL_FORMAT_RETRIES = 2  # provider rejected a malformed tool call
 MAX_REJECTED_SUBMISSIONS = 2
 MAX_IDLE_TURNS = 2  # replies without a tool call before giving up
 # Pacing estimates before the first real token count is known
@@ -210,11 +211,32 @@ class FairAgent:
     async def _invoke(
         self, model: Any, messages: list[BaseMessage], session: Session
     ) -> AIMessage:
+        format_retries = 0
         for attempt in range(MAX_RATE_LIMIT_RETRIES + 1):
             try:
                 session.llm_calls += 1
                 reply = await model.ainvoke(messages)
             except Exception as e:
+                if (
+                    _is_tool_format_error(e)
+                    and format_retries < MAX_TOOL_FORMAT_RETRIES
+                ):
+                    # Groq validates tool arguments against the schema and
+                    # answers 400 when they do not match (live run: a null
+                    # where an object was expected). Show the model the error
+                    # and let it try again rather than ending the analysis.
+                    format_retries += 1
+                    session.record("guardrail", f"tool call rejected: {_clean(str(e))}")
+                    messages = [
+                        *messages,
+                        HumanMessage(
+                            "Your last tool call was rejected because its arguments "
+                            f"did not match the tool's schema: {_clean(str(e))}. "
+                            "Call the tool again with arguments that match it; leave "
+                            "out optional fields you have no value for."
+                        ),
+                    ]
+                    continue
                 if _is_daily_limit(e):
                     # Retrying cannot help until the provider's day window frees up
                     msg = "daily token limit reached" + _retry_after(e)
@@ -466,6 +488,13 @@ def _clean(text: str) -> str:
     """Provider error text for the trace: no account ids, and short."""
     text = re.sub(r"\b(org|user|proj|key)_[A-Za-z0-9]+", r"\1_<redacted>", text)
     return text[:300]
+
+
+def _is_tool_format_error(e: Exception) -> bool:
+    text = str(e).lower()
+    return getattr(e, "status_code", None) == 400 and (
+        "tool call validation failed" in text or "tool_use_failed" in text
+    )
 
 
 def _is_rate_limit(e: Exception) -> bool:
