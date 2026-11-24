@@ -442,6 +442,79 @@ async def test_rate_limit_is_retried():
     assert any("rate limited" in t.summary for t in report.trace)
 
 
+class ToolFormatError(Exception):
+    """What Groq raises when a tool call does not match the schema (HTTP 400)."""
+
+    status_code = 400
+
+
+REJECTED_CALL = ToolFormatError(
+    "Error code: 400 - {'error': {'message': 'Tool call validation failed: "
+    "parameters for tool run_simulation did not match schema: errors: "
+    "[`/runs/0/secondary_loss`: expected object, but got null]', 'code': 'tool_use_failed'}}"
+)
+
+
+async def test_a_rejected_tool_call_is_shown_to_the_model_and_retried():
+    """Live run (Rippling/Datadog): one bad tool call used to end the analysis."""
+    ctx, provider = load_example()
+    seen = []
+
+    def first_step(messages):
+        seen.append(messages[-1].content)
+        return HAPPY_PATH[0](messages) if callable(HAPPY_PATH[0]) else HAPPY_PATH[0]
+
+    a, _ = agent([REJECTED_CALL, first_step, *HAPPY_PATH[1:]])
+    report = await a.run(ctx, provider)
+    assert report.status == "complete" and report.generated_by == "agent"
+    assert any("tool call rejected" in t.summary for t in report.trace)
+    assert "did not match the tool's schema" in seen[0]
+
+
+async def test_repeated_rejected_tool_calls_still_fall_back():
+    ctx, provider = load_example()
+    a, _ = agent([REJECTED_CALL, REJECTED_CALL, REJECTED_CALL])
+    report = await a.run(ctx, provider)
+    assert report.generated_by == "fallback"
+    assert "model call failed" in report.notes[0]
+
+
+def test_secondary_loss_may_be_null_in_the_tool_schema_and_inputs():
+    from fair.model.taxonomy import ScenarioInputs
+
+    prop = ScenarioInputs.model_json_schema()["properties"]["secondary_loss"]
+    assert {"type": "null"} in prop["anyOf"]
+    base = {
+        "scenario": "vendor_breach",
+        "threat_event_frequency": {
+            "min": 0.01,
+            "mode": 0.05,
+            "max": 0.2,
+            "source": "assumption",
+            "rationale": "x",
+        },
+        "vulnerability": {
+            "min": 1,
+            "mode": 1,
+            "max": 1,
+            "source": "assumption",
+            "rationale": "x",
+        },
+        "primary_loss": {
+            "response": {
+                "min": 1e5,
+                "mode": 5e5,
+                "max": 2e6,
+                "source": "assumption",
+                "rationale": "x",
+            }
+        },
+        "secondary_probability": None,
+        "secondary_loss": None,
+    }
+    assert ScenarioInputs.model_validate(base).secondary_loss == {}
+
+
 async def test_api_failure_falls_back():
     ctx, provider = load_example()
     a, _ = agent([ConnectionError("network down")])

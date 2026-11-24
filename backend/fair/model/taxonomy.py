@@ -120,10 +120,19 @@ class ProbabilityRange(Range):
         return self
 
 
+def _nullable_secondary_loss(schema: dict) -> None:
+    """Let tool calls send secondary_loss: null (the provider checks the schema)."""
+    prop = schema.get("properties", {}).get("secondary_loss")
+    if prop is not None:
+        schema["properties"]["secondary_loss"] = {"anyOf": [prop, {"type": "null"}]}
+
+
 class ScenarioInputs(BaseModel):
     """Everything the simulation needs for one loss scenario."""
 
-    model_config = ConfigDict(frozen=True, extra="forbid")
+    model_config = ConfigDict(
+        frozen=True, extra="forbid", json_schema_extra=_nullable_secondary_loss
+    )
 
     scenario: Scenario
     label: str = ""
@@ -136,6 +145,13 @@ class ScenarioInputs(BaseModel):
     primary_loss: dict[PrimaryForm, Range]
     secondary_probability: ProbabilityRange | None = None
     secondary_loss: dict[SecondaryForm, Range] = Field(default_factory=dict)
+
+    @field_validator("secondary_loss", mode="before")
+    @classmethod
+    def _no_secondary_loss(cls, value: object) -> object:
+        # gpt-oss writes null alongside a null secondary_probability (live run,
+        # Rippling/Datadog); the schema below allows it, and null means none.
+        return {} if value is None else value
 
     @model_validator(mode="after")
     def _consistent(self) -> Self:
