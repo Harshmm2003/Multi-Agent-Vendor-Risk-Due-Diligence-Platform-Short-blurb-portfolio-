@@ -4,12 +4,22 @@ A multi-agent system that runs vendor due diligence. You give it a vendor's name
 
 In the code and the UI, the project is called **VendorIQ**.
 
+## Live demo
+
+**[vendoriq-j2vo.onrender.com](https://vendoriq-j2vo.onrender.com)**
+
+- **History** has full saved reports, including CVS Health evaluating Veeva Systems with the FAIR financial-exposure analysis. They open instantly.
+- **Evaluate** runs a live evaluation of any public company. Visitors share **3 runs a day**, because the free AI key covers about five. Each run takes 3–8 minutes.
+- It runs on free hosting, so the first visit after a quiet spell can take about a minute while the server wakes up.
+- API docs: [vendoriq-api-d18l.onrender.com/docs](https://vendoriq-api-d18l.onrender.com/docs)
+
 > **Decision support, not a decision.** The output is a starting point for a procurement or compliance reviewer. It is not legal, financial or compliance advice. Sanctions results in particular must be confirmed by a person before you act on them.
 
 ---
 
 ## Contents
 
+- [Live demo](#live-demo)
 - [What it does](#what-it-does)
 - [How an evaluation works](#how-an-evaluation-works)
 - [The five agents](#the-five-agents)
@@ -262,15 +272,7 @@ cd <repo-folder>
 make up        # first run creates backend/.env from the example
 ```
 
-Open `backend/.env`, set `GROQ_API_KEY`, then run `make up` again. This starts:
-
-| Service | URL |
-|---|---|
-| Frontend | http://localhost:5173 |
-| Backend API | http://localhost:8000 |
-| Interactive API docs | http://localhost:8000/docs |
-| Postgres | 127.0.0.1:5432 (local only) |
-| Redis | localhost:6379 |
+Open `backend/.env`, set `GROQ_API_KEY`, then run `make up` again. This starts the frontend, the backend (with interactive API docs at `/docs`), Postgres and Redis on your machine; `docker-compose.yml` lists the ports.
 
 Database migrations run automatically when the backend container starts.
 
@@ -289,10 +291,10 @@ uv run uvicorn main_api:app --reload --port 8000
 # Frontend (new terminal)
 cd frontend
 npm ci
-npm run dev                   # http://localhost:5173
+npm run dev
 ```
 
-The frontend calls `http://localhost:8000` by default. Set `VITE_API_BASE_URL` to change that.
+Set `VITE_API_BASE_URL` to point the frontend at a different backend.
 
 > On first start, ChromaDB downloads a ~80 MB embedding model, so the first run needs internet access.
 
@@ -316,7 +318,7 @@ All settings live in `backend/.env`. See [`backend/.env.example`](backend/.env.e
 | `DATABASE_URL` | yes | Postgres URL using the asyncpg driver, e.g. `postgresql+asyncpg://user:pass@host:5432/db` |
 | `GROQ_API_KEY` | yes | LLM access |
 | `DATABASE_SSL` | no | `require` (default, for Supabase) or `disable` (local Postgres) |
-| `REDIS_URL` | no | Defaults to `redis://localhost:6379` |
+| `REDIS_URL` | no | Redis for the certification cache; the app works without it |
 | `CHROMA_PATH` | no | Vector store directory (default `./chroma_db`) |
 | `LOG_LEVEL` / `LOG_FORMAT` | no | `INFO` / `json` by default; `console` is easier to read locally |
 | `AGENT_STRUCTURED_OUTPUT` | no | `true` (JSON schema, default) or `false` (text parsing) |
@@ -345,10 +347,17 @@ Interactive docs are at `/docs` when the backend is running. The main endpoints,
 | `GET` | `/rag/stats` | Vector store collection sizes |
 | `GET` | `/health` | Database and Redis health |
 
-Example request:
+Try it against the live backend (read-only, so it uses none of the daily runs):
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/evaluate \
+curl https://vendoriq-api-d18l.onrender.com/api/v1/evaluations?limit=3     # saved evaluations
+curl https://vendoriq-api-d18l.onrender.com/api/v1/access                  # live runs left today
+```
+
+To start an evaluation, `POST /api/v1/evaluate`:
+
+```bash
+curl -X POST https://vendoriq-api-d18l.onrender.com/api/v1/evaluate \
   -H "Content-Type: application/json" \
   -d '{
     "vendor_name": "Microsoft",
@@ -365,7 +374,7 @@ curl -X POST http://localhost:8000/api/v1/evaluate \
   }'
 ```
 
-Then poll `GET /api/v1/jobs/<job_id>` until `status` is `complete`. A full evaluation takes about 1–3 minutes, mostly spent waiting on LLM calls and rate limits.
+Then poll `GET /api/v1/jobs/<job_id>` until `status` is `complete`, which takes 3–8 minutes on the free tier.
 
 ## Development workflow
 
