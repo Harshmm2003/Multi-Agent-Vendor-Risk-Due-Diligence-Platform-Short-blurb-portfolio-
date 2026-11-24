@@ -35,18 +35,20 @@ REDIS INTEGRATION:
 """
 
 import asyncio
+import hmac
 import math
 import re
 import uuid
 
-from datetime import datetime, timezone, timedelta
+from datetime import UTC, datetime, timezone, timedelta
+from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Query
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Header, Query
 from fastapi.responses import JSONResponse
 import structlog
 from pydantic import BaseModel, field_validator
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, desc, update
+from sqlalchemy import func, select, desc, update
 
 from app.db.database import get_db, AsyncSessionLocal
 from app.log import get_logger
@@ -666,6 +668,48 @@ async def _run_pipeline_steps(
                 log.exception("job.failure_not_recorded", error=str(inner_e))
 
 
+# ─── Who may start a live evaluation ─────────────────────────────────────────
+# Each evaluation spends ~30-45K Groq tokens, and the free key allows 200K a
+# day, so a public deployment must not let every visitor start one. Settings:
+#   EVALUATE_PASSCODE     holders may always run (sent as X-Evaluate-Passcode)
+#   EVALUATE_DAILY_LIMIT  runs anyone may start per rolling 24 h (0 = none if
+#                         a passcode is set, unlimited if not)
+
+def _passcode() -> str:
+    secret = settings.evaluate_passcode
+    return secret.get_secret_value().strip() if secret else ""
+
+
+def _passcode_ok(given: str | None) -> bool:
+    expected = _passcode()
+    return bool(expected) and hmac.compare_digest(
+        (given or "").strip().encode(), expected.encode()
+    )
+
+
+async def _public_runs_left(db: AsyncSession) -> int | None:
+    """Runs a visitor without the passcode may still start; None = unlimited."""
+    limit = settings.evaluate_daily_limit
+    if limit == 0:
+        return 0 if _passcode() else None
+    since = datetime.now(UTC) - timedelta(hours=24)
+    used = await db.scalar(
+        select(func.count()).select_from(Job).where(Job.created_at >= since)
+    )
+    return max(limit - (used or 0), 0)
+
+
+@router.get("/access")
+async def evaluation_access(db: Annotated[AsyncSession, Depends(get_db)]):
+    """What the Evaluate page should offer: open, limited, or passcode only."""
+    left = await _public_runs_left(db)
+    return {
+        "passcode_enabled": bool(_passcode()),
+        "public_runs_left": left,            # None = unlimited
+        "daily_limit":      settings.evaluate_daily_limit or None,
+    }
+
+
 # ─── POST /evaluate — Returns 202 Immediately ────────────────────────────────
 
 @router.post("/evaluate")
@@ -673,6 +717,7 @@ async def evaluate_vendor(
     request:          EvaluateRequest,
     background_tasks: BackgroundTasks,
     db:               AsyncSession = Depends(get_db),
+    x_evaluate_passcode: Annotated[str | None, Header()] = None,
 ):
     """
     Submit a vendor evaluation request.
@@ -687,6 +732,23 @@ async def evaluate_vendor(
         The work is not done when this endpoint responds — hence 202.
         This is the correct semantics, not pedantry.
     """
+    if not _passcode_ok(x_evaluate_passcode):
+        if x_evaluate_passcode and _passcode():
+            raise HTTPException(status_code=403, detail="That passcode is not right.")
+        left = await _public_runs_left(db)
+        if left == 0:
+            if settings.evaluate_daily_limit:
+                raise HTTPException(
+                    status_code=429,
+                    detail="Today's free evaluations are used up. Browse the saved "
+                           "reports under History, or try again tomorrow.",
+                )
+            raise HTTPException(
+                status_code=403,
+                detail="Live evaluations need a passcode on this demo. Browse the "
+                       "saved reports under History.",
+            )
+
     vendor_name    = request.vendor_name
     # exposure is optional: left out when not given, so older callers see no change
     client_profile = request.client_profile.model_dump(

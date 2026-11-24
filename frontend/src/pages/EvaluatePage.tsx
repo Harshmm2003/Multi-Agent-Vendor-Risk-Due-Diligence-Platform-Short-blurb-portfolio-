@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ApiError, submitEvaluation } from "../api/client";
-import { type Criticality, DATA_TYPES, type DataType, type EvaluateRequest, type ExposureProfile, type Weights } from "../api/types";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ApiError, getAccess, submitEvaluation } from "../api/client";
+import {
+  type Criticality, DATA_TYPES, type DataType, type EvaluateRequest, type EvaluationAccess, type ExposureProfile, type Weights,
+} from "../api/types";
 import CompanySearch from "../components/CompanySearch";
 import ListInput from "../components/ListInput";
 import WeightsEditor from "../components/WeightsEditor";
@@ -130,6 +132,53 @@ function toRequest(f: FormState): EvaluateRequest {
   };
 }
 
+const PASSCODE_KEY = "vendoriq.passcode";
+
+function readPasscode(): string {
+  try {
+    return sessionStorage.getItem(PASSCODE_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function savePasscode(value: string) {
+  try {
+    if (value) sessionStorage.setItem(PASSCODE_KEY, value);
+    else sessionStorage.removeItem(PASSCODE_KEY);
+  } catch {
+    /* storage unavailable: the passcode is just not remembered */
+  }
+}
+
+/** Demo deployments: say whether live runs are open, limited or passcode-only. */
+function AccessNotice({ access, passcode, onPasscode }: {
+  access: EvaluationAccess; passcode: string; onPasscode: (v: string) => void;
+}) {
+  const left = access.public_runs_left;
+  if (left === null) return null;
+  const locked = left === 0;
+  return (
+    <section className={`card space-y-3 ${locked ? "border-amber-300 bg-amber-50" : ""}`} aria-labelledby="access-title">
+      <h2 id="access-title" className="section-title">
+        {locked ? "Live evaluations are locked on this demo" : `${left} free evaluation${left === 1 ? "" : "s"} left today`}
+      </h2>
+      <p className="text-sm text-slate-700">
+        Each evaluation runs six AI agents and takes 3–8 minutes, so live runs are limited here.{" "}
+        <Link to="/history" className="font-medium underline">Browse the saved reports</Link> to see full results
+        right away.
+      </p>
+      {access.passcode_enabled && (
+        <div className="max-w-xs">
+          <label htmlFor="passcode" className="label">Passcode{locked ? "" : " (optional)"}</label>
+          <input id="passcode" type="password" autoComplete="off" className="input" value={passcode}
+            onChange={(e) => onPasscode(e.target.value)} />
+        </div>
+      )}
+    </section>
+  );
+}
+
 function FieldError({ message }: { message?: string }) {
   return message ? <p className="mt-1 text-sm text-red-700">{message}</p> : null;
 }
@@ -140,6 +189,18 @@ export default function EvaluatePage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+  const [access, setAccess] = useState<EvaluationAccess | null>(null);
+  const [passcode, setPasscode] = useState(readPasscode);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    getAccess(controller.signal).then(setAccess).catch(() => {
+      /* older backend or unreachable: show the form as before */
+    });
+    return () => controller.abort();
+  }, []);
+
+  const locked = access?.public_runs_left === 0 && !passcode.trim();
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => setForm((f) => ({ ...f, [key]: value }));
 
@@ -154,7 +215,8 @@ export default function EvaluatePage() {
 
     setSubmitting(true);
     try {
-      const accepted = await submitEvaluation(toRequest(form));
+      const accepted = await submitEvaluation(toRequest(form), passcode);
+      savePasscode(passcode.trim());
       navigate(`/jobs/${accepted.job_id}`);
     } catch (error) {
       if (error instanceof ApiError && error.status === 422) {
@@ -184,6 +246,8 @@ export default function EvaluatePage() {
       </p>
 
       <form className="mt-6 space-y-6" onSubmit={onSubmit} noValidate>
+        {access && <AccessNotice access={access} passcode={passcode} onPasscode={setPasscode} />}
+
         {otherServerErrors.length > 0 && (
           <div role="alert" className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800">
             <p className="font-medium">The server rejected the request:</p>
@@ -316,7 +380,7 @@ export default function EvaluatePage() {
         </section>
 
         <div className="flex justify-end">
-          <button type="submit" className="btn-primary" disabled={submitting}>
+          <button type="submit" className="btn-primary" disabled={submitting || locked}>
             {submitting ? "Starting…" : "Start evaluation"}
           </button>
         </div>

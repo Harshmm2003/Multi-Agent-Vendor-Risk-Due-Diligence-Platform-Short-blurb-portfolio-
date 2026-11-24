@@ -2,6 +2,7 @@ import type {
   CompanyMatch,
   EvaluateAccepted,
   EvaluateRequest,
+  EvaluationAccess,
   EvaluationReport,
   EvaluationSummary,
   Job,
@@ -23,12 +24,17 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function request<T>(path: string, init?: RequestInit & { extraHeaders?: Record<string, string> }): Promise<T> {
   let response: Response;
+  const { extraHeaders, ...rest } = init ?? {};
   try {
     response = await fetch(`${API}${path}`, {
-      ...init,
-      headers: { Accept: "application/json", ...(init?.body ? { "Content-Type": "application/json" } : {}) },
+      ...rest,
+      headers: {
+        Accept: "application/json",
+        ...(rest.body ? { "Content-Type": "application/json" } : {}),
+        ...extraHeaders,
+      },
     });
   } catch (err) {
     if (err instanceof DOMException && err.name === "AbortError") throw err;
@@ -55,8 +61,17 @@ export function searchCompanies(q: string, signal?: AbortSignal) {
   return request<{ companies: CompanyMatch[] }>(`/companies/search?q=${encodeURIComponent(q)}`, { signal });
 }
 
-export function submitEvaluation(body: EvaluateRequest) {
-  return request<EvaluateAccepted>("/evaluate", { method: "POST", body: JSON.stringify(body) });
+/** Whether this deployment lets visitors start live evaluations. */
+export function getAccess(signal?: AbortSignal) {
+  return request<EvaluationAccess>("/access", { signal });
+}
+
+export function submitEvaluation(body: EvaluateRequest, passcode?: string) {
+  return request<EvaluateAccepted>("/evaluate", {
+    method: "POST",
+    body: JSON.stringify(body),
+    extraHeaders: passcode?.trim() ? { "X-Evaluate-Passcode": passcode.trim() } : undefined,
+  });
 }
 
 export function getJob(jobId: string, signal?: AbortSignal) {

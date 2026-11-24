@@ -59,6 +59,14 @@ class Settings(BaseSettings):
     fair_reasoning_effort: Literal["low", "medium", "high"] = "low"
     fair_max_seconds: float = Field(default=300.0, gt=0)
 
+    # Public hosting: who may start a live evaluation (each one spends Groq
+    # tokens). Unset passcode and 0 limit = open to everyone (local use).
+    # Passcode set, limit 0 = demo mode: visitors browse saved reports and only
+    # passcode holders run live. Limit N = anyone may start N per rolling 24 h;
+    # passcode holders are never limited. See docs/deploy.md.
+    evaluate_passcode: SecretStr | None = None
+    evaluate_daily_limit: int = Field(default=0, ge=0)
+
 
 class SettingsError(RuntimeError):
     """Configuration is missing or invalid."""

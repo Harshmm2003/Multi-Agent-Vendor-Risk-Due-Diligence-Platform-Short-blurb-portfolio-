@@ -1,0 +1,5634 @@
+[
+ {
+  "vendor_name": "Salesforce, Inc.",
+  "company_name": "Northwind Health",
+  "evaluation_id": "eval-3c384602",
+  "financial_score": 58.0,
+  "compliance_score": 55.0,
+  "operational_score": 86.0,
+  "reputation_score": 40.0,
+  "strategic_score": 22.0,
+  "composite_score": 55.65,
+  "risk_score": 56.65,
+  "fit_score": 47.1,
+  "confidence": 0.816,
+  "recommendation": "REVIEW",
+  "final_explanation": "VENDOR EVALUATION SUMMARY \u2014 Salesforce, Inc.\n\nRECOMMENDATION: REVIEW\nConfidence (82%) is below the 95% auto-approval threshold. Route to human reviewer before proceeding.\n\nSCORES:\n  \u2022 Financial: 58.0/100\n  \u2022 Compliance: 55.0/100\n  \u2022 Operational: 86.0/100\n  \u2022 Reputation: 40.0/100\n  \u2022 Strategic: 22.0/100\n\n  Composite Score : 55.6/100\n  Risk Score      : 56.7/100  (lower = more risk)\n  Strategic Fit   : 47.1/100\n  Confidence      : 82%\n\n  OFAC Screening  : clear\n  Agents Missing  : none\n  Agents Truncated: none\n\nRED FLAGS (2 total):\n  \u26a0 [REPUTATION] Mass layoffs\n  \u26a0 [STRATEGIC] Missing SOC 2 Type 2 report (dealbreaker)\n\nWHAT YOU SHOULD DO:\n1. Escalate to senior procurement officer for manual review.\n2. Confidence is acceptable but below auto-approval \u2014 one senior sign-off required.\n3. Require vendor to provide missing certifications before contract signing.",
+  "red_flags": [
+   "[REPUTATION] Mass layoffs",
+   "[STRATEGIC] Missing SOC 2 Type 2 report (dealbreaker)"
+  ],
+  "weights": {
+   "financial": 0.3,
+   "compliance": 0.25,
+   "operational": 0.2,
+   "reputation": 0.1,
+   "strategic": 0.15
+  },
+  "agent_outputs": {
+   "financial": {
+    "score": 58.0,
+    "evidence": [
+     "current_ratio: 0.839",
+     "debt_equity_ratio: 1.1042",
+     "net_margin: 21.99%",
+     "revenue_growth: 10.8%",
+     "ebitda: 12899000320"
+    ],
+    "reasoning": "Salesforce has been in business for 27\u202fyears, demonstrating long\u2011term market presence [Wikipedia]. Its current ratio of 0.839 and quick ratio of 0.673 are far below the software\u2011industry benchmark of 1.8\u20112.5, indicating tight short\u2011term liquidity [Yahoo Finance / yfinance]. The debt\u2011to\u2011equity ratio of 1.10 is under the acceptable ceiling of 1.5 but higher than many peers, reflecting moderate leverage [Yahoo Finance / yfinance]. A net margin of 21.99% and gross margin of 77.28% comfortably exceed the healthy >12% net\u2011margin threshold, showing strong profitability and pricing power [Yahoo Finance / yfinance]. Revenue growth of 10.8% YoY is above the 8% benchmark, with revenue climbing from $31.35\u202fB in 2023 to an estimated $41.53\u202fB in 2026, indicating consistent top\u2011line expansion [Yahoo Finance / yfinance]. EBITDA of $12.9\u202fB yields an EBITDA margin of roughly 41% (12.9\u202f/\u202f31.35), well above the typical 18\u201125% range and underscoring robust operating cash generation [Yahoo Finance / yfinance]. Despite strong margins and growth, the weak liquidity ratios constitute a red flag that could strain short\u2011term cash needs and should be monitored.  \n\n**Verdict:** Accept with conditional monitoring of liquidity risk.",
+    "red_flags": [],
+    "confidence": 0.7,
+    "explanation": "Salesforce shows strong profitability and growth but weak liquidity and missing credit data, resulting in a moderate risk score."
+   },
+   "strategic": {
+    "score": 22.0,
+    "evidence": [
+     "FedRAMP certification supports US data residency (certifications list)",
+     "HIPAA compliance not present in certifications list",
+     "SOC 2 Type 2 report missing from certifications list (dealbreaker)",
+     "Revenue growth 10.8% and EBITDA $12.9B indicate capability to deliver $2M contract"
+    ],
+    "reasoning": "Salesforce, Inc. has been operating for 27\u202fyears, demonstrating deep market experience and stability that aligns with a low\u2011risk appetite client [data provided]. Its revenue growth of 10.8\u202f% year\u2011over\u2011year exceeds the software industry benchmark of >5\u202f% YoY, indicating strong top\u2011line momentum [data provided]. The gross margin of 77.28\u202f% is far above the typical 25\u201140\u202f% range for software firms, suggesting a highly profitable SaaS model and ample pricing power [data provided]. EBITDA of\u202f$12.9\u202fbillion further confirms robust cash generation and the ability to fund long\u2011term initiatives [data provided]. The vendor holds CSA\u2011STAR and FedRAMP certifications, which support cloud security and U.S. government data\u2011residency requirements, but it lacks a SOC\u202f2\u202fType\u202f2 report\u2014a dealbreaker for Northwind Health\u2019s low\u2011risk stance [client profile \u2013 dealbreakers]. Additionally, Salesforce does not list HITRUST certification, a \u201cnice\u2011to\u2011have\u201d for HIPAA\u2011focused healthcare customers, leaving a compliance gap that could increase remediation effort. Overall, while the financial and strategic positioning are strong, the missing SOC\u202f2\u202fType\u202f2 and HITRUST certifications create a material compliance risk for this client.  \n\n**Verdict:** financially attractive but not compliant enough for a low\u2011risk, HIPAA\u2011focused procurement.",
+    "red_flags": [
+     "Missing SOC 2 Type 2 report (dealbreaker)"
+    ],
+    "confidence": 0.9,
+    "explanation": "Salesforce meets US data residency but lacks HIPAA compliance and the required SOC\u202f2 Type\u202f2 report, yielding a low strategic fit for Northwind Health."
+   },
+   "compliance": {
+    "score": 55.0,
+    "evidence": [
+     "CSA_STAR [VERIFIED_REGISTRY]",
+     "FedRAMP [VERIFIED_REGISTRY]"
+    ],
+    "reasoning": "Salesforce, Inc. is a software\u2011industry vendor with a clean OFAC sanctions record (OFAC status\u202f=\u202fclear; OFAC clear\u202f=\u202ftrue; no matches)\u202f[provided data]. It holds two widely recognized cloud\u2011security certifications: CSA\u202fSTAR (Level\u202f2) verified in the CSA\u202fSTAR registry\u202f[certifications_found / CSA_STAR] and FedRAMP Moderate authorization for its Government Cloud, confirmed on the FedRAMP Marketplace\u202f[certifications_found / FedRAMP]. Both certifications are documented as \u201cVERIFIED_REGISTRY,\u201d indicating third\u2011party validation rather than self\u2011assertion\u202f[certification_evidence_tiers]. No regulatory frameworks (e.g., GDPR, CCPA) are listed as disclosed, but the absence of a statement does not imply non\u2011compliance; however, the vendor\u2019s public documentation does not provide explicit evidence of an FCPA anti\u2011bribery policy or a UBO declaration required under the FinCEN Beneficial Ownership Rule\u202f[regulatory_frameworks_disclosed]. Business registration has not been confirmed via a state Secretary of State lookup, and no credit rating is supplied, leaving a gap in the financial\u2011risk assessment\u202f[edgar_cik \u2013 no rating provided]. Recent news items focus on workforce reductions rather than compliance concerns, so they do not affect the compliance posture\u202f[recent_news]. Overall, Salesforce meets core compliance checkpoints (OFAC, CSA\u202fSTAR, FedRAMP) but lacks publicly verified FCPA, UBO, and credit\u2011rating information that should be obtained before final approval.  \n\n**Verdict:** Proceed with caution \u2013 compliance basics are satisfied, but request FCPA policy, UBO declaration, and credit rating documentation.",
+    "red_flags": [],
+    "confidence": 0.98,
+    "explanation": "Salesforce has FedRAMP and CSA_STAR certifications, which offset the missing SOC2_Type2, and passes OFAC screening with no legal red flags, but lacks disclosed data privacy and ESG details.",
+    "sanctions_clear": true,
+    "certification_evidence_tiers": {
+     "FedRAMP": "VERIFIED_REGISTRY",
+     "CSA_STAR": "VERIFIED_REGISTRY"
+    }
+   },
+   "reputation": {
+    "score": 40.0,
+    "evidence": [
+     "Inc.com: Salesforce Is Cutting Jobs Again. It Put Every CEO\u2019s Real Leadership Test in Plain Sight",
+     "Business Insider: Salesforce has started cutting more jobs, internal messages show",
+     "Seeking Alpha: Salesforce, OpenAI, Nvidia among those picked by US to join AI export consortium",
+     "Salesforce: Salesforce Signs Definitive Agreement to Acquire Loops"
+    ],
+    "reasoning": "Salesforce holds two recognized cloud\u2011security certifications\u2014CSA\u2011STAR and FedRAMP\u2014demonstrating adherence to industry\u2011standard security frameworks [certifications]. The vendor is not listed on any sanctions or watch\u2011lists, with an OFAC status marked \u201cclear\u201d and a confirmed OFAC\u2011clear flag [ofac_status; ofac_clear]. No explicit red\u2011flag news items appear in the dataset, indicating no major scandals or legal actions have been reported [news_red_flags]. Nonetheless, several recent publications highlight ongoing workforce reductions, including layoffs reported on 19\u202fNov\u202f2026 (Inc.com) and 17\u202fNov\u202f2026 (Business Insider), which could signal internal instability and affect employee morale [recent_news \u2013 Inc.com; Business Insider]. Conversely, Salesforce announced the acquisition of Loops on 12\u202fOct\u202f2026, a strategic move that expands its product portfolio and market reach [recent_news \u2013 Salesforce]. The company was also selected to join the U.S. AI export consortium on 19\u202fNov\u202f2026, underscoring strong government partnerships and leadership in emerging technology [recent_news \u2013 Seeking Alpha].  \n\n**Verdict:** Strong security and government credentials offset by recent layoff activity; monitor reputational risk before final commitment.",
+    "red_flags": [
+     "Mass layoffs"
+    ],
+    "confidence": 0.8,
+    "explanation": "Mixed recent coverage with layoffs and strategic moves, no scandals, but mass layoffs trigger a -20 penalty."
+   },
+   "operational": {
+    "score": 86.0,
+    "evidence": [
+     "27 years in operation [provided data]",
+     "large company size [provided data]",
+     "software industry context [provided data]"
+    ],
+    "reasoning": "Salesforce\u2019s 27\u2011year operating history demonstrates long\u2011term stability, a key operational risk mitigant for enterprise procurement [Data provided]. Its EBITDA of $12.9\u202fbillion signals very strong operating cash generation, suggesting the company can fund ongoing service delivery and support without excessive reliance on external financing [Data provided]. Revenue growth of 10.8\u202f% YoY comfortably exceeds the software\u2011industry healthy growth threshold of >5\u202f% YoY, indicating robust demand and effective go\u2011to\u2011market execution [Data provided; Industry benchmark \u2013 \u201cRevenue growth healthy above 5% YoY\u201d]. The firm\u2019s large size further implies mature supply\u2011chain and delivery processes, reducing the likelihood of operational disruptions common in smaller vendors [Data provided]. However, the data set lacks current ratio, debt\u2011to\u2011equity, gross\u2011margin and interest\u2011coverage figures, so we cannot confirm compliance with the benchmark ranges of a 1.4\u20112.0 current ratio, D/E \u2264\u202f2.0, gross margin 25\u201140\u202f% and interest coverage >\u202f3\u00d7 (Manufacturing industry benchmarks repurposed for software) [RAG context]. Assuming Salesforce\u2019s scale mirrors typical large\u2011software peers, it is reasonable to expect those ratios are within acceptable limits, but a detailed financial health check is still required. Overall, operationally Salesforce appears financially robust and growth\u2011oriented, but a full liquidity and leverage review is needed before final approval.  \n\n**Verdict:** Proceed with confidence pending a supplemental review of liquidity and leverage metrics.",
+    "red_flags": [],
+    "confidence": 0.7,
+    "explanation": "Strong operational capability inferred from 27 years of operation and large public software stature."
+   }
+  },
+  "fair_analysis": null,
+  "fair_ale_mean": null,
+  "fair_prob_exceeds_tolerance": null,
+  "created_at": "2026-11-22T21:39:36.198817+00:00"
+ },
+ {
+  "vendor_name": "Veeva Systems",
+  "company_name": "Northwind Health",
+  "evaluation_id": "eval-e1f19ea4",
+  "financial_score": 80.0,
+  "compliance_score": 95.0,
+  "operational_score": 67.0,
+  "reputation_score": 100.0,
+  "strategic_score": 59.0,
+  "composite_score": 80.0,
+  "risk_score": 86.75,
+  "fit_score": 67.95,
+  "confidence": 0.862,
+  "recommendation": "REVIEW",
+  "final_explanation": "VENDOR EVALUATION SUMMARY \u2014 Veeva Systems\n\nRECOMMENDATION: REVIEW\nConfidence (86%) is below the 95% auto-approval threshold. Route to human reviewer before proceeding.\n\nSCORES:\n  \u2022 Financial: 80.0/100\n  \u2022 Compliance: 95.0/100\n  \u2022 Operational: 67.0/100\n  \u2022 Reputation: 100.0/100\n  \u2022 Strategic: 59.0/100\n\n  Composite Score : 80.0/100\n  Risk Score      : 86.8/100  (lower = more risk)\n  Strategic Fit   : 68.0/100\n  Confidence      : 86%\n\n  OFAC Screening  : clear\n  Agents Missing  : none\n  Agents Truncated: none\n\nRED FLAGS (3 total):\n  \u26a0 [FAIR] expected annual loss $305K reaches the client tolerance of $250K\n  \u26a0 [FAIR] a 1-in-100-year loss leaves $7.75M not covered by the liability cap and insurance\n  \u26a0 [FAIR] expected annual loss $305K exceeds the annual contract value of $133K\n\nWHAT YOU SHOULD DO:\n1. Escalate to senior procurement officer for manual review.\n2. Confidence is acceptable but below auto-approval \u2014 one senior sign-off required.\n\nFINANCIAL EXPOSURE (FAIR):\n  Expected annual loss : $305K\n  Chance of any loss   : 39.0% / year\n  1-in-100-year loss   : $9.15M\n  Chance \u2265 tolerance   : 4.3% / year (tolerance $250K, client)\n  Main scenario        : vendor_breach\n  Assumed inputs       : 45%\n  Effect on decision   : supports REVIEW\n  Acceptable if:\n    - Share fewer records with the vendor: expected annual loss falls to $160K, chance of reaching tolerance 4.3% [run_06]\n  Actions:\n    - Negotiate a liability cap or insurance covering the 1-in-100-year loss ($9.15M).\n    - Implement the limit_records_shared control to halve the data exposure and bring breach risk below tolerance.\n    - Maintain SOC\u202f2 Type\u202f2 compliance and client\u2011held encryption as additional safeguards.",
+  "red_flags": [
+   "[FAIR] expected annual loss $305K reaches the client tolerance of $250K",
+   "[FAIR] a 1-in-100-year loss leaves $7.75M not covered by the liability cap and insurance",
+   "[FAIR] expected annual loss $305K exceeds the annual contract value of $133K"
+  ],
+  "weights": {
+   "financial": 0.3,
+   "compliance": 0.25,
+   "operational": 0.2,
+   "reputation": 0.1,
+   "strategic": 0.15
+  },
+  "agent_outputs": {
+   "financial": {
+    "score": 80.0,
+    "evidence": [
+     "current_ratio: 5.458",
+     "debt_equity_ratio: 0.0204",
+     "net_margin: 29.34%",
+     "revenue_growth: 17.6%",
+     "years_in_operation: 19"
+    ],
+    "reasoning": "Veeva\u2019s current ratio of **5.46** and quick ratio of **5.36** far exceed the healthcare benchmark of 1.4\u20112.0, indicating exceptional short\u2011term liquidity [Yahoo Finance / yfinance]. Its debt\u2011to\u2011equity ratio of **0.0204** is well below the acceptable ceiling of 2.0, reflecting minimal leverage and a solid balance sheet [Yahoo Finance / yfinance]. A net profit margin of **29.34%** comfortably surpasses the healthy sector threshold of 7%, demonstrating strong profitability [Yahoo Finance / yfinance]. The gross margin of **74.96%** is unusually high versus the typical 25\u201140% range, suggesting a highly scalable, software\u2011driven model with low cost of goods sold [Yahoo Finance / yfinance]. Revenue is expanding at a **17.6%** annual rate, well above the 5% benchmark, growing from **$2.155\u202fB** in 2023 to an estimated **$3.195\u202fB** in 2026 [Yahoo Finance / yfinance]. Over **19 years** of operation, Veeva has shown consistent growth and financial resilience, reducing operational risk for long\u2011term contracts [Wikipedia]. EBITDA of **$1.075\u202fB** underscores strong cash\u2011generating capacity, supporting potential partnership investments [Yahoo Finance / yfinance]. No red\u2011flag indicators such as high leverage, low margins, or weak liquidity appear, positioning Veeva as a financially sound vendor.  \n\n**Verdict:** Financially robust and low\u2011risk \u2013 recommend proceeding with Veeva.",
+    "red_flags": [],
+    "confidence": 0.75,
+    "explanation": "Strong liquidity, minimal leverage, high profitability and robust growth yield a healthy financial risk score."
+   },
+   "strategic": {
+    "score": 59.0,
+    "evidence": [
+     "Security priority met via ISO27001 and SOC2_Type2 certifications [certifications]",
+     "Compliance priority met via ISO27001, ISO9001 and SOC2_Type2 certifications [certifications]",
+     "Vendor financial strength (17.6% revenue growth, $1.08B EBITDA) supports contract value [revenue_growth, ebitda]",
+     "Nice\u2011to\u2011have SOC2 satisfied by SOC2_Type2 certification [certifications]"
+    ],
+    "reasoning": "Veeva Systems has been operating for 19\u202fyears, indicating a mature market presence and established processes [years_in_operation:\u202f19]. It delivers strong financial performance with 17.6\u202f% revenue growth YoY, well above the 5\u202f% healthy benchmark for the healthcare sector [revenue_growth:\u202f17.6]. Its gross margin of 74.96\u202f% far exceeds the typical 25\u201140\u202f% range for healthcare vendors, reflecting a high\u2011margin SaaS model that warrants a check on margin sustainability [gross_margin:\u202f74.96]. EBITDA of $1.08\u202fbillion demonstrates robust cash generation and capacity to support large, long\u2011term contracts [ebitda:\u202f1075341056]. The vendor holds ISO\u202f27001, ISO\u202f9001 and SOC\u202f2\u202fType\u202f2 certifications, directly satisfying Northwind Health\u2019s security and compliance priorities and the \u201cnice\u2011to\u2011have\u201d SOC\u202f2 requirement [certifications]. Exposure analysis shows high service criticality with $5,000 per hour revenue at risk and 200\u202fk PHI records, while the vendor\u2019s liability cap of $400\u202fk is modest relative to the client\u2019s $250\u202fk risk tolerance, indicating a potential gap in risk transfer [exposure.revenue_at_risk_per_hour:\u202f5000; exposure.liability_cap_usd:\u202f400000]. Overall, Veeva\u2019s financial strength and compliance posture align well with the client\u2019s low\u2011risk appetite, but the liability terms should be renegotiated to match the high\u2011impact exposure. **Verdict: Proceed with caution and negotiate a higher liability cap.**",
+    "red_flags": [],
+    "confidence": 0.92,
+    "explanation": "Veeva Systems fully satisfies security and compliance priorities, can support the $400k contract, and meets the SOC2 nice\u2011to\u2011have, yielding a strategic fit score of 59."
+   },
+   "compliance": {
+    "score": 95.0,
+    "evidence": [
+     "ISO27001 CORROBORATED",
+     "ISO9001 CORROBORATED",
+     "SOC2_Type2 CORROBORATED",
+     "HIPAA disclosed",
+     "OFAC clear"
+    ],
+    "reasoning": "Veeva Systems has a clean OFAC record \u2013 the vendor is listed as \u201cclear\u201d with no matches\u202f[ofac_status\u202f=\u202fclear; ofac_matches\u202f=\u202f[]].\u202fIt holds three core security certifications\u2014ISO\u202f27001, ISO\u202f9001 and SOC\u202f2\u202fType\u202f2\u2014and each is marked as \u201cCORROBORATED\u201d in the evidence tier, confirming the validity of the claims\u202f[certifications_found; certification_evidence_tiers].\u202fThe vendor also discloses HIPAA compliance, explicitly describing its Crossix Measurement Suite and Audience Segments as \u201cprivacy\u2011safe, HIPAA\u2011compliant\u201d\u202f[cert_evidence\u202f\u2013\u202fCrossix\u202fprivacy\u2011safe\u202fHIPAA\u202fcompliant; source\u202fhttps://www.veeva.com/products/marketing-analytics/].\u202fHowever, the supplied data does not contain any reference to an anti\u2011bribery (FCPA) policy, which is a universal requirement for international vendors\u202f[no FCPA policy found in cert_sources_checked].\u202fLikewise, there is no UBO declaration or verification of corporate registration through a Secretary\u2011of\u2011State database, both of which are mandatory under the FinCEN Beneficial Ownership Rule and standard due\u2011diligence checks\u202f[UBO/registration not present in provided sources].\u202fOverall, Veeva demonstrates strong information\u2011security and HIPAA posture but is missing two universal compliance artifacts (anti\u2011bribery policy and UBO/registration evidence).\u202f**Verdict: Proceed with Veeva, but obtain documented FCPA policy and UBO declaration before final approval.**",
+    "red_flags": [],
+    "confidence": 0.99,
+    "explanation": "Veeva Systems meets the required SOC2_Type2 certification for healthcare (+25), has ISO27001 and ISO9001 (+0 extra), clear OFAC screening (+25), no legal red flags (+25), discloses HIPAA compliance (+15), and lacks ESG data but receives a neutral 5 points (+5). Total compliance score is 95.",
+    "sanctions_clear": true,
+    "certification_evidence_tiers": {
+     "ISO9001": "CORROBORATED",
+     "ISO27001": "CORROBORATED",
+     "SOC2_Type2": "CORROBORATED"
+    }
+   },
+   "reputation": {
+    "score": 100.0,
+    "evidence": [
+     "Improving Software Sentiment and Positive News Fuel Veeva Systems\u2019 (VEEV) Share Price Appreciation - Yahoo Finance",
+     "Leading Biotech Selects Veeva Vault CRM Globally - Veeva"
+    ],
+    "reasoning": "Veeva Systems has been operating for 19\u202fyears in the healthcare software space, indicating a mature market presence and deep industry expertise [vendor data].  \nIt maintains ISO\u202f27001, ISO\u202f9001, and SOC\u202f2\u202fType\u202f2 certifications, confirming robust information\u2011security and quality\u2011management controls [vendor data].  \nRevenue growth of\u202f17.6\u202f% YoY far exceeds the healthy benchmark of\u202f>5\u202f% for healthcare firms, signaling strong financial momentum [vendor data].  \nNo news red\u2011flags are reported, and recent coverage highlights positive market sentiment\u2014share\u2011price appreciation and upbeat analyst estimates (Yahoo\u202fFinance 17\u202fNov\u202f2026; Barchart.com 20\u202fNov\u202f2026) \u2013 reinforcing a favorable reputation.  \nA leading biotech has selected Veeva Vault CRM globally, demonstrating continued customer acquisition and confidence in the platform [Veeva press release 15\u202fSep\u202f2026].  \nOFAC screening returns a clear status, confirming no sanctions or compliance concerns [vendor data].  \nOverall, the vendor\u2019s reputation aligns with industry benchmarks, showing strong growth, solid certifications, and no adverse signals.  \n\n**Verdict:** Strong reputation \u2013 recommend proceeding with Veeva Systems.",
+    "red_flags": [],
+    "confidence": 0.95,
+    "explanation": "Veeva Systems enjoys strong positive news coverage, no scandals, high customer satisfaction, and solid industry standing, resulting in a top reputation score."
+   },
+   "operational": {
+    "score": 67.0,
+    "evidence": [
+     "company_size: large (provided)",
+     "years_in_operation: 19 (provided)",
+     "industry: Healthcare (provided)",
+     "revenue_growth: 17.6% (provided)"
+    ],
+    "reasoning": "Veeva Systems has been operating for 19\u202fyears, indicating mature processes and deep industry familiarity [Data provided].  \nAs a large enterprise in the healthcare sector, it possesses the scale needed to support complex procurement and compliance requirements [Data provided].  \nIts EBITDA of $1,075,341,056 reflects robust cash\u2011flow generation, a core indicator of operational health [Data provided].  \nRevenue growth of 17.6\u202f% YoY far exceeds the healthcare benchmark of >5\u202f% for healthy growth, signaling strong market traction [Data provided; Industry benchmarks (Healthcare) \u2013 RAG context].  \nHowever, the vendor does not disclose a current ratio, debt\u2011to\u2011equity, or gross margin, preventing verification against the benchmark ranges of 1.4\u20112.0, \u22642.0, and 25\u201140\u202f% respectively, which is a notable data gap [Industry benchmarks (Healthcare) \u2013 RAG context].  \nGiven the heightened supply\u2011chain risk in healthcare, the absence of metrics on inventory turnover or supplier diversification limits assessment of operational resilience [Industry benchmarks (Healthcare) \u2013 RAG context].  \nOverall, the financial signals are positive, but missing core operational ratios require further due\u2011diligence before commitment.  \n\n**Verdict:** Strong growth and profitability, but request missing operational metrics before proceeding.",
+    "red_flags": [],
+    "confidence": 0.7,
+    "explanation": "Veeva shows solid operational capability based on its large size, long tenure, and strong growth, though specific operational metrics are missing"
+   }
+  },
+  "fair_analysis": {
+   "notes": [
+    "Tail risk: a 1-in-100-year loss of $9.15M is 37\u00d7 your tolerance of $250K."
+   ],
+   "trace": [
+    {
+     "kind": "tool_call",
+     "step": 1,
+     "tool": "get_baseline_inputs",
+     "detail": {
+      "args": {
+       "scenarios": [
+        "vendor_breach",
+        "vendor_insolvency",
+        "vendor_outage"
+       ]
+      }
+     },
+     "summary": "baselines for vendor_breach, vendor_insolvency, vendor_outage"
+    },
+    {
+     "kind": "tool_call",
+     "step": 2,
+     "tool": "get_agent_findings",
+     "detail": {
+      "args": {
+       "domains": [
+        "financial",
+        "compliance",
+        "operational",
+        "reputation",
+        "strategic"
+       ]
+      }
+     },
+     "summary": "financial: 5 evidence items, compliance: 8 evidence items, operational: 5 evidence items, reputation: 3 evidence items, strategic: 5 evidence items"
+    },
+    {
+     "kind": "tool_call",
+     "step": 3,
+     "tool": "run_simulation",
+     "detail": {
+      "args": {
+       "runs": [
+        {
+         "label": "vendor_breach_adjusted",
+         "scenario": "vendor_breach",
+         "primary_loss": {
+          "response": {
+           "max": 18550000,
+           "min": 742000,
+           "mode": 4452000,
+           "source": "benchmark:ibm_codb_2025.healthcare_avg",
+           "rationale": "IBM breach cost for healthcare includes response, fines, lost business."
+          }
+         },
+         "vulnerability": {
+          "max": 1,
+          "min": 1,
+          "mode": 1,
+          "source": "derived:loss_event_benchmark",
+          "rationale": "Frequency benchmark already accounts for loss events."
+         },
+         "threat_event_frequency": {
+          "max": 0.12,
+          "min": 0.01,
+          "mode": 0.04,
+          "source": "ev_9,benchmark:cyentia_iris_2025.major_event_annual_prob",
+          "rationale": "SOC2 Type2 certification reduces likelihood of a major breach event compared to baseline."
+         }
+        },
+        {
+         "label": "vendor_insolvency_adjusted",
+         "scenario": "vendor_insolvency",
+         "primary_loss": {
+          "replacement": {
+           "max": 100000,
+           "min": 25000,
+           "mode": 50000,
+           "source": "assumption",
+           "rationale": "Switching cost 0.19-0.75x annual contract $133K."
+          },
+          "productivity": {
+           "max": 100000,
+           "min": 20000,
+           "mode": 50000,
+           "source": "assumption",
+           "rationale": "Disruption cost up to 0.75x contract value."
+          }
+         },
+         "vulnerability": {
+          "max": 1,
+          "min": 1,
+          "mode": 1,
+          "source": "derived:every_default_is_loss",
+          "rationale": "All defaults result in loss."
+         },
+         "threat_event_frequency": {
+          "max": 0.0015,
+          "min": 0.0001,
+          "mode": 0.0005,
+          "source": "ev_1,ev_2,ev_3,ev_4,ev_5,benchmark:sp_default.bbb_us_longrun",
+          "rationale": "Strong financial metrics (high current ratio, low debt, high margin) lower default probability."
+         }
+        },
+        {
+         "label": "vendor_outage_adjusted",
+         "scenario": "vendor_outage",
+         "primary_loss": {
+          "response": {
+           "max": 15000,
+           "min": 2000,
+           "mode": 5000,
+           "source": "assumption",
+           "rationale": "Staff handling cost."
+          },
+          "productivity": {
+           "max": 50000,
+           "min": 10000,
+           "mode": 25000,
+           "source": "client,assumption",
+           "rationale": "Revenue at risk $5k/hr times outage hours."
+          }
+         },
+         "vulnerability": {
+          "max": 0.4,
+          "min": 0.1,
+          "mode": 0.2,
+          "source": "assumption",
+          "rationale": "Chance outage exceeds tolerance."
+         },
+         "threat_event_frequency": {
+          "max": 4,
+          "min": 1,
+          "mode": 2,
+          "source": "assumption",
+          "rationale": "Adjusted to typical hosted SaaS outage frequency."
+         }
+        }
+       ]
+      }
+     },
+     "summary": "run_01 vendor_breach: expected $289K, P90 $0; run_02 vendor_insolvency: expected $88, P90 $0; run_03 vendor_outage: expected $15.2K, P90 $45.5K"
+    },
+    {
+     "kind": "tool_call",
+     "step": 4,
+     "tool": "sensitivity_analysis",
+     "detail": {
+      "args": {
+       "run_ids": [
+        "run_01"
+       ]
+      }
+     },
+     "summary": "run_01: top driver primary_loss.response"
+    },
+    {
+     "kind": "tool_call",
+     "step": 5,
+     "tool": "test_control",
+     "detail": {
+      "args": {
+       "tests": [
+        {
+         "run_id": "run_01",
+         "control_id": "require_soc2_type2"
+        },
+        {
+         "run_id": "run_01",
+         "control_id": "client_held_encryption"
+        },
+        {
+         "run_id": "run_01",
+         "parameter": 0.5,
+         "control_id": "limit_records_shared"
+        }
+       ]
+      }
+     },
+     "summary": "run_04 require_soc2_type2 on run_01: expected $289K -> $207K; run_05 client_held_encryption on run_01: expected $289K -> $174K; run_06 limit_records_shared on run_01: expected $289K -> $145K"
+    },
+    {
+     "kind": "tool_call",
+     "step": 6,
+     "tool": "submit_report",
+     "detail": {
+      "args": {
+       "narrative": "The analysis shows that Veeva Systems\u2019 breach risk is the only scenario that threatens Northwind Health\u2019s low risk appetite, with an expected annual loss of $289K\u2014above the $250K tolerance\u2014and a 4.3% chance of any loss. Outage and insolvency risks are negligible, producing expected losses of $15.2K and $88, far under the tolerance. Applying the \u201climit_records_shared\u201d control (sharing 50% of records) reduces the breach\u2019s expected loss to $145K and lowers the P99 to $4.56M, bringing the risk comfortably within tolerance. The other controls also improve the profile but not as dramatically.",
+       "key_findings": [
+        "Vendor breach expected annual loss $289K exceeds the client tolerance of $250K, with a 4.3% chance of any loss and a P99 of $9.11M.",
+        "Vendor insolvency and outage risks are well below tolerance, with expected losses $88 and $15.2K respectively."
+       ],
+       "final_run_ids": [
+        "run_01",
+        "run_02",
+        "run_03"
+       ],
+       "recommendations": [
+        "Implement the limit_records_shared control to halve the data exposure and bring breach risk below tolerance.",
+        "Maintain SOC\u202f2 Type\u202f2 compliance and client\u2011held encryption as additional safeguards."
+       ],
+       "recommended_control_runs": [
+        "run_06"
+       ]
+      }
+     },
+     "summary": "submit_report"
+    },
+    {
+     "kind": "guardrail",
+     "step": 7,
+     "tool": "submit_report",
+     "detail": {},
+     "summary": "submission accepted: run_01, run_02, run_03"
+    }
+   ],
+   "status": "complete",
+   "context": {
+    "subject": "Veeva Systems",
+    "exposure": {
+     "data_types": [
+      "phi"
+     ],
+     "records_shared": 200000,
+     "liability_cap_usd": 400000.0,
+     "risk_tolerance_usd": 250000.0,
+     "cyber_insurance_usd": 1000000.0,
+     "service_criticality": "high",
+     "revenue_at_risk_per_hour": 5000.0
+    },
+    "industry": "Healthcare",
+    "seed_key": "eval-e1f19ea4",
+    "client_name": "Northwind Health",
+    "ofac_status": "clear",
+    "risk_appetite": "low",
+    "candidate_scenarios": [
+     "vendor_breach",
+     "vendor_insolvency",
+     "vendor_outage"
+    ],
+    "annual_contract_value": 133333.33333333334
+   },
+   "sharpen": [
+    "vendor security evidence (attestations, breach history)"
+   ],
+   "subject": "Veeva Systems",
+   "combined": {
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 60943.74048756186,
+    "p95": 104772.3439350949,
+    "p99": 9146775.654315932,
+    "ale_mean": 304730.3960010804,
+    "prob_any_loss": 0.3896,
+    "loss_exceedance_curve": [
+     {
+      "loss": 13866.328936096386,
+      "probability": 0.38959999999999995
+     },
+     {
+      "loss": 16115.58617457913,
+      "probability": 0.38849999999999996
+     },
+     {
+      "loss": 18729.695433245597,
+      "probability": 0.383
+     },
+     {
+      "loss": 21767.83935886236,
+      "probability": 0.36829999999999996
+     },
+     {
+      "loss": 25298.800615420718,
+      "probability": 0.3365
+     },
+     {
+      "loss": 29402.519102946062,
+      "probability": 0.2914
+     },
+     {
+      "loss": 34171.9017727723,
+      "probability": 0.23509999999999998
+     },
+     {
+      "loss": 39714.92601295507,
+      "probability": 0.17610000000000003
+     },
+     {
+      "loss": 46157.08422383571,
+      "probability": 0.1351
+     },
+     {
+      "loss": 53644.224928212105,
+      "probability": 0.1149
+     },
+     {
+      "loss": 62345.854737993934,
+      "probability": 0.09819999999999995
+     },
+     {
+      "loss": 72458.97593287476,
+      "probability": 0.07620000000000005
+     },
+     {
+      "loss": 84212.5465326465,
+      "probability": 0.0595
+     },
+     {
+      "loss": 97872.66383785034,
+      "probability": 0.0514
+     },
+     {
+      "loss": 113748.58879256622,
+      "probability": 0.047699999999999965
+     },
+     {
+      "loss": 132199.7475590985,
+      "probability": 0.04500000000000004
+     },
+     {
+      "loss": 153643.86881810287,
+      "probability": 0.04379999999999995
+     },
+     {
+      "loss": 178566.44102018,
+      "probability": 0.04349999999999998
+     },
+     {
+      "loss": 207531.70369826333,
+      "probability": 0.043300000000000005
+     },
+     {
+      "loss": 241195.42168080976,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 280319.73141012946,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 325790.3954820333,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 378636.8560443931,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 440055.5410574971,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 511436.95106295275,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 594397.1396974035,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 690814.3006604256,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 802871.2894545536,
+      "probability": 0.043200000000000016
+     },
+     {
+      "loss": 933105.042576813,
+      "probability": 0.04310000000000003
+     },
+     {
+      "loss": 1084464.0129973919,
+      "probability": 0.04300000000000004
+     },
+     {
+      "loss": 1260374.9222474026,
+      "probability": 0.04259999999999997
+     },
+     {
+      "loss": 1464820.3403628878,
+      "probability": 0.042200000000000015
+     },
+     {
+      "loss": 1702428.8500716942,
+      "probability": 0.04179999999999995
+     },
+     {
+      "loss": 1978579.8365132126,
+      "probability": 0.041000000000000036
+     },
+     {
+      "loss": 2299525.274898736,
+      "probability": 0.03990000000000005
+     },
+     {
+      "loss": 2672531.2733483957,
+      "probability": 0.038799999999999946
+     },
+     {
+      "loss": 3106042.575391877,
+      "probability": 0.036800000000000055
+     },
+     {
+      "loss": 3609873.7464200812,
+      "probability": 0.03390000000000004
+     },
+     {
+      "loss": 4195431.372491373,
+      "probability": 0.03159999999999996
+     },
+     {
+      "loss": 4875972.3020065045,
+      "probability": 0.02849999999999997
+     },
+     {
+      "loss": 5666903.776766188,
+      "probability": 0.023900000000000032
+     },
+     {
+      "loss": 6586132.247287729,
+      "probability": 0.019399999999999973
+     },
+     {
+      "loss": 7654468.769454989,
+      "probability": 0.015000000000000013
+     },
+     {
+      "loss": 8896100.160559412,
+      "probability": 0.010700000000000043
+     },
+     {
+      "loss": 10339136.581563167,
+      "probability": 0.007099999999999995
+     },
+     {
+      "loss": 12016247.942682346,
+      "probability": 0.0040999999999999925
+     },
+     {
+      "loss": 13965403.540320305,
+      "probability": 0.0011999999999999789
+     },
+     {
+      "loss": 16230731.67050966,
+      "probability": 0.00039999999999995595
+     },
+     {
+      "loss": 18863518.68025174,
+      "probability": 9.999999999998899e-05
+     },
+     {
+      "loss": 21923370.074975308,
+      "probability": 9.999999999998899e-05
+     }
+    ],
+    "prob_exceeds_tolerance": 0.0432
+   },
+   "controls": [
+    {
+     "title": "Share fewer records with the vendor",
+     "run_id": "run_06",
+     "scenario": "vendor_breach",
+     "ale_after": 144717.65571592932,
+     "p99_after": 4556681.488915622,
+     "parameter": 0.5,
+     "tested_by": "agent",
+     "ale_before": 289435.31143185863,
+     "control_id": "limit_records_shared",
+     "p99_before": 9113362.977831244,
+     "base_run_id": "run_01",
+     "recommended": true,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 60943.74048756186,
+      "p95": 104772.3439350949,
+      "p99": 4585503.027977043,
+      "ale_mean": 160012.74028515114,
+      "prob_any_loss": 0.3896,
+      "loss_exceedance_curve": [
+       {
+        "loss": 13866.328936096386,
+        "probability": 0.38959999999999995
+       },
+       {
+        "loss": 15889.970015542822,
+        "probability": 0.38859999999999995
+       },
+       {
+        "loss": 18208.939673829085,
+        "probability": 0.3839
+       },
+       {
+        "loss": 20866.33793020539,
+        "probability": 0.37350000000000005
+       },
+       {
+        "loss": 23911.554786647714,
+        "probability": 0.35029999999999994
+       },
+       {
+        "loss": 27401.188182962935,
+        "probability": 0.3126
+       },
+       {
+        "loss": 31400.095917535677,
+        "probability": 0.268
+       },
+       {
+        "loss": 35982.60108455737,
+        "probability": 0.21230000000000004
+       },
+       {
+        "loss": 41233.87343181085,
+        "probability": 0.16359999999999997
+       },
+       {
+        "loss": 47251.51231271838,
+        "probability": 0.13019999999999998
+       },
+       {
+        "loss": 54147.3606531591,
+        "probability": 0.11439999999999995
+       },
+       {
+        "loss": 62049.5836471697,
+        "probability": 0.09860000000000002
+       },
+       {
+        "loss": 71105.05081585122,
+        "probability": 0.07930000000000004
+       },
+       {
+        "loss": 81482.06570207025,
+        "probability": 0.062100000000000044
+       },
+       {
+        "loss": 93373.49393464478,
+        "probability": 0.053100000000000036
+       },
+       {
+        "loss": 107000.34779974446,
+        "probability": 0.04959999999999998
+       },
+       {
+        "loss": 122615.89394180634,
+        "probability": 0.04590000000000005
+       },
+       {
+        "loss": 140510.36053907272,
+        "probability": 0.044499999999999984
+       },
+       {
+        "loss": 161016.33144060697,
+        "probability": 0.04379999999999995
+       },
+       {
+        "loss": 184514.9275193974,
+        "probability": 0.043399999999999994
+       },
+       {
+        "loss": 211442.89012724638,
+        "probability": 0.043300000000000005
+       },
+       {
+        "loss": 242300.69830346212,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 277661.8706025722,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 318183.6244234132,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 364619.09095228073,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 417831.3127452233,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 478809.2841064229,
+        "probability": 0.04310000000000003
+       },
+       {
+        "loss": 548686.3323867202,
+        "probability": 0.04300000000000004
+       },
+       {
+        "loss": 628761.1818343017,
+        "probability": 0.04259999999999997
+       },
+       {
+        "loss": 720522.0914871051,
+        "probability": 0.042300000000000004
+       },
+       {
+        "loss": 825674.5157301459,
+        "probability": 0.04179999999999995
+       },
+       {
+        "loss": 946172.8016127201,
+        "probability": 0.04149999999999998
+       },
+       {
+        "loss": 1084256.512047,
+        "probability": 0.04039999999999999
+       },
+       {
+        "loss": 1242492.0499855147,
+        "probability": 0.03949999999999998
+       },
+       {
+        "loss": 1423820.357198175,
+        "probability": 0.037799999999999945
+       },
+       {
+        "loss": 1631611.5741710998,
+        "probability": 0.03590000000000004
+       },
+       {
+        "loss": 1869727.6770278371,
+        "probability": 0.03369999999999995
+       },
+       {
+        "loss": 2142594.2556333705,
+        "probability": 0.031399999999999983
+       },
+       {
+        "loss": 2455282.7669378077,
+        "probability": 0.028200000000000003
+       },
+       {
+        "loss": 2813604.792308062,
+        "probability": 0.024399999999999977
+       },
+       {
+        "loss": 3224220.050699934,
+        "probability": 0.020499999999999963
+       },
+       {
+        "loss": 3694760.175187131,
+        "probability": 0.016100000000000003
+       },
+       {
+        "loss": 4233970.553339044,
+        "probability": 0.011900000000000022
+       },
+       {
+        "loss": 4851872.86767109,
+        "probability": 0.008299999999999974
+       },
+       {
+        "loss": 5559951.357119859,
+        "probability": 0.006000000000000005
+       },
+       {
+        "loss": 6371366.261370579,
+        "probability": 0.0030000000000000027
+       },
+       {
+        "loss": 7301198.415081075,
+        "probability": 0.0010000000000000009
+       },
+       {
+        "loss": 8366729.537993165,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 9587763.43036145,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 10986994.043388842,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0432
+     }
+    },
+    {
+     "title": "Encrypt shared data with client-held keys",
+     "run_id": "run_05",
+     "scenario": "vendor_breach",
+     "ale_after": 173661.18685911517,
+     "p99_after": 5468017.786698746,
+     "parameter": null,
+     "tested_by": "agent",
+     "ale_before": 289435.31143185863,
+     "control_id": "client_held_encryption",
+     "p99_before": 9113362.977831244,
+     "base_run_id": "run_01",
+     "recommended": false,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 60943.74048756186,
+      "p95": 104772.3439350949,
+      "p99": 5501430.463183434,
+      "ale_mean": 188956.271428337,
+      "prob_any_loss": 0.3896,
+      "loss_exceedance_curve": [
+       {
+        "loss": 13866.328936096386,
+        "probability": 0.38959999999999995
+       },
+       {
+        "loss": 15948.954289067813,
+        "probability": 0.38849999999999996
+       },
+       {
+        "loss": 18344.375363302483,
+        "probability": 0.38380000000000003
+       },
+       {
+        "loss": 21099.571882302207,
+        "probability": 0.37229999999999996
+       },
+       {
+        "loss": 24268.579594540708,
+        "probability": 0.3469
+       },
+       {
+        "loss": 27913.550038926005,
+        "probability": 0.3064
+       },
+       {
+        "loss": 32105.969479602354,
+        "probability": 0.2591
+       },
+       {
+        "loss": 36928.060916210794,
+        "probability": 0.2027
+       },
+       {
+        "loss": 42474.39666625721,
+        "probability": 0.15410000000000001
+       },
+       {
+        "loss": 48853.753146041854,
+        "probability": 0.1251
+       },
+       {
+        "loss": 56191.24422667653,
+        "probability": 0.10999999999999999
+       },
+       {
+        "loss": 64630.775005212316,
+        "probability": 0.09350000000000003
+       },
+       {
+        "loss": 74337.8641149806,
+        "probability": 0.07150000000000001
+       },
+       {
+        "loss": 85502.88992715397,
+        "probability": 0.05840000000000001
+       },
+       {
+        "loss": 98344.82430901262,
+        "probability": 0.0514
+       },
+       {
+        "loss": 113115.52716651515,
+        "probability": 0.047699999999999965
+       },
+       {
+        "loss": 130104.68599704481,
+        "probability": 0.04500000000000004
+       },
+       {
+        "loss": 149645.4973283325,
+        "probability": 0.04410000000000003
+       },
+       {
+        "loss": 172121.20146965786,
+        "probability": 0.04359999999999997
+       },
+       {
+        "loss": 197972.59873685145,
+        "probability": 0.043300000000000005
+       },
+       {
+        "loss": 227706.69456157373,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 261906.6430353732,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 301243.1839043263,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 346487.7973200532,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 398527.83434207324,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 458383.9199354998,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 527229.9697769262,
+        "probability": 0.04310000000000003
+       },
+       {
+        "loss": 606416.2134441625,
+        "probability": 0.04300000000000004
+       },
+       {
+        "loss": 697495.6755276053,
+        "probability": 0.04279999999999995
+       },
+       {
+        "loss": 802254.6340187973,
+        "probability": 0.04239999999999999
+       },
+       {
+        "loss": 922747.6533353222,
+        "probability": 0.042100000000000026
+       },
+       {
+        "loss": 1061337.8790603452,
+        "probability": 0.04169999999999996
+       },
+       {
+        "loss": 1220743.3846694077,
+        "probability": 0.04079999999999995
+       },
+       {
+        "loss": 1404090.479210521,
+        "probability": 0.03979999999999995
+       },
+       {
+        "loss": 1614975.0214239573,
+        "probability": 0.038799999999999946
+       },
+       {
+        "loss": 1857532.9428127736,
+        "probability": 0.036900000000000044
+       },
+       {
+        "loss": 2136521.362783903,
+        "probability": 0.034399999999999986
+       },
+       {
+        "loss": 2457411.886714559,
+        "probability": 0.03190000000000004
+       },
+       {
+        "loss": 2826497.9167338284,
+        "probability": 0.02959999999999996
+       },
+       {
+        "loss": 3251018.079831006,
+        "probability": 0.025399999999999978
+       },
+       {
+        "loss": 3739298.194000182,
+        "probability": 0.021299999999999986
+       },
+       {
+        "loss": 4300914.556703998,
+        "probability": 0.017199999999999993
+       },
+       {
+        "loss": 4946881.758119397,
+        "probability": 0.012800000000000034
+       },
+       {
+        "loss": 5689868.702615723,
+        "probability": 0.008600000000000052
+       },
+       {
+        "loss": 6544447.075143657,
+        "probability": 0.006299999999999972
+       },
+       {
+        "loss": 7527377.125533098,
+        "probability": 0.0032999999999999696
+       },
+       {
+        "loss": 8657936.375588331,
+        "probability": 0.0010999999999999899
+       },
+       {
+        "loss": 9958297.695683343,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 11453964.165810037,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 13174269.249706132,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0432
+     }
+    },
+    {
+     "title": "Require SOC 2 Type 2 with annual re-attestation",
+     "run_id": "run_04",
+     "scenario": "vendor_breach",
+     "ale_after": 206959.09318563886,
+     "p99_after": 7968539.977100941,
+     "parameter": null,
+     "tested_by": "agent",
+     "ale_before": 289435.31143185863,
+     "control_id": "require_soc2_type2",
+     "p99_before": 9113362.977831244,
+     "base_run_id": "run_01",
+     "recommended": false,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 55590.01803808679,
+      "p95": 81595.94720540057,
+      "p99": 8010662.448870925,
+      "ale_mean": 222254.1777548607,
+      "prob_any_loss": 0.3807,
+      "loss_exceedance_curve": [
+       {
+        "loss": 13866.328936096386,
+        "probability": 0.38070000000000004
+       },
+       {
+        "loss": 16151.111864824154,
+        "probability": 0.37939999999999996
+       },
+       {
+        "loss": 18812.363075493293,
+        "probability": 0.37370000000000003
+       },
+       {
+        "loss": 21912.114004668616,
+        "probability": 0.3581
+       },
+       {
+        "loss": 25522.617133573705,
+        "probability": 0.3257
+       },
+       {
+        "loss": 29728.03013019203,
+        "probability": 0.27769999999999995
+       },
+       {
+        "loss": 34626.37749085174,
+        "probability": 0.21940000000000004
+       },
+       {
+        "loss": 40331.83540544329,
+        "probability": 0.15949999999999998
+       },
+       {
+        "loss": 46977.39310447747,
+        "probability": 0.12039999999999995
+       },
+       {
+        "loss": 54717.95272165464,
+        "probability": 0.10189999999999999
+       },
+       {
+        "loss": 63733.93992702984,
+        "probability": 0.08389999999999997
+       },
+       {
+        "loss": 74235.50949147104,
+        "probability": 0.059699999999999975
+       },
+       {
+        "loss": 86467.44381043786,
+        "probability": 0.04579999999999995
+       },
+       {
+        "loss": 100714.8585673844,
+        "probability": 0.038799999999999946
+       },
+       {
+        "loss": 117309.8485308037,
+        "probability": 0.034399999999999986
+       },
+       {
+        "loss": 136639.2283926287,
+        "probability": 0.03210000000000002
+       },
+       {
+        "loss": 159153.54908015582,
+        "probability": 0.031200000000000006
+       },
+       {
+        "loss": 185377.59970383468,
+        "probability": 0.03080000000000005
+       },
+       {
+        "loss": 215922.63993213064,
+        "probability": 0.03069999999999995
+       },
+       {
+        "loss": 251500.6479194164,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 292940.9158936174,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 341209.38023224217,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 397431.13659394317,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 462916.6649136211,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 539192.3755427661,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 628036.1885388182,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 731518.9754256475,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 852052.8293963332,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 992447.2890944021,
+        "probability": 0.03059999999999996
+       },
+       {
+        "loss": 1155974.8265006635,
+        "probability": 0.030399999999999983
+       },
+       {
+        "loss": 1346447.1253909909,
+        "probability": 0.030100000000000016
+       },
+       {
+        "loss": 1568303.9283491052,
+        "probability": 0.02969999999999995
+       },
+       {
+        "loss": 1826716.5232804825,
+        "probability": 0.02939999999999998
+       },
+       {
+        "loss": 2127708.281607479,
+        "probability": 0.028800000000000048
+       },
+       {
+        "loss": 2478295.057785461,
+        "probability": 0.027599999999999958
+       },
+       {
+        "loss": 2886648.722729792,
+        "probability": 0.02639999999999998
+       },
+       {
+        "loss": 3362287.642974786,
+        "probability": 0.024800000000000044
+       },
+       {
+        "loss": 3916298.5454670372,
+        "probability": 0.02310000000000001
+       },
+       {
+        "loss": 4561594.939467294,
+        "probability": 0.021199999999999997
+       },
+       {
+        "loss": 5313218.11914933,
+        "probability": 0.018399999999999972
+       },
+       {
+        "loss": 6188687.763002813,
+        "probability": 0.01539999999999997
+       },
+       {
+        "loss": 7208410.302205447,
+        "probability": 0.012199999999999989
+       },
+       {
+        "loss": 8396154.576673869,
+        "probability": 0.008499999999999952
+       },
+       {
+        "loss": 9779605.865919326,
+        "probability": 0.006299999999999972
+       },
+       {
+        "loss": 11391011.208682569,
+        "probability": 0.0039000000000000146
+       },
+       {
+        "loss": 13267931.053184051,
+        "probability": 0.0017000000000000348
+       },
+       {
+        "loss": 15454114.758298593,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 18000520.35282071,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 20966502.322517145,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 24421195.111241944,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0306
+     }
+    },
+    {
+     "title": "Fallback service or manual workaround",
+     "run_id": "run_08",
+     "scenario": "vendor_outage",
+     "ale_after": 7695.495793500246,
+     "p99_after": 68022.03243227299,
+     "parameter": null,
+     "tested_by": "code",
+     "ale_before": 15207.410709810782,
+     "control_id": "fallback_service",
+     "p99_before": 92966.08477172963,
+     "base_run_id": "run_03",
+     "recommended": false,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 40375.564640930264,
+      "p95": 74283.20269514614,
+      "p99": 9135560.92614335,
+      "ale_mean": 297218.48108476994,
+      "prob_any_loss": 0.2444,
+      "loss_exceedance_curve": [
+       {
+        "loss": 14723.746778095388,
+        "probability": 0.24439999999999995
+       },
+       {
+        "loss": 17090.339439473966,
+        "probability": 0.24219999999999997
+       },
+       {
+        "loss": 19837.3217468646,
+        "probability": 0.23650000000000004
+       },
+       {
+        "loss": 23025.83488656206,
+        "probability": 0.22499999999999998
+       },
+       {
+        "loss": 26726.847453942104,
+        "probability": 0.2017
+       },
+       {
+        "loss": 31022.735042852808,
+        "probability": 0.16879999999999995
+       },
+       {
+        "loss": 36009.113727219476,
+        "probability": 0.1291
+       },
+       {
+        "loss": 41796.968243731855,
+        "probability": 0.09350000000000003
+       },
+       {
+        "loss": 48515.1222438161,
+        "probability": 0.07079999999999997
+       },
+       {
+        "loss": 56313.10559672945,
+        "probability": 0.06379999999999997
+       },
+       {
+        "loss": 65364.48256301384,
+        "probability": 0.05610000000000004
+       },
+       {
+        "loss": 75870.71491540468,
+        "probability": 0.04930000000000001
+       },
+       {
+        "loss": 88065.64599092871,
+        "probability": 0.04600000000000004
+       },
+       {
+        "loss": 102220.70547835185,
+        "probability": 0.04479999999999995
+       },
+       {
+        "loss": 118650.95078696488,
+        "probability": 0.04379999999999995
+       },
+       {
+        "loss": 137722.07946297326,
+        "probability": 0.043399999999999994
+       },
+       {
+        "loss": 159858.56873293003,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 185553.1233407737,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 215377.6419644872,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 249995.9462983051,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 290178.5561190706,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 336819.8391940065,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 390957.9177453926,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 453797.7745419368,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 526738.0729025815,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 611402.2875612101,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 709674.839290029,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 823743.037551048,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 956145.764717628,
+        "probability": 0.04310000000000003
+       },
+       {
+        "loss": 1109829.9854592783,
+        "probability": 0.04290000000000005
+       },
+       {
+        "loss": 1288216.3390519153,
+        "probability": 0.04239999999999999
+       },
+       {
+        "loss": 1495275.2745399817,
+        "probability": 0.042100000000000026
+       },
+       {
+        "loss": 1735615.4233349646,
+        "probability": 0.04159999999999997
+       },
+       {
+        "loss": 2014586.1762109103,
+        "probability": 0.04090000000000005
+       },
+       {
+        "loss": 2338396.747812721,
+        "probability": 0.03959999999999997
+       },
+       {
+        "loss": 2714254.3787656114,
+        "probability": 0.03820000000000001
+       },
+       {
+        "loss": 3150524.7514303727,
+        "probability": 0.03639999999999999
+       },
+       {
+        "loss": 3656918.189771701,
+        "probability": 0.03369999999999995
+       },
+       {
+        "loss": 4244705.787698246,
+        "probability": 0.03149999999999997
+       },
+       {
+        "loss": 4926970.276369208,
+        "probability": 0.028000000000000025
+       },
+       {
+        "loss": 5718897.214166887,
+        "probability": 0.023599999999999954
+       },
+       {
+        "loss": 6638112.980520665,
+        "probability": 0.019199999999999995
+       },
+       {
+        "loss": 7705077.096507313,
+        "probability": 0.015000000000000013
+       },
+       {
+        "loss": 8943537.604336651,
+        "probability": 0.010600000000000054
+       },
+       {
+        "loss": 10381059.641368315,
+        "probability": 0.007000000000000006
+       },
+       {
+        "loss": 12049638.973440602,
+        "probability": 0.0040000000000000036
+       },
+       {
+        "loss": 13986414.14327914,
+        "probability": 0.0011999999999999789
+       },
+       {
+        "loss": 16234493.08468892,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 18843912.600962028,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 21872752.06317293,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0432
+     }
+    },
+    {
+     "title": "Exit plan, data export and escrow terms",
+     "run_id": "run_07",
+     "scenario": "vendor_insolvency",
+     "ale_after": 43.83692970552448,
+     "p99_after": 0.0,
+     "parameter": null,
+     "tested_by": "code",
+     "ale_before": 87.67385941104897,
+     "control_id": "exit_plan_and_escrow",
+     "p99_before": 0.0,
+     "base_run_id": "run_02",
+     "recommended": false,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 60902.893659388654,
+      "p95": 103294.81223387869,
+      "p99": 9146775.654315932,
+      "ale_mean": 304686.55907137494,
+      "prob_any_loss": 0.3896,
+      "loss_exceedance_curve": [
+       {
+        "loss": 13866.328936096386,
+        "probability": 0.38959999999999995
+       },
+       {
+        "loss": 16115.58617457913,
+        "probability": 0.38849999999999996
+       },
+       {
+        "loss": 18729.695433245597,
+        "probability": 0.383
+       },
+       {
+        "loss": 21767.83935886236,
+        "probability": 0.36829999999999996
+       },
+       {
+        "loss": 25298.800615420718,
+        "probability": 0.3365
+       },
+       {
+        "loss": 29402.519102946062,
+        "probability": 0.2914
+       },
+       {
+        "loss": 34171.9017727723,
+        "probability": 0.23509999999999998
+       },
+       {
+        "loss": 39714.92601295507,
+        "probability": 0.17610000000000003
+       },
+       {
+        "loss": 46157.08422383571,
+        "probability": 0.1351
+       },
+       {
+        "loss": 53644.224928212105,
+        "probability": 0.11480000000000001
+       },
+       {
+        "loss": 62345.854737993934,
+        "probability": 0.09789999999999999
+       },
+       {
+        "loss": 72458.97593287476,
+        "probability": 0.07569999999999999
+       },
+       {
+        "loss": 84212.5465326465,
+        "probability": 0.05900000000000005
+       },
+       {
+        "loss": 97872.66383785034,
+        "probability": 0.050899999999999945
+       },
+       {
+        "loss": 113748.58879256622,
+        "probability": 0.04720000000000002
+       },
+       {
+        "loss": 132199.7475590985,
+        "probability": 0.04469999999999996
+       },
+       {
+        "loss": 153643.86881810287,
+        "probability": 0.04359999999999997
+       },
+       {
+        "loss": 178566.44102018,
+        "probability": 0.043399999999999994
+       },
+       {
+        "loss": 207531.70369826333,
+        "probability": 0.043300000000000005
+       },
+       {
+        "loss": 241195.42168080976,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 280319.73141012946,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 325790.3954820333,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 378636.8560443931,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 440055.5410574971,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 511436.95106295275,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 594397.1396974035,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 690814.3006604256,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 802871.2894545536,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 933105.042576813,
+        "probability": 0.04310000000000003
+       },
+       {
+        "loss": 1084464.0129973919,
+        "probability": 0.04300000000000004
+       },
+       {
+        "loss": 1260374.9222474026,
+        "probability": 0.04259999999999997
+       },
+       {
+        "loss": 1464820.3403628878,
+        "probability": 0.042200000000000015
+       },
+       {
+        "loss": 1702428.8500716942,
+        "probability": 0.04179999999999995
+       },
+       {
+        "loss": 1978579.8365132126,
+        "probability": 0.041000000000000036
+       },
+       {
+        "loss": 2299525.274898736,
+        "probability": 0.03990000000000005
+       },
+       {
+        "loss": 2672531.2733483957,
+        "probability": 0.038799999999999946
+       },
+       {
+        "loss": 3106042.575391877,
+        "probability": 0.036800000000000055
+       },
+       {
+        "loss": 3609873.7464200812,
+        "probability": 0.03390000000000004
+       },
+       {
+        "loss": 4195431.372491373,
+        "probability": 0.03159999999999996
+       },
+       {
+        "loss": 4875972.3020065045,
+        "probability": 0.02849999999999997
+       },
+       {
+        "loss": 5666903.776766188,
+        "probability": 0.023900000000000032
+       },
+       {
+        "loss": 6586132.247287729,
+        "probability": 0.019399999999999973
+       },
+       {
+        "loss": 7654468.769454989,
+        "probability": 0.015000000000000013
+       },
+       {
+        "loss": 8896100.160559412,
+        "probability": 0.010700000000000043
+       },
+       {
+        "loss": 10339136.581563167,
+        "probability": 0.007099999999999995
+       },
+       {
+        "loss": 12016247.942682346,
+        "probability": 0.0040999999999999925
+       },
+       {
+        "loss": 13965403.540320305,
+        "probability": 0.0011999999999999789
+       },
+       {
+        "loss": 16230731.67050966,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 18863518.68025174,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 21923370.074975308,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0432
+     }
+    }
+   ],
+   "evidence": [
+    {
+     "id": "ev_1",
+     "kind": "finding",
+     "title": "Financial score 80/100 (confidence 75%)",
+     "detail": "Strong liquidity, minimal leverage, high profitability and robust growth yield a healthy financial risk score.",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_2",
+     "kind": "finding",
+     "title": "current_ratio: 5.458",
+     "detail": "",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_3",
+     "kind": "finding",
+     "title": "debt_equity_ratio: 0.0204",
+     "detail": "",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_4",
+     "kind": "finding",
+     "title": "net_margin: 29.34%",
+     "detail": "",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_5",
+     "kind": "finding",
+     "title": "revenue_growth: 17.6%",
+     "detail": "",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_6",
+     "kind": "finding",
+     "title": "Compliance score 95/100 (confidence 99%)",
+     "detail": "Veeva Systems meets the required SOC2_Type2 certification for healthcare (+25), has ISO27001 and ISO9001 (+0 extra), clear OFAC screening (+25), no legal red flags (+25), discloses HIPAA compliance (+15), and lacks ESG \u2026",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_7",
+     "kind": "finding",
+     "title": "ISO27001 CORROBORATED",
+     "detail": "",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_8",
+     "kind": "finding",
+     "title": "ISO9001 CORROBORATED",
+     "detail": "",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_9",
+     "kind": "finding",
+     "title": "SOC2_Type2 CORROBORATED",
+     "detail": "",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_10",
+     "kind": "finding",
+     "title": "HIPAA disclosed",
+     "detail": "",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_11",
+     "kind": "finding",
+     "title": "Certification ISO27001: CORROBORATED",
+     "detail": "",
+     "citation": "Certification discovery (evidence tier)"
+    },
+    {
+     "id": "ev_12",
+     "kind": "finding",
+     "title": "Certification ISO9001: CORROBORATED",
+     "detail": "",
+     "citation": "Certification discovery (evidence tier)"
+    },
+    {
+     "id": "ev_13",
+     "kind": "finding",
+     "title": "Certification SOC2_Type2: CORROBORATED",
+     "detail": "",
+     "citation": "Certification discovery (evidence tier)"
+    },
+    {
+     "id": "ev_14",
+     "kind": "finding",
+     "title": "Operational score 67/100 (confidence 70%)",
+     "detail": "Veeva shows solid operational capability based on its large size, long tenure, and strong growth, though specific operational metrics are missing",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_15",
+     "kind": "finding",
+     "title": "company_size: large (provided)",
+     "detail": "",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_16",
+     "kind": "finding",
+     "title": "years_in_operation: 19 (provided)",
+     "detail": "",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_17",
+     "kind": "finding",
+     "title": "industry: Healthcare (provided)",
+     "detail": "",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_18",
+     "kind": "finding",
+     "title": "revenue_growth: 17.6% (provided)",
+     "detail": "",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_19",
+     "kind": "finding",
+     "title": "Reputation score 100/100 (confidence 95%)",
+     "detail": "Veeva Systems enjoys strong positive news coverage, no scandals, high customer satisfaction, and solid industry standing, resulting in a top reputation score.",
+     "citation": "Reputation agent"
+    },
+    {
+     "id": "ev_20",
+     "kind": "finding",
+     "title": "Improving Software Sentiment and Positive News Fuel Veeva Systems\u2019 (VEEV) Share Price Appreciation - Yahoo Finance",
+     "detail": "",
+     "citation": "Reputation agent"
+    },
+    {
+     "id": "ev_21",
+     "kind": "finding",
+     "title": "Leading Biotech Selects Veeva Vault CRM Globally - Veeva",
+     "detail": "",
+     "citation": "Reputation agent"
+    },
+    {
+     "id": "ev_22",
+     "kind": "finding",
+     "title": "Strategic score 59/100 (confidence 92%)",
+     "detail": "Veeva Systems fully satisfies security and compliance priorities, can support the $400k contract, and meets the SOC2 nice\u2011to\u2011have, yielding a strategic fit score of 59.",
+     "citation": "Strategic agent"
+    },
+    {
+     "id": "ev_23",
+     "kind": "finding",
+     "title": "Security priority met via ISO27001 and SOC2_Type2 certifications [certifications]",
+     "detail": "",
+     "citation": "Strategic agent"
+    },
+    {
+     "id": "ev_24",
+     "kind": "finding",
+     "title": "Compliance priority met via ISO27001, ISO9001 and SOC2_Type2 certifications [certifications]",
+     "detail": "",
+     "citation": "Strategic agent"
+    },
+    {
+     "id": "ev_25",
+     "kind": "finding",
+     "title": "Vendor financial strength (17.6% revenue growth, $1.08B EBITDA) supports contract value [revenue_growth, ebitda]",
+     "detail": "",
+     "citation": "Strategic agent"
+    },
+    {
+     "id": "ev_26",
+     "kind": "finding",
+     "title": "Nice\u2011to\u2011have SOC2 satisfied by SOC2_Type2 certification [certifications]",
+     "detail": "",
+     "citation": "Strategic agent"
+    }
+   ],
+   "llm_calls": 6,
+   "narrative": "The analysis shows that Veeva Systems\u2019 breach risk is the only scenario that threatens Northwind Health\u2019s low risk appetite, with an expected annual loss of $289K\u2014above the $250K tolerance\u2014and a 4.3% chance of any loss. Outage and insolvency risks are negligible, producing expected losses of $15.2K and $88, far under the tolerance. Applying the \u201climit_records_shared\u201d control (sharing 50% of records) reduces the breach\u2019s expected loss to $145K and lowers the P99 to $4.56M, bringing the risk comfortably within tolerance. The other controls also improve the profile but not as dramatically.",
+   "scenarios": [
+    {
+     "loss": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0,
+      "p99": 9113362.977831244,
+      "ale_mean": 289435.31143185863,
+      "prob_any_loss": 0.0432,
+      "loss_exceedance_curve": [
+       {
+        "loss": 875028.6669193932,
+        "probability": 0.043200000000000016
+       },
+       {
+        "loss": 934437.9499238231,
+        "probability": 0.04310000000000003
+       },
+       {
+        "loss": 997880.7726744743,
+        "probability": 0.04300000000000004
+       },
+       {
+        "loss": 1065630.9887184913,
+        "probability": 0.04300000000000004
+       },
+       {
+        "loss": 1137981.0446428868,
+        "probability": 0.04279999999999995
+       },
+       {
+        "loss": 1215243.2424322264,
+        "probability": 0.04269999999999996
+       },
+       {
+        "loss": 1297751.0875329494,
+        "probability": 0.04239999999999999
+       },
+       {
+        "loss": 1385860.728443324,
+        "probability": 0.04239999999999999
+       },
+       {
+        "loss": 1479952.494043044,
+        "probability": 0.042100000000000026
+       },
+       {
+        "loss": 1580432.5352984439,
+        "probability": 0.04190000000000005
+       },
+       {
+        "loss": 1687734.5784297958,
+        "probability": 0.04169999999999996
+       },
+       {
+        "loss": 1802321.797108352,
+        "probability": 0.04149999999999998
+       },
+       {
+        "loss": 1924688.81176449,
+        "probability": 0.041000000000000036
+       },
+       {
+        "loss": 2055363.8246370798,
+        "probability": 0.04079999999999995
+       },
+       {
+        "loss": 2194910.8997801393,
+        "probability": 0.040200000000000014
+       },
+       {
+        "loss": 2343932.3978684563,
+        "probability": 0.03959999999999997
+       },
+       {
+        "loss": 2503071.5763121345,
+        "probability": 0.03939999999999999
+       },
+       {
+        "loss": 2673015.3659036257,
+        "probability": 0.03859999999999997
+       },
+       {
+        "loss": 2854497.335982655,
+        "probability": 0.03759999999999997
+       },
+       {
+        "loss": 3048300.8609183845,
+        "probability": 0.036900000000000044
+       },
+       {
+        "loss": 3255262.5015769876,
+        "probability": 0.035800000000000054
+       },
+       {
+        "loss": 3476275.6163709867,
+        "probability": 0.034399999999999986
+       },
+       {
+        "loss": 3712294.2174774744,
+        "probability": 0.03359999999999996
+       },
+       {
+        "loss": 3964337.0888707894,
+        "probability": 0.032200000000000006
+       },
+       {
+        "loss": 4233492.183945381,
+        "probability": 0.03149999999999997
+       },
+       {
+        "loss": 4520921.321711253,
+        "probability": 0.03049999999999997
+       },
+       {
+        "loss": 4827865.2018333515,
+        "probability": 0.028900000000000037
+       },
+       {
+        "loss": 5155648.760162623,
+        "probability": 0.026900000000000035
+       },
+       {
+        "loss": 5505686.887875946,
+        "probability": 0.024700000000000055
+       },
+       {
+        "loss": 5879490.53891191,
+        "probability": 0.022800000000000042
+       },
+       {
+        "loss": 6278673.252065538,
+        "probability": 0.021100000000000008
+       },
+       {
+        "loss": 6704958.115894669,
+        "probability": 0.01849999999999996
+       },
+       {
+        "loss": 7160185.206502353,
+        "probability": 0.017199999999999993
+       },
+       {
+        "loss": 7646319.530300932,
+        "probability": 0.015000000000000013
+       },
+       {
+        "loss": 8165459.506042772,
+        "probability": 0.0131
+       },
+       {
+        "loss": 8719846.02273093,
+        "probability": 0.011199999999999988
+       },
+       {
+        "loss": 9311872.112508394,
+        "probability": 0.009199999999999986
+       },
+       {
+        "loss": 9944093.28027961,
+        "probability": 0.008000000000000007
+       },
+       {
+        "loss": 10619238.534652177,
+        "probability": 0.006399999999999961
+       },
+       {
+        "loss": 11340222.167814491,
+        "probability": 0.005099999999999993
+       },
+       {
+        "loss": 12110156.335197449,
+        "probability": 0.0040000000000000036
+       },
+       {
+        "loss": 12932364.489221174,
+        "probability": 0.0024999999999999467
+       },
+       {
+        "loss": 13810395.72511368,
+        "probability": 0.0013999999999999568
+       },
+       {
+        "loss": 14748040.100725925,
+        "probability": 0.0009000000000000119
+       },
+       {
+        "loss": 15749344.99647218,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 16818632.586013567,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 17960518.493097857,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 19179931.71508895,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 20482135.899186116,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 21872752.06317293,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0432
+     },
+     "label": "vendor_breach_adjusted",
+     "title": "Vendor data breach",
+     "inputs": [
+      {
+       "max": 0.12,
+       "min": 0.01,
+       "mode": 0.04,
+       "path": "threat_event_frequency",
+       "source": "ev_9,benchmark:cyentia_iris_2025.major_event_annual_prob",
+       "rationale": "SOC2 Type2 certification reduces likelihood of a major breach event compared to baseline."
+      },
+      {
+       "max": 1.0,
+       "min": 1.0,
+       "mode": 1.0,
+       "path": "vulnerability",
+       "source": "derived:loss_event_benchmark",
+       "rationale": "Frequency benchmark already accounts for loss events."
+      },
+      {
+       "max": 18550000.0,
+       "min": 742000.0,
+       "mode": 4452000.0,
+       "path": "primary_loss.response",
+       "source": "benchmark:ibm_codb_2025.healthcare_avg",
+       "rationale": "IBM breach cost for healthcare includes response, fines, lost business."
+      }
+     ],
+     "run_id": "run_01",
+     "drivers": [
+      {
+       "path": "primary_loss.response",
+       "share": 0.5382353589495518,
+       "swing": 783552.0,
+       "low_ale": 32648.0,
+       "high_ale": 816200.0
+      },
+      {
+       "path": "threat_event_frequency",
+       "share": 0.4617646410504482,
+       "swing": 672227.4967785486,
+       "low_ale": 60556.41046274759,
+       "high_ale": 732783.9072412961
+      }
+     ],
+     "scenario": "vendor_breach",
+     "breakdown": {
+      "primary_loss.response": 289435.31143185863
+     },
+     "assumption_count": 0,
+     "loss_event_frequency_mean": 0.0448
+    },
+    {
+     "loss": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "ale_mean": 87.67385941104897,
+      "prob_any_loss": 0.0008,
+      "loss_exceedance_curve": [
+       {
+        "loss": 87609.9543095998,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 88414.66397810135,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 89226.76501731745,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 90046.32531802052,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 90873.4133945693,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 91708.09839063649,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 92550.45008498908,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 93400.53889732194,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 94258.43589414415,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 95124.21279472116,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 95997.94197706967,
+        "probability": 0.0006000000000000449
+       },
+       {
+        "loss": 96879.69648400863,
+        "probability": 0.0006000000000000449
+       },
+       {
+        "loss": 97769.55002926545,
+        "probability": 0.0006000000000000449
+       },
+       {
+        "loss": 98667.5770036384,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 99573.85248121568,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 100488.45222565145,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 101411.45269649959,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 102342.93105560572,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 103282.96517355774,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 104231.633636196,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 105189.01575118216,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 106155.19155463047,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 107130.2418177978,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 108114.24805383635,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 109107.292524608,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 110109.45824756131,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 111120.82900267171,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 112141.48933944543,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 113171.52458398767,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 114211.02084613589,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 115260.06502665835,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 116318.74482451937,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 117387.14874420965,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 118465.36610314684,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 119553.48703914123,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 120651.60251793149,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 121759.80434078939,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 122878.18515219408,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 124006.8384475773,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 125145.85858113934,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 126295.340773737,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 127455.38112084397,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 128626.07660058426,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 129807.5250818398,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 130999.82533243105,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 132203.0770273755,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 133417.38075721933,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 134642.83803644692,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 135879.55131196743,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 137127.6239716792,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0
+     },
+     "label": "vendor_insolvency_adjusted",
+     "title": "Vendor insolvency",
+     "inputs": [
+      {
+       "max": 0.0015,
+       "min": 0.0001,
+       "mode": 0.0005,
+       "path": "threat_event_frequency",
+       "source": "ev_1,ev_2,ev_3,ev_4,ev_5,benchmark:sp_default.bbb_us_longrun",
+       "rationale": "Strong financial metrics (high current ratio, low debt, high margin) lower default probability."
+      },
+      {
+       "max": 1.0,
+       "min": 1.0,
+       "mode": 1.0,
+       "path": "vulnerability",
+       "source": "derived:every_default_is_loss",
+       "rationale": "All defaults result in loss."
+      },
+      {
+       "max": 100000.0,
+       "min": 20000.0,
+       "mode": 50000.0,
+       "path": "primary_loss.productivity",
+       "source": "assumption",
+       "rationale": "Disruption cost up to 0.75x contract value."
+      },
+      {
+       "max": 100000.0,
+       "min": 25000.0,
+       "mode": 50000.0,
+       "path": "primary_loss.replacement",
+       "source": "assumption",
+       "rationale": "Switching cost 0.19-0.75x annual contract $133K."
+      }
+     ],
+     "run_id": "run_02",
+     "drivers": [
+      {
+       "path": "threat_event_frequency",
+       "share": 0.4898898224554428,
+       "swing": 148.85592529461155,
+       "low_ale": 0.0,
+       "high_ale": 148.85592529461155
+      },
+      {
+       "path": "primary_loss.productivity",
+       "share": 0.2632826722810619,
+       "swing": 80.00000000000004,
+       "low_ale": 84.94882894513468,
+       "high_ale": 164.94882894513472
+      },
+      {
+       "path": "primary_loss.replacement",
+       "share": 0.2468275052634953,
+       "swing": 74.99999999999997,
+       "low_ale": 83.5162053066692,
+       "high_ale": 158.51620530666918
+      }
+     ],
+     "scenario": "vendor_insolvency",
+     "breakdown": {
+      "primary_loss.replacement": 43.696125869655496,
+      "primary_loss.productivity": 43.97773354139347
+     },
+     "assumption_count": 2,
+     "loss_event_frequency_mean": 0.0008
+    },
+    {
+     "loss": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 45498.097357036895,
+      "p95": 65546.34784298482,
+      "p99": 92966.08477172963,
+      "ale_mean": 15207.410709810782,
+      "prob_any_loss": 0.3635,
+      "loss_exceedance_curve": [
+       {
+        "loss": 13866.328936096386,
+        "probability": 0.36350000000000005
+       },
+       {
+        "loss": 14673.582599078483,
+        "probability": 0.36329999999999996
+       },
+       {
+        "loss": 15527.83200833207,
+        "probability": 0.363
+       },
+       {
+        "loss": 16431.813107054317,
+        "probability": 0.3618
+       },
+       {
+        "loss": 17388.421116372236,
+        "probability": 0.36019999999999996
+       },
+       {
+        "loss": 18400.719807998263,
+        "probability": 0.35729999999999995
+       },
+       {
+        "loss": 19471.951316710423,
+        "probability": 0.3537
+       },
+       {
+        "loss": 20605.54652408392,
+        "probability": 0.348
+       },
+       {
+        "loss": 21805.136046730655,
+        "probability": 0.34030000000000005
+       },
+       {
+        "loss": 23074.56186423916,
+        "probability": 0.3304
+       },
+       {
+        "loss": 24417.889624056286,
+        "probability": 0.3163
+       },
+       {
+        "loss": 25839.421662720066,
+        "probability": 0.30269999999999997
+       },
+       {
+        "loss": 27343.710785147414,
+        "probability": 0.2834
+       },
+       {
+        "loss": 28935.574846108237,
+        "probability": 0.2649
+       },
+       {
+        "loss": 30620.11218058668,
+        "probability": 0.24680000000000002
+       },
+       {
+        "loss": 32402.71793244904,
+        "probability": 0.22230000000000005
+       },
+       {
+        "loss": 34289.1013337149,
+        "probability": 0.19920000000000004
+       },
+       {
+        "loss": 36285.30398977259,
+        "probability": 0.17300000000000004
+       },
+       {
+        "loss": 38397.71922910185,
+        "probability": 0.15249999999999997
+       },
+       {
+        "loss": 40633.11257947597,
+        "probability": 0.13070000000000004
+       },
+       {
+        "loss": 42998.64343622337,
+        "probability": 0.1129
+       },
+       {
+        "loss": 45501.88799194668,
+        "probability": 0.09999999999999998
+       },
+       {
+        "loss": 48150.86350113722,
+        "probability": 0.08760000000000001
+       },
+       {
+        "loss": 50954.05395739838,
+        "probability": 0.0797
+       },
+       {
+        "loss": 53920.4372655153,
+        "probability": 0.07430000000000003
+       },
+       {
+        "loss": 57059.513995396934,
+        "probability": 0.06789999999999996
+       },
+       {
+        "loss": 60381.33780997947,
+        "probability": 0.060899999999999954
+       },
+       {
+        "loss": 63896.54766454883,
+        "probability": 0.0534
+       },
+       {
+        "loss": 67616.40188060173,
+        "probability": 0.04420000000000002
+       },
+       {
+        "loss": 71552.81420338272,
+        "probability": 0.03610000000000002
+       },
+       {
+        "loss": 75718.3919585732,
+        "probability": 0.02629999999999999
+       },
+       {
+        "loss": 80126.4764303439,
+        "probability": 0.02059999999999995
+       },
+       {
+        "loss": 84791.18559008867,
+        "probability": 0.015599999999999947
+       },
+       {
+        "loss": 89727.45931268955,
+        "probability": 0.012399999999999967
+       },
+       {
+        "loss": 94951.10722512942,
+        "probability": 0.009099999999999997
+       },
+       {
+        "loss": 100478.859340699,
+        "probability": 0.007499999999999951
+       },
+       {
+        "loss": 106328.41964096656,
+        "probability": 0.006000000000000005
+       },
+       {
+        "loss": 112518.52277712006,
+        "probability": 0.0040000000000000036
+       },
+       {
+        "loss": 119068.9940722813,
+        "probability": 0.0030999999999999917
+       },
+       {
+        "loss": 126000.81301696446,
+        "probability": 0.0018000000000000238
+       },
+       {
+        "loss": 133336.18046103863,
+        "probability": 0.0014999999999999458
+       },
+       {
+        "loss": 141098.58971739333,
+        "probability": 0.0010999999999999899
+       },
+       {
+        "loss": 149312.90180503356,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 158005.42507258916,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 167203.99945725227,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 176938.0856490024,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 187238.85944569015,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 198139.31160117406,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 209674.35348629934,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 221880.92890112306,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0
+     },
+     "label": "vendor_outage_adjusted",
+     "title": "Vendor service outage",
+     "inputs": [
+      {
+       "max": 4.0,
+       "min": 1.0,
+       "mode": 2.0,
+       "path": "threat_event_frequency",
+       "source": "assumption",
+       "rationale": "Adjusted to typical hosted SaaS outage frequency."
+      },
+      {
+       "max": 0.4,
+       "min": 0.1,
+       "mode": 0.2,
+       "path": "vulnerability",
+       "source": "assumption",
+       "rationale": "Chance outage exceeds tolerance."
+      },
+      {
+       "max": 50000.0,
+       "min": 10000.0,
+       "mode": 25000.0,
+       "path": "primary_loss.productivity",
+       "source": "client,assumption",
+       "rationale": "Revenue at risk $5k/hr times outage hours."
+      },
+      {
+       "max": 15000.0,
+       "min": 2000.0,
+       "mode": 5000.0,
+       "path": "primary_loss.response",
+       "source": "assumption",
+       "rationale": "Staff handling cost."
+      }
+     ],
+     "run_id": "run_03",
+     "drivers": [
+      {
+       "path": "vulnerability",
+       "share": 0.31830795929837596,
+       "swing": 21397.856957145268,
+       "low_ale": 7015.0591870245935,
+       "high_ale": 28412.91614416986
+      },
+      {
+       "path": "threat_event_frequency",
+       "share": 0.31527768004156526,
+       "swing": 21194.150200266282,
+       "low_ale": 7226.63421977165,
+       "high_ale": 28420.784420037933
+      },
+      {
+       "path": "primary_loss.productivity",
+       "share": 0.27653914012079905,
+       "swing": 18590.000000000004,
+       "low_ale": 7471.144753385914,
+       "high_ale": 26061.144753385917
+      },
+      {
+       "path": "primary_loss.response",
+       "share": 0.08987522053925966,
+       "swing": 6041.749999999998,
+       "low_ale": 13338.23740472927,
+       "high_ale": 19379.98740472927
+      }
+     ],
+     "scenario": "vendor_outage",
+     "breakdown": {
+      "primary_loss.response": 2829.1320757202207,
+      "primary_loss.productivity": 12378.278634090557
+     },
+     "assumption_count": 3,
+     "loss_event_frequency_mean": 0.4654
+    }
+   ],
+   "tolerance": {
+    "source": "client",
+    "rationale": "Stated by the client.",
+    "value_usd": 250000.0
+   },
+   "tool_calls": 6,
+   "input_count": 11,
+   "generated_by": "agent",
+   "input_tokens": 27266,
+   "key_findings": [
+    "Vendor breach expected annual loss $289K exceeds the client tolerance of $250K, with a 4.3% chance of any loss and a P99 of $9.11M.",
+    "Vendor insolvency and outage risks are well below tolerance, with expected losses $88 and $15.2K respectively."
+   ],
+   "output_tokens": 1664,
+   "paced_seconds": 300.2313342500129,
+   "missing_inputs": [],
+   "recommendations": [
+    "Implement the limit_records_shared control to halve the data exposure and bring breach risk below tolerance.",
+    "Maintain SOC\u202f2 Type\u202f2 compliance and client\u2011held encryption as additional safeguards."
+   ],
+   "assumption_count": 5,
+   "assumption_share": 0.45454545454545453
+  },
+  "fair_ale_mean": 304730.3960010804,
+  "fair_prob_exceeds_tolerance": 0.0432,
+  "created_at": "2026-11-23T15:36:22.703241+00:00"
+ },
+ {
+  "vendor_name": "Veeva Systems",
+  "company_name": "CVS Health",
+  "evaluation_id": "eval-41995502",
+  "financial_score": 70.0,
+  "compliance_score": 95.0,
+  "operational_score": 85.0,
+  "reputation_score": 90.0,
+  "strategic_score": 74.0,
+  "composite_score": 81.85,
+  "risk_score": 81.25,
+  "fit_score": 80.25,
+  "confidence": 0.858,
+  "recommendation": "REVIEW",
+  "final_explanation": "VENDOR EVALUATION SUMMARY \u2014 Veeva Systems\n\nRECOMMENDATION: REVIEW\nConfidence (86%) is below the 95% auto-approval threshold. Route to human reviewer before proceeding.\n\nSCORES:\n  \u2022 Financial: 70.0/100\n  \u2022 Compliance: 95.0/100\n  \u2022 Operational: 85.0/100\n  \u2022 Reputation: 90.0/100\n  \u2022 Strategic: 74.0/100\n\n  Composite Score : 81.8/100\n  Risk Score      : 81.2/100  (lower = more risk)\n  Strategic Fit   : 80.2/100\n  Confidence      : 86%\n\n  OFAC Screening  : clear\n  Agents Missing  : none\n  Agents Truncated: none\n\nRED FLAGS (0 total):\n  None detected\n\nWHAT YOU SHOULD DO:\n1. Escalate to senior procurement officer for manual review.\n2. Confidence is acceptable but below auto-approval \u2014 one senior sign-off required.\n\nFINANCIAL EXPOSURE (FAIR):\n  Expected annual loss : $490K\n  Chance of any loss   : 20.4% / year\n  1-in-100-year loss   : $9.41M\n  Chance \u2265 tolerance   : 9.9% / year (tolerance $1M, client)\n  Main scenario        : vendor_breach\n  Assumed inputs       : 27%\n  Effect on decision   : none\n  Actions:\n    - Implement the \u2018fallback_service\u2019 control to mitigate outage tail risk.\n    - Adopt the \u2018limit_records_shared\u2019 control (share 50% of records) to reduce breach exposure.",
+  "red_flags": [],
+  "weights": {
+   "financial": 0.3,
+   "compliance": 0.25,
+   "operational": 0.2,
+   "reputation": 0.1,
+   "strategic": 0.15
+  },
+  "agent_outputs": {
+   "financial": {
+    "score": 70.0,
+    "evidence": [
+     "current_ratio: 5.458",
+     "debt_equity_ratio: 0.0204",
+     "net_margin: 29.34%",
+     "revenue_growth: 17.6%",
+     "ebitda: 1075341056"
+    ],
+    "reasoning": "Veeva\u2019s current ratio of **5.46** and quick ratio of **5.36** [Yahoo Finance / yfinance] far exceed the healthcare benchmark of 1.4\u20112.0, indicating exceptional short\u2011term liquidity. Its debt\u2011to\u2011equity ratio of **0.0204** [Yahoo Finance / yfinance] is well below the acceptable ceiling of 2.0, showing minimal leverage and a very stable balance sheet. The company posts a net margin of **29.34\u202f%** [Yahoo Finance / yfinance] and a gross margin of **74.96\u202f%** [Yahoo Finance / yfinance], dwarfing the typical healthcare net\u2011margin threshold of 7\u202f% and gross\u2011margin range of 25\u201140\u202f%, which signals a highly profitable business model. Revenue growth of **17.6\u202f%** YoY [Yahoo Finance / yfinance] comfortably surpasses the healthy >5\u202f% benchmark, and revenue has risen from **$2.155\u202fB** in 2023 to a projected **$3.195\u202fB** in 2026 [Yahoo Finance / yfinance], demonstrating robust top\u2011line expansion. EBITDA of **$1.075\u202fB** [Yahoo Finance / yfinance] provides ample operating cash flow to fund growth and service any debt, reinforcing the low\u2011risk profile. With **19 years** in operation [Wikipedia], Veeva has proven longevity, reducing execution risk. No red\u2011flag metrics (e.g., high leverage, low liquidity, sub\u2011benchmark margins) appear, and no credit rating below BB\u2011 is reported, indicating solid financial health.  \n\n**Verdict:** Strong financial health; recommend proceeding with Veeva as a low\u2011risk procurement vendor.",
+    "red_flags": [],
+    "confidence": 0.7,
+    "explanation": "Veeva Systems shows strong liquidity, low leverage, high profitability and robust growth, yielding a moderate overall risk score."
+   },
+   "strategic": {
+    "score": 74.0,
+    "evidence": [
+     "ISO27001, ISO9001, SOC2_Type2 certifications satisfy security priority [vendor data \u2013 certifications]",
+     "ISO27001, ISO9001, SOC2_Type2 certifications satisfy compliance priority [vendor data \u2013 certifications]",
+     "Revenue growth 17.6% exceeds benchmark >5% indicating capability to deliver [vendor data \u2013 revenue_growth; rag_context \u2013 \u201cRevenue growth healthy above 5% YoY\u201d]",
+     "Gross margin 74.96% far above typical 25-40% showing financial strength [vendor data \u2013 gross_margin; rag_context \u2013 \u201cGross margin typically 25-40%\u201d]",
+     "SOC2 present meets nice\u2011to\u2011have SOC2, HIPAA missing [vendor data \u2013 certifications]",
+     "19 years of operation indicates stability and low turnover risk [vendor data \u2013 years_in_operation]"
+    ],
+    "reasoning": "Veeva Systems has been operating for 19\u202fyears, indicating a mature market presence and low turnover risk [vendor data \u2013 years_in_operation]. Its revenue growth of 17.6\u202f% YoY far exceeds the healthcare benchmark of >5\u202f% considered healthy, signaling strong market momentum [vendor data \u2013 revenue_growth; rag_context \u2013 \u201cRevenue growth healthy above 5% YoY\u201d]. A gross margin of 74.96\u202f% is dramatically higher than the typical 25\u201140\u202f% range for the sector, suggesting exceptional pricing power and cost efficiency [vendor data \u2013 gross_margin; rag_context \u2013 \u201cGross margin typically 25-40%\u201d]. EBITDA of $1.075\u202fB demonstrates robust cash generation and profitability at scale [vendor data \u2013 ebitda]. The vendor holds ISO\u202f27001, ISO\u202f9001, and SOC\u202f2\u202fType\u202f2 certifications, directly satisfying CVS Health\u2019s security and compliance priorities and the \u201cSOC2\u201d nice\u2011to\u2011have requirement [vendor data \u2013 certifications; client_profile \u2013 priorities, nice_to_have]. However, Veeva does not list a HIPAA certification, which CVS Health noted as a desirable credential for handling PHI, representing a modest compliance gap [client_profile \u2013 nice_to_have]. The contract involves high\u2011criticality services with 5\u202fM PHI/PII records, $50\u202fk per hour revenue at risk, but the vendor\u2019s $10\u202fM cyber\u2011insurance coverage and $2\u202fM liability cap provide a solid risk mitigation buffer [client_profile.exposure]. **Verdict: Recommend Veeva with a conditional approval pending HIPAA compliance confirmation.**",
+    "red_flags": [],
+    "confidence": 0.9,
+    "explanation": "Veeva meets both security and compliance priorities fully, shows strong financial capability, lacks only HIPAA certification among nice\u2011to\u2011haves, and presents a solid long\u2011term partnership outlook."
+   },
+   "compliance": {
+    "score": 95.0,
+    "evidence": [
+     "ISO27001 [CORROBORATED]",
+     "ISO9001 [CORROBORATED]",
+     "SOC2_Type2 [CORROBORATED]",
+     "OFAC screening: CLEAR",
+     "Regulatory framework disclosed: HIPAA"
+    ],
+    "reasoning": "Veeva Systems clears the mandatory OFAC sanctions screen with a \u201cclear\u201d status and zero matches\u202f[ofac_status\u202f=\u202fclear; ofac_matches\u202f=\u202f[]].\u202fThe vendor publicly lists ISO\u202f27001, ISO\u202f9001 and SOC\u202f2\u202fType\u202f2 certifications, all marked as \u201cCORROBORATED\u201d in the evidence tier table\u202f[certifications_found\u202f=\u202f[\u201cISO27001\u201d,\u201cISO9001\u201d,\u201cSOC2_Type2\u201d]; certification_evidence_tiers\u202f=\u202f{\u2026\u201cCORROBORATED\u201d}].\u202fIt also discloses HIPAA compliance for its Crossix Measurement Suite and Audience Segments, with explicit \u201cprivacy\u2011safe, HIPAA\u2011compliant\u201d language on the product pages\u202f[regulatory_frameworks_disclosed\u202f=\u202f[\u201cHIPAA\u201d]; cert_evidence\u202f=\u202f\u201cCrossix \u2026 HIPAA\u2011compliant\u201d].\u202fHowever, the supplied data does not contain any reference to an anti\u2011bribery/FCPA policy, which is required for international vendors\u202f[compliance requirements \u2013 anti\u2011bribery policy not found].\u202fSimilarly, there is no UBO (beneficial\u2011owner) declaration or verification of corporate registration in a Secretary\u2011of\u2011State database\u202f[UBO declaration and business registration not present].\u202fFinancial health indicators such as credit rating or debt\u2011to\u2011equity are absent, preventing assessment of the standard \u201cBB\u2011\u2011 or lower\u201d red\u2011flag threshold\u202f[credit rating not provided].\u202fOverall, Veeva demonstrates strong information\u2011security and HIPAA compliance but leaves critical governance and financial disclosures unaddressed.  \n\n**Verdict:** Proceed with Veeva pending supplemental evidence on anti\u2011bribery policy, UBO declaration, corporate registration, and credit rating.",
+    "red_flags": [],
+    "confidence": 0.99,
+    "explanation": "Veeva holds the required SOC2_Type2 certification plus ISO27001 and ISO9001, and cleared OFAC screening. All legal, data privacy (HIPAA) and ESG criteria are met, yielding a high compliance score.",
+    "sanctions_clear": true,
+    "certification_evidence_tiers": {
+     "ISO9001": "CORROBORATED",
+     "ISO27001": "CORROBORATED",
+     "SOC2_Type2": "CORROBORATED"
+    }
+   },
+   "reputation": {
+    "score": 90.0,
+    "evidence": [
+     "Improving Software Sentiment and Positive News Fuel Veeva Systems\u2019 Share Price Appreciation",
+     "Leading Biotech Selects Veeva Vault CRM Globally",
+     "Veeva (VEEV) Stock May Be 17% Undervalued On Cash Flow Expectations"
+    ],
+    "reasoning": "Veeva Systems has been operating for 19\u202fyears, demonstrating long\u2011term market presence in the healthcare software space [vendor data \u2013 years_in_operation]. The company holds ISO\u202f27001, ISO\u202f9001, and SOC\u202f2\u202fType\u202f2 certifications, which signal mature information\u2011security and quality\u2011management controls that exceed typical enterprise expectations [vendor data \u2013 certifications]. Its revenue growth of 17.6\u202f% YoY far surpasses the industry benchmark of >5\u202f% for healthy growth, indicating strong demand and financial momentum [vendor data \u2013 revenue_growth]. There are no OFAC sanctions or red\u2011flag listings, and the OFAC status is confirmed as clear, eliminating compliance\u2011related reputational risk [vendor data \u2013 ofac_status; vendor data \u2013 ofac_clear]. Recent press coverage is uniformly positive, with multiple Yahoo\u202fFinance and Barchart articles highlighting share\u2011price appreciation and analyst optimism, and a new global Veeva Vault CRM win by a leading biotech firm, reinforcing market confidence [recent news \u2013 Yahoo Finance; recent news \u2013 Barchart.com; recent news \u2013 Veeva press release]. No negative news items or red\u2011flag alerts appear in the data set, further supporting a clean reputation profile [vendor data \u2013 news_red_flags].\n\n**Verdict:** Veeva\u2019s strong growth, robust certifications, long operating history, and clean compliance record make it a low\u2011reputation\u2011risk vendor for enterprise procurement.",
+    "red_flags": [],
+    "confidence": 0.85,
+    "explanation": "Veeva Systems enjoys positive recent coverage, no scandals, strong certifications and growth, yielding a low reputation risk."
+   },
+   "operational": {
+    "score": 85.0,
+    "evidence": [
+     "19 years in operation [provided data]",
+     "large company size [provided data]",
+     "healthcare industry context [provided data]"
+    ],
+    "reasoning": "Veeva Systems has been operating for 19\u202fyears, indicating mature processes and deep industry experience [Data provided].  \nAs a large enterprise in the healthcare sector, it possesses the scale needed to support complex procurement and supply\u2011chain requirements [Data provided].  \nThe company generated EBITDA of $1.075\u202fbillion, demonstrating strong cash\u2011flow generation and operational efficiency [Data provided].  \nIts revenue growth of 17.6\u202f% YoY far exceeds the healthcare benchmark of >5\u202f% for healthy growth, signaling robust market demand and effective execution [Data provided; Industry benchmarks].  \nThe industry benchmark calls for a current ratio of 1.4\u20112.0 and a debt\u2011to\u2011equity ratio \u22642.0, yet no balance\u2011sheet metrics are supplied, representing a critical data gap that must be addressed [RAG context].  \nGiven the elevated supply\u2011chain risk in healthcare, Veeva\u2019s long tenure and sizable EBITDA suggest resilience, but without explicit liquidity and leverage figures the operational risk cannot be fully quantified [Industry benchmarks; Data provided].  \nOverall, Veeva\u2019s financial performance aligns with or exceeds key operational benchmarks, but missing liquidity and debt ratios require further due\u2011diligence.  \n\n**Verdict:** Strong growth and profitability merit consideration, but verify current ratio and D/E before proceeding.",
+    "red_flags": [],
+    "confidence": 0.85,
+    "explanation": "Veeva Systems shows strong operational capability due to its large size, 19\u2011year history, and position in the regulated healthcare sector."
+   }
+  },
+  "fair_analysis": {
+   "notes": [
+    "Tail risk: a 1-in-100-year loss of $9.41M is 9\u00d7 your tolerance of $1M, even though the expected annual loss is within it."
+   ],
+   "trace": [
+    {
+     "kind": "tool_call",
+     "step": 1,
+     "tool": "get_baseline_inputs",
+     "detail": {
+      "args": {
+       "scenarios": [
+        "vendor_breach",
+        "vendor_insolvency",
+        "vendor_outage"
+       ]
+      }
+     },
+     "summary": "baselines for vendor_breach, vendor_insolvency, vendor_outage"
+    },
+    {
+     "kind": "tool_call",
+     "step": 2,
+     "tool": "get_agent_findings",
+     "detail": {
+      "args": {
+       "domains": [
+        "financial",
+        "compliance",
+        "operational",
+        "reputation",
+        "strategic"
+       ]
+      }
+     },
+     "summary": "financial: 5 evidence items, compliance: 8 evidence items, operational: 4 evidence items, reputation: 4 evidence items, strategic: 5 evidence items"
+    },
+    {
+     "kind": "tool_call",
+     "step": 3,
+     "tool": "run_simulation",
+     "detail": {
+      "args": {
+       "runs": [
+        {
+         "label": "vendor_breach_adjusted",
+         "scenario": "vendor_breach",
+         "primary_loss": {
+          "response": {
+           "max": 18550000,
+           "min": 742000,
+           "mode": 4452000,
+           "source": "benchmark:ibm_codb_2025.healthcare_avg",
+           "rationale": "IBM Cost of Data Breach 2025 healthcare average includes response, fines, lost business."
+          }
+         },
+         "vulnerability": {
+          "max": 0.5,
+          "min": 0.2,
+          "mode": 0.3,
+          "source": "ev_6,ev_9",
+          "rationale": "SOC2 Type 2 and ISO27001 certifications reduce likelihood of successful breach."
+         },
+         "threat_event_frequency": {
+          "max": 0.25,
+          "min": 0.02,
+          "mode": 0.093,
+          "source": "benchmark:cyentia_iris_2025.major_event_annual_prob",
+          "rationale": "Baseline benchmark retained; SOC2 evidence does not change frequency, only vulnerability."
+         }
+        },
+        {
+         "label": "vendor_insolvency_adjusted",
+         "scenario": "vendor_insolvency",
+         "primary_loss": {
+          "replacement": {
+           "max": 1333333.3333333333,
+           "min": 166666.66666666666,
+           "mode": 500000,
+           "source": "assumption",
+           "rationale": "Switching and migration cost assumed at 0.25-2x the annual contract value."
+          },
+          "productivity": {
+           "max": 1000000,
+           "min": 66666.66666666667,
+           "mode": 333333.3333333333,
+           "source": "assumption",
+           "rationale": "Disruption while switching, high service criticality."
+          }
+         },
+         "vulnerability": {
+          "max": 1,
+          "min": 1,
+          "mode": 1,
+          "source": "derived:every_default_is_loss",
+          "rationale": "Every default results in loss."
+         },
+         "threat_event_frequency": {
+          "max": 0.0015,
+          "min": 0.0001,
+          "mode": 0.0005,
+          "source": "ev_1,ev_2,ev_3,ev_4,ev_5",
+          "rationale": "Strong liquidity, low leverage and high profitability indicate default probability far below benchmark."
+         }
+        },
+        {
+         "label": "vendor_outage_adjusted",
+         "scenario": "vendor_outage",
+         "primary_loss": {
+          "response": {
+           "max": 50000,
+           "min": 2000,
+           "mode": 10000,
+           "source": "assumption",
+           "rationale": "Staff time to handle incident."
+          },
+          "productivity": {
+           "max": 2400000,
+           "min": 100000,
+           "mode": 400000,
+           "source": "client, assumption",
+           "rationale": "Revenue at risk per hour multiplied by assumed outage duration."
+          }
+         },
+         "vulnerability": {
+          "max": 0.3,
+          "min": 0.05,
+          "mode": 0.15,
+          "source": "ev_14,ev_15",
+          "rationale": "Robust operations and fallback capability lower chance outage impacts business."
+         },
+         "threat_event_frequency": {
+          "max": 2,
+          "min": 0.5,
+          "mode": 1,
+          "source": "ev_14,ev_15,ev_16,ev_17",
+          "rationale": "Operational strength reduces expected number of significant outages per year."
+         }
+        }
+       ]
+      }
+     },
+     "summary": "run_01 vendor_insolvency: expected $834, P90 $0; run_02 vendor_outage: expected $120K, P90 $532K; errors: runs[0] vendor_breach: threat_event_frequency cites benchmark:cyentia_iris_2025.major_event_annual_prob, which counts loss events, so vulnerability must stay fixed at 1.0. Put the effect of the evidence into threat_event_frequency instead."
+    },
+    {
+     "kind": "tool_call",
+     "step": 4,
+     "tool": "run_simulation",
+     "detail": {
+      "args": {
+       "runs": [
+        {
+         "label": "vendor_breach_adjusted2",
+         "scenario": "vendor_breach",
+         "primary_loss": {
+          "response": {
+           "max": 18550000,
+           "min": 742000,
+           "mode": 4452000,
+           "source": "benchmark:ibm_codb_2025.healthcare_avg",
+           "rationale": "IBM Cost of Data Breach 2025 healthcare average includes response, fines, lost business."
+          }
+         },
+         "vulnerability": {
+          "max": 1,
+          "min": 1,
+          "mode": 1,
+          "source": "derived:loss_event_benchmark",
+          "rationale": "Vulnerability fixed at 1 per benchmark requirement."
+         },
+         "threat_event_frequency": {
+          "max": 0.12,
+          "min": 0.01,
+          "mode": 0.05,
+          "source": "ev_6,ev_9",
+          "rationale": "SOC2 Type 2 and ISO27001 certifications reduce likelihood of loss events."
+         }
+        }
+       ]
+      }
+     },
+     "summary": "run_03 vendor_breach: expected $369K, P90 $0"
+    },
+    {
+     "kind": "tool_call",
+     "step": 5,
+     "tool": "sensitivity_analysis",
+     "detail": {
+      "args": {
+       "run_ids": [
+        "run_02"
+       ]
+      }
+     },
+     "summary": "run_02: top driver primary_loss.productivity"
+    },
+    {
+     "kind": "tool_call",
+     "step": 6,
+     "tool": "test_control",
+     "detail": {
+      "args": {
+       "tests": [
+        {
+         "run_id": "run_02",
+         "parameter": null,
+         "control_id": "fallback_service"
+        },
+        {
+         "run_id": "run_03",
+         "parameter": 0.5,
+         "control_id": "limit_records_shared"
+        }
+       ]
+      }
+     },
+     "summary": "run_04 fallback_service on run_02: expected $120K -> $56.7K; run_05 limit_records_shared on run_03: expected $369K -> $185K"
+    },
+    {
+     "kind": "thought",
+     "step": 7,
+     "tool": null,
+     "detail": {},
+     "summary": "{\n  \"final_run_ids\": [\"run_01\", \"run_02\", \"run_03\"],\n  \"key_findings\": [\n    \"Vendor insolvency risk is negligible (expected loss $834, chance of any loss 0.1%).\",\n    \"Vendor outage risk has an expected loss of $120\u202fK, but the P99 ($1.57\u202fM) exceeds the $1\u202fM tolerance, with a 4.2% chance of reaching the tolerance.\",\n    \"Vendor breach risk shows an expected loss of $369\u202fK; however, the P99 ($9.31\u202fM) is far above tolerance, though the chance of any loss is only 5.8%.\"\n  ],\n  \"narrative\": \"The ana"
+    },
+    {
+     "kind": "tool_call",
+     "step": 8,
+     "tool": "submit_report",
+     "detail": {
+      "args": {
+       "narrative": "The analysis shows that Veeva Systems\u2019 financial health makes insolvency risk essentially immaterial, well under the client\u2019s $1\u202fM tolerance. Outage risk, driven primarily by productivity loss, has an expected annual loss of $120\u202fK but a tail risk (P99) of $1.57\u202fM, giving a 4.2% chance of exceeding tolerance; applying the \u2018fallback_service\u2019 control reduces the expected loss to $56.7\u202fK and the P99 to $1.24\u202fM, lowering the exceed\u2011tolerance chance to 1.9%. Breach risk, with a $369\u202fK expected loss, has a heavy tail (P99 $9.31\u202fM); limiting the records shared to 50% cuts the expected loss to $185\u202fK and the P99 to $4.65\u202fM, modestly reducing the exceed\u2011tolerance probability. Overall, the vendor\u2019s breach and outage exposures merit targeted mitigations, while insolvency poses little concern.",
+       "key_findings": [
+        "Vendor insolvency risk is negligible (expected loss $834, chance of any loss 0.1%).",
+        "Vendor outage risk has an expected loss of $120\u202fK, but the P99 ($1.57\u202fM) exceeds the $1\u202fM tolerance, with a 4.2% chance of reaching the tolerance.",
+        "Vendor breach risk shows an expected loss of $369\u202fK; however, the P99 ($9.31\u202fM) is far above tolerance, though the chance of any loss is only 5.8%."
+       ],
+       "final_run_ids": [
+        "run_01",
+        "run_02",
+        "run_03"
+       ],
+       "recommendations": [
+        "Implement the \u2018fallback_service\u2019 control to mitigate outage tail risk.",
+        "Adopt the \u2018limit_records_shared\u2019 control (share 50% of records) to reduce breach exposure.",
+        "Maintain current SOC\u202f2 Type\u202f2 and ISO\u202f27001 compliance posture; no further changes needed."
+       ],
+       "recommended_control_runs": [
+        "run_04",
+        "run_05"
+       ]
+      }
+     },
+     "summary": "submit_report"
+    },
+    {
+     "kind": "guardrail",
+     "step": 9,
+     "tool": "submit_report",
+     "detail": {},
+     "summary": "submission accepted: run_01, run_02, run_03"
+    }
+   ],
+   "status": "complete",
+   "context": {
+    "subject": "Veeva Systems",
+    "exposure": {
+     "data_types": [
+      "phi",
+      "pii"
+     ],
+     "records_shared": 5000000,
+     "liability_cap_usd": 2000000.0,
+     "risk_tolerance_usd": 1000000.0,
+     "cyber_insurance_usd": 10000000.0,
+     "service_criticality": "high",
+     "revenue_at_risk_per_hour": 50000.0
+    },
+    "industry": "Healthcare",
+    "seed_key": "eval-41995502",
+    "client_name": "CVS Health",
+    "ofac_status": "clear",
+    "risk_appetite": "low",
+    "candidate_scenarios": [
+     "vendor_breach",
+     "vendor_insolvency",
+     "vendor_outage"
+    ],
+    "annual_contract_value": 666666.6666666666
+   },
+   "sharpen": [
+    "vendor security evidence (attestations, breach history)"
+   ],
+   "subject": "Veeva Systems",
+   "combined": {
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 979885.8834630973,
+    "p95": 2969035.8484363547,
+    "p99": 9410178.070907906,
+    "ale_mean": 490188.58424175606,
+    "prob_any_loss": 0.2043,
+    "loss_exceedance_curve": [
+     {
+      "loss": 113227.881743787,
+      "probability": 0.20430000000000004
+     },
+     {
+      "loss": 126651.98756412255,
+      "probability": 0.2037
+     },
+     {
+      "loss": 141667.6326263858,
+      "probability": 0.20289999999999997
+     },
+     {
+      "loss": 158463.50712659355,
+      "probability": 0.20189999999999997
+     },
+     {
+      "loss": 177250.67205070992,
+      "probability": 0.20040000000000002
+     },
+     {
+      "loss": 198265.2114175997,
+      "probability": 0.1986
+     },
+     {
+      "loss": 221771.19896741165,
+      "probability": 0.19630000000000003
+     },
+     {
+      "loss": 248064.01657551425,
+      "probability": 0.1935
+     },
+     {
+      "loss": 277474.0660919615,
+      "probability": 0.1895
+     },
+     {
+      "loss": 310370.9212503566,
+      "probability": 0.18479999999999996
+     },
+     {
+      "loss": 347167.97182000044,
+      "probability": 0.17959999999999998
+     },
+     {
+      "loss": 388327.6183608467,
+      "probability": 0.17320000000000002
+     },
+     {
+      "loss": 434367.0828598007,
+      "probability": 0.16749999999999998
+     },
+     {
+      "loss": 485864.9082662213,
+      "probability": 0.16090000000000004
+     },
+     {
+      "loss": 543468.2286013325,
+      "probability": 0.15259999999999996
+     },
+     {
+      "loss": 607900.9009994882,
+      "probability": 0.1441
+     },
+     {
+      "loss": 679972.6018704813,
+      "probability": 0.13439999999999996
+     },
+     {
+      "loss": 760589.0014874352,
+      "probability": 0.12339999999999995
+     },
+     {
+      "loss": 850763.1448565958,
+      "probability": 0.11450000000000005
+     },
+     {
+      "loss": 951628.1818837766,
+      "probability": 0.10270000000000001
+     },
+     {
+      "loss": 1064451.606807757,
+      "probability": 0.09289999999999998
+     },
+     {
+      "loss": 1190651.1858367757,
+      "probability": 0.08389999999999997
+     },
+     {
+      "loss": 1331812.77313864,
+      "probability": 0.07679999999999998
+     },
+     {
+      "loss": 1489710.23906442,
+      "probability": 0.07030000000000003
+     },
+     {
+      "loss": 1666327.7610285745,
+      "probability": 0.06289999999999996
+     },
+     {
+      "loss": 1863884.7571580869,
+      "probability": 0.05840000000000001
+     },
+     {
+      "loss": 2084863.7760327717,
+      "probability": 0.055400000000000005
+     },
+     {
+      "loss": 2332041.6929859323,
+      "probability": 0.05359999999999998
+     },
+     {
+      "loss": 2608524.60498561,
+      "probability": 0.05169999999999997
+     },
+     {
+      "loss": 2917786.8625937956,
+      "probability": 0.05010000000000003
+     },
+     {
+      "loss": 3263714.7294885847,
+      "probability": 0.04730000000000001
+     },
+     {
+      "loss": 3650655.218185365,
+      "probability": 0.04469999999999996
+     },
+     {
+      "loss": 4083470.7156383162,
+      "probability": 0.04149999999999998
+     },
+     {
+      "loss": 4567600.085160657,
+      "probability": 0.03869999999999996
+     },
+     {
+      "loss": 5109127.012485112,
+      "probability": 0.035699999999999954
+     },
+     {
+      "loss": 5714856.454817449,
+      "probability": 0.031000000000000028
+     },
+     {
+      "loss": 6392400.153560237,
+      "probability": 0.026599999999999957
+     },
+     {
+      "loss": 7150272.28528039,
+      "probability": 0.021700000000000053
+     },
+     {
+      "loss": 7997996.452893235,
+      "probability": 0.016900000000000026
+     },
+     {
+      "loss": 8946225.36154009,
+      "probability": 0.01200000000000001
+     },
+     {
+      "loss": 10006874.68303526,
+      "probability": 0.007600000000000051
+     },
+     {
+      "loss": 11193272.791054927,
+      "probability": 0.0048000000000000265
+     },
+     {
+      "loss": 12520328.248676326,
+      "probability": 0.0029000000000000137
+     },
+     {
+      "loss": 14004717.15295598,
+      "probability": 0.0016000000000000458
+     },
+     {
+      "loss": 15665092.690763544,
+      "probability": 0.0010000000000000009
+     },
+     {
+      "loss": 17522319.539200213,
+      "probability": 0.0008000000000000229
+     },
+     {
+      "loss": 19599736.056133877,
+      "probability": 0.00029999999999996696
+     },
+     {
+      "loss": 21923447.555599667,
+      "probability": 0.00019999999999997797
+     },
+     {
+      "loss": 24522654.353434984,
+      "probability": 9.999999999998899e-05
+     },
+     {
+      "loss": 27430018.705449697,
+      "probability": 9.999999999998899e-05
+     }
+    ],
+    "prob_exceeds_tolerance": 0.0987
+   },
+   "controls": [
+    {
+     "title": "Share fewer records with the vendor",
+     "run_id": "run_05",
+     "scenario": "vendor_breach",
+     "ale_after": 184557.36069933997,
+     "p99_after": 4654684.221634869,
+     "parameter": 0.5,
+     "tested_by": "agent",
+     "ale_before": 369114.72139867995,
+     "control_id": "limit_records_shared",
+     "p99_before": 9309368.443269739,
+     "base_run_id": "run_03",
+     "recommended": true,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 944389.6012157693,
+      "p95": 1804593.838778967,
+      "p99": 4713903.620614276,
+      "ale_mean": 305631.2235424161,
+      "prob_any_loss": 0.2043,
+      "loss_exceedance_curve": [
+       {
+        "loss": 113227.881743787,
+        "probability": 0.20430000000000004
+       },
+       {
+        "loss": 124890.27171491353,
+        "probability": 0.2037
+       },
+       {
+        "loss": 137753.8794227316,
+        "probability": 0.20299999999999996
+       },
+       {
+        "loss": 151942.42942580167,
+        "probability": 0.20209999999999995
+       },
+       {
+        "loss": 167592.3898227807,
+        "probability": 0.20120000000000005
+       },
+       {
+        "loss": 184854.2848278381,
+        "probability": 0.19979999999999998
+       },
+       {
+        "loss": 203894.14254039543,
+        "probability": 0.19820000000000004
+       },
+       {
+        "loss": 224895.0918340972,
+        "probability": 0.19610000000000005
+       },
+       {
+        "loss": 248059.1237241975,
+        "probability": 0.1935
+       },
+       {
+        "loss": 273609.0341545075,
+        "probability": 0.18979999999999997
+       },
+       {
+        "loss": 301790.56689000153,
+        "probability": 0.1855
+       },
+       {
+        "loss": 332874.7771258045,
+        "probability": 0.18200000000000005
+       },
+       {
+        "loss": 367160.6385462053,
+        "probability": 0.17589999999999995
+       },
+       {
+        "loss": 404977.91890885413,
+        "probability": 0.17100000000000004
+       },
+       {
+        "loss": 446690.35181206465,
+        "probability": 0.16620000000000001
+       },
+       {
+        "loss": 492699.13515184313,
+        "probability": 0.16010000000000002
+       },
+       {
+        "loss": 543446.7899174764,
+        "probability": 0.1523
+       },
+       {
+        "loss": 599421.4164402602,
+        "probability": 0.14429999999999998
+       },
+       {
+        "loss": 661161.3890327885,
+        "probability": 0.1361
+       },
+       {
+        "loss": 729260.5341726745,
+        "probability": 0.1271
+       },
+       {
+        "loss": 804373.8420354754,
+        "probability": 0.11619999999999997
+       },
+       {
+        "loss": 887223.7663113546,
+        "probability": 0.10660000000000003
+       },
+       {
+        "loss": 978607.1728983329,
+        "probability": 0.09640000000000004
+       },
+       {
+        "loss": 1079403.0043058929,
+        "probability": 0.08750000000000002
+       },
+       {
+        "loss": 1190580.7334866456,
+        "probability": 0.07899999999999996
+       },
+       {
+        "loss": 1313209.6884065135,
+        "probability": 0.07189999999999996
+       },
+       {
+        "loss": 1448469.3370389396,
+        "probability": 0.06520000000000004
+       },
+       {
+        "loss": 1597660.6317060236,
+        "probability": 0.05800000000000005
+       },
+       {
+        "loss": 1762218.5218786413,
+        "probability": 0.05149999999999999
+       },
+       {
+        "loss": 1943725.75578588,
+        "probability": 0.046499999999999986
+       },
+       {
+        "loss": 2143928.103580324,
+        "probability": 0.04290000000000005
+       },
+       {
+        "loss": 2364751.1484783026,
+        "probability": 0.03959999999999997
+       },
+       {
+        "loss": 2608318.8073755065,
+        "probability": 0.035800000000000054
+       },
+       {
+        "loss": 2876973.7590725576,
+        "probability": 0.031399999999999983
+       },
+       {
+        "loss": 3173299.976593124,
+        "probability": 0.027599999999999958
+       },
+       {
+        "loss": 3500147.580314423,
+        "probability": 0.023499999999999965
+       },
+       {
+        "loss": 3860660.2509522988,
+        "probability": 0.01859999999999995
+       },
+       {
+        "loss": 4258305.466063841,
+        "probability": 0.014800000000000035
+       },
+       {
+        "loss": 4696907.850888036,
+        "probability": 0.010299999999999976
+       },
+       {
+        "loss": 5180685.964298758,
+        "probability": 0.007199999999999984
+       },
+       {
+        "loss": 5714292.873684483,
+        "probability": 0.0044999999999999485
+       },
+       {
+        "loss": 6302860.909011116,
+        "probability": 0.0029000000000000137
+       },
+       {
+        "loss": 6952051.026521117,
+        "probability": 0.0017000000000000348
+       },
+       {
+        "loss": 7668107.256857758,
+        "probability": 0.0012999999999999678
+       },
+       {
+        "loss": 8457916.761307035,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 9329076.073788844,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 10289964.165725641,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 11349823.036539445,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 12518846.604912085,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 13808278.755780796,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0945
+     }
+    },
+    {
+     "title": "Fallback service or manual workaround",
+     "run_id": "run_04",
+     "scenario": "vendor_outage",
+     "ale_after": 56701.15009956471,
+     "p99_after": 1241435.9695486065,
+     "parameter": null,
+     "tested_by": "agent",
+     "ale_before": 120240.0500553966,
+     "control_id": "fallback_service",
+     "p99_before": 1574988.0515215523,
+     "base_run_id": "run_02",
+     "recommended": true,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 609951.6580096474,
+      "p95": 2909599.8637272315,
+      "p99": 9315412.457831461,
+      "ale_mean": 426649.68428592413,
+      "prob_any_loss": 0.1305,
+      "loss_exceedance_curve": [
+       {
+        "loss": 115260.96644673975,
+        "probability": 0.13049999999999995
+       },
+       {
+        "loss": 128861.34841686767,
+        "probability": 0.13029999999999997
+       },
+       {
+        "loss": 144066.52683661427,
+        "probability": 0.12949999999999995
+       },
+       {
+        "loss": 161065.86194971192,
+        "probability": 0.12919999999999998
+       },
+       {
+        "loss": 180071.05783166902,
+        "probability": 0.1281
+       },
+       {
+        "loss": 201318.79888203842,
+        "probability": 0.127
+       },
+       {
+        "loss": 225073.69741334888,
+        "probability": 0.1261
+       },
+       {
+        "loss": 251631.58904498824,
+        "probability": 0.12480000000000002
+       },
+       {
+        "loss": 281323.21694178774,
+        "probability": 0.12270000000000003
+       },
+       {
+        "loss": 314518.35077958513,
+        "probability": 0.12090000000000001
+       },
+       {
+        "loss": 351630.39173400163,
+        "probability": 0.11760000000000004
+       },
+       {
+        "loss": 393121.5208414255,
+        "probability": 0.11509999999999998
+       },
+       {
+        "loss": 439508.4548481906,
+        "probability": 0.11150000000000004
+       },
+       {
+        "loss": 491368.8812293819,
+        "probability": 0.1079
+       },
+       {
+        "loss": 549348.6525168456,
+        "probability": 0.10389999999999999
+       },
+       {
+        "loss": 614169.8295321921,
+        "probability": 0.09940000000000004
+       },
+       {
+        "loss": 686639.6736925385,
+        "probability": 0.09450000000000003
+       },
+       {
+        "loss": 767660.7003761705,
+        "probability": 0.08909999999999996
+       },
+       {
+        "loss": 858241.9185494191,
+        "probability": 0.08360000000000001
+       },
+       {
+        "loss": 959511.3966293305,
+        "probability": 0.07820000000000005
+       },
+       {
+        "loss": 1072730.3110731882,
+        "probability": 0.07379999999999998
+       },
+       {
+        "loss": 1199308.6526513936,
+        "probability": 0.06869999999999998
+       },
+       {
+        "loss": 1340822.7860043806,
+        "probability": 0.06430000000000002
+       },
+       {
+        "loss": 1499035.0811644862,
+        "probability": 0.060899999999999954
+       },
+       {
+        "loss": 1675915.8615271898,
+        "probability": 0.05740000000000001
+       },
+       {
+        "loss": 1873667.9416045127,
+        "probability": 0.05510000000000004
+       },
+       {
+        "loss": 2094754.0601456044,
+        "probability": 0.05349999999999999
+       },
+       {
+        "loss": 2341927.5502674403,
+        "probability": 0.05259999999999998
+       },
+       {
+        "loss": 2618266.6285513365,
+        "probability": 0.05149999999999999
+       },
+       {
+        "loss": 2927212.7301302347,
+        "probability": 0.049799999999999955
+       },
+       {
+        "loss": 3272613.3671792764,
+        "probability": 0.046699999999999964
+       },
+       {
+        "loss": 3658770.044554965,
+        "probability": 0.04410000000000003
+       },
+       {
+        "loss": 4090491.829308549,
+        "probability": 0.0413
+       },
+       {
+        "loss": 4573155.241210359,
+        "probability": 0.03849999999999998
+       },
+       {
+        "loss": 5112771.210141987,
+        "probability": 0.03539999999999999
+       },
+       {
+        "loss": 5716059.934221305,
+        "probability": 0.03080000000000005
+       },
+       {
+        "loss": 6390534.570918688,
+        "probability": 0.0262
+       },
+       {
+        "loss": 7144594.803425614,
+        "probability": 0.021299999999999986
+       },
+       {
+        "loss": 7987631.447520366,
+        "probability": 0.01649999999999996
+       },
+       {
+        "loss": 8930143.401669918,
+        "probability": 0.011800000000000033
+       },
+       {
+        "loss": 9983868.396825584,
+        "probability": 0.007499999999999951
+       },
+       {
+        "loss": 11161929.174227275,
+        "probability": 0.0048000000000000265
+       },
+       {
+        "loss": 12478996.911665948,
+        "probability": 0.0029000000000000137
+       },
+       {
+        "loss": 13951473.933460902,
+        "probability": 0.0014999999999999458
+       },
+       {
+        "loss": 15597697.979560895,
+        "probability": 0.0010000000000000009
+       },
+       {
+        "loss": 17438170.57766933,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 19495812.362463314,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 21796248.521568093,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 24368127.923135843,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 27243479.899337802,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0765
+     }
+    },
+    {
+     "title": "Encrypt shared data with client-held keys",
+     "run_id": "run_08",
+     "scenario": "vendor_breach",
+     "ale_after": 221468.83283920793,
+     "p99_after": 5585621.065961842,
+     "parameter": null,
+     "tested_by": "code",
+     "ale_before": 369114.72139867995,
+     "control_id": "client_held_encryption",
+     "p99_before": 9309368.443269739,
+     "base_run_id": "run_03",
+     "recommended": false,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 961729.0867469716,
+      "p95": 1968538.7473510394,
+      "p99": 5656684.344737132,
+      "ale_mean": 342542.6956822841,
+      "prob_any_loss": 0.2043,
+      "loss_exceedance_curve": [
+       {
+        "loss": 113227.881743787,
+        "probability": 0.20430000000000004
+       },
+       {
+        "loss": 125350.06863317071,
+        "probability": 0.2037
+       },
+       {
+        "loss": 138770.0579076037,
+        "probability": 0.20289999999999997
+       },
+       {
+        "loss": 153626.79240355626,
+        "probability": 0.20209999999999995
+       },
+       {
+        "loss": 170074.0901896833,
+        "probability": 0.20089999999999997
+       },
+       {
+        "loss": 188282.23711047784,
+        "probability": 0.1995
+       },
+       {
+        "loss": 208439.74982778818,
+        "probability": 0.19740000000000002
+       },
+       {
+        "loss": 230755.32761371156,
+        "probability": 0.19579999999999997
+       },
+       {
+        "loss": 255460.0131026092,
+        "probability": 0.19279999999999997
+       },
+       {
+        "loss": 282809.5843734168,
+        "probability": 0.1885
+       },
+       {
+        "loss": 313087.20312849496,
+        "probability": 0.1844
+       },
+       {
+        "loss": 346606.3463867435,
+        "probability": 0.17959999999999998
+       },
+       {
+        "loss": 383714.05204403034,
+        "probability": 0.17379999999999995
+       },
+       {
+        "loss": 424794.5119036067,
+        "probability": 0.16849999999999998
+       },
+       {
+        "loss": 470273.04937666655,
+        "probability": 0.16269999999999996
+       },
+       {
+        "loss": 520620.5230358837,
+        "probability": 0.15510000000000002
+       },
+       {
+        "loss": 576358.2016137668,
+        "probability": 0.14800000000000002
+       },
+       {
+        "loss": 638063.1609187614,
+        "probability": 0.13970000000000005
+       },
+       {
+        "loss": 706374.2585456715,
+        "probability": 0.13070000000000004
+       },
+       {
+        "loss": 781998.7482390896,
+        "probability": 0.12039999999999995
+       },
+       {
+        "loss": 865719.6023911495,
+        "probability": 0.1109
+       },
+       {
+        "loss": 958403.6184865421,
+        "probability": 0.10019999999999996
+       },
+       {
+        "loss": 1061010.3934242255,
+        "probability": 0.09060000000000001
+       },
+       {
+        "loss": 1174602.2586308082,
+        "probability": 0.0817
+       },
+       {
+        "loss": 1300355.278828027,
+        "probability": 0.07440000000000002
+       },
+       {
+        "loss": 1439571.42832925,
+        "probability": 0.06740000000000002
+       },
+       {
+        "loss": 1593692.0709313238,
+        "probability": 0.0615
+       },
+       {
+        "loss": 1764312.8829648294,
+        "probability": 0.05569999999999997
+       },
+       {
+        "loss": 1953200.3740073827,
+        "probability": 0.05030000000000001
+       },
+       {
+        "loss": 2162310.176305973,
+        "probability": 0.04700000000000004
+       },
+       {
+        "loss": 2393807.2922664224,
+        "probability": 0.04349999999999998
+       },
+       {
+        "loss": 2650088.5096408273,
+        "probability": 0.0403
+       },
+       {
+        "loss": 2933807.216486961,
+        "probability": 0.03759999999999997
+       },
+       {
+        "loss": 3247900.8728193548,
+        "probability": 0.03369999999999995
+       },
+       {
+        "loss": 3595621.4233777313,
+        "probability": 0.02949999999999997
+       },
+       {
+        "loss": 3980568.9663891327,
+        "probability": 0.025399999999999978
+       },
+       {
+        "loss": 4406729.026910607,
+        "probability": 0.02059999999999995
+       },
+       {
+        "loss": 4878513.820659193,
+        "probability": 0.016599999999999948
+       },
+       {
+        "loss": 5400807.935551232,
+        "probability": 0.011900000000000022
+       },
+       {
+        "loss": 5979018.903911156,
+        "probability": 0.008199999999999985
+       },
+       {
+        "loss": 6619133.18894542,
+        "probability": 0.005199999999999982
+       },
+       {
+        "loss": 7327778.165133209,
+        "probability": 0.0033999999999999586
+       },
+       {
+        "loss": 8112290.7342431,
+        "probability": 0.0020000000000000018
+       },
+       {
+        "loss": 8980793.287386604,
+        "probability": 0.0012999999999999678
+       },
+       {
+        "loss": 9942277.799575653,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 11006698.927450713,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 12185077.074059967,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 13489612.487762578,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 14933811.576570434,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 16532626.745714577,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0962
+     }
+    },
+    {
+     "title": "Require SOC 2 Type 2 with annual re-attestation",
+     "run_id": "run_07",
+     "scenario": "vendor_breach",
+     "ale_after": 249908.6138256435,
+     "p99_after": 8298827.679176041,
+     "parameter": null,
+     "tested_by": "code",
+     "ale_before": 369114.72139867995,
+     "control_id": "require_soc2_type2",
+     "p99_before": 9309368.443269739,
+     "base_run_id": "run_03",
+     "recommended": false,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 799025.7433702922,
+      "p95": 1533995.783696044,
+      "p99": 8529891.319253603,
+      "ale_mean": 370982.47666871955,
+      "prob_any_loss": 0.1871,
+      "loss_exceedance_curve": [
+       {
+        "loss": 113227.881743787,
+        "probability": 0.18710000000000004
+       },
+       {
+        "loss": 125739.44436441282,
+        "probability": 0.1865
+       },
+       {
+        "loss": 139633.52158125836,
+        "probability": 0.18569999999999998
+       },
+       {
+        "loss": 155062.8798126135,
+        "probability": 0.18479999999999996
+       },
+       {
+        "loss": 172197.16600636268,
+        "probability": 0.18330000000000002
+       },
+       {
+        "loss": 191224.77292086813,
+        "probability": 0.1814
+       },
+       {
+        "loss": 212354.9105174381,
+        "probability": 0.1795
+       },
+       {
+        "loss": 235819.9062395018,
+        "probability": 0.17779999999999996
+       },
+       {
+        "loss": 261877.7594702279,
+        "probability": 0.17410000000000003
+       },
+       {
+        "loss": 290814.97825504106,
+        "probability": 0.16959999999999997
+       },
+       {
+        "loss": 322949.7294790125,
+        "probability": 0.1652
+       },
+       {
+        "loss": 358635.33713555976,
+        "probability": 0.15910000000000002
+       },
+       {
+        "loss": 398264.16715018626,
+        "probability": 0.15480000000000005
+       },
+       {
+        "loss": 442271.94147317734,
+        "probability": 0.14900000000000002
+       },
+       {
+        "loss": 491142.5288750387,
+        "probability": 0.1422
+       },
+       {
+        "loss": 545413.2651198215,
+        "probability": 0.13390000000000002
+       },
+       {
+        "loss": 605680.8610120411,
+        "probability": 0.12570000000000003
+       },
+       {
+        "loss": 672607.9632766073,
+        "probability": 0.1169
+       },
+       {
+        "loss": 746930.4404091303,
+        "probability": 0.10640000000000005
+       },
+       {
+        "loss": 829465.4736050786,
+        "probability": 0.09750000000000003
+       },
+       {
+        "loss": 921120.5417281416,
+        "probability": 0.08620000000000005
+       },
+       {
+        "loss": 1022903.3991082206,
+        "probability": 0.0776
+       },
+       {
+        "loss": 1135933.1558756665,
+        "probability": 0.06830000000000003
+       },
+       {
+        "loss": 1261452.5826608741,
+        "probability": 0.06110000000000004
+       },
+       {
+        "loss": 1400841.7749503215,
+        "probability": 0.05449999999999999
+       },
+       {
+        "loss": 1555633.3273396762,
+        "probability": 0.048900000000000055
+       },
+       {
+        "loss": 1727529.1845260242,
+        "probability": 0.04310000000000003
+       },
+       {
+        "loss": 1918419.354317104,
+        "probability": 0.03990000000000005
+       },
+       {
+        "loss": 2130402.68840854,
+        "probability": 0.037699999999999956
+       },
+       {
+        "loss": 2365809.959415227,
+        "probability": 0.036599999999999966
+       },
+       {
+        "loss": 2627229.4878905783,
+        "probability": 0.035599999999999965
+       },
+       {
+        "loss": 2917535.601104615,
+        "probability": 0.034499999999999975
+       },
+       {
+        "loss": 3239920.2364872997,
+        "probability": 0.032200000000000006
+       },
+       {
+        "loss": 3597928.037219363,
+        "probability": 0.03080000000000005
+       },
+       {
+        "loss": 3995495.3258491806,
+        "probability": 0.02959999999999996
+       },
+       {
+        "loss": 4436993.384453658,
+        "probability": 0.027699999999999947
+       },
+       {
+        "loss": 4927276.517211638,
+        "probability": 0.02629999999999999
+       },
+       {
+        "loss": 5471735.42384145,
+        "probability": 0.0232
+       },
+       {
+        "loss": 6076356.470747548,
+        "probability": 0.01990000000000003
+       },
+       {
+        "loss": 6747787.511566893,
+        "probability": 0.017199999999999993
+       },
+       {
+        "loss": 7493410.980817033,
+        "probability": 0.014000000000000012
+       },
+       {
+        "loss": 8321425.064315678,
+        "probability": 0.010600000000000054
+       },
+       {
+        "loss": 9240933.838847201,
+        "probability": 0.007800000000000029
+       },
+       {
+        "loss": 10262047.372167718,
+        "probability": 0.0047000000000000375
+       },
+       {
+        "loss": 11395992.883956375,
+        "probability": 0.0029000000000000137
+       },
+       {
+        "loss": 12655238.189935517,
+        "probability": 0.0018000000000000238
+       },
+       {
+        "loss": 14053628.786437133,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 15606540.08267083,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 17331046.45449785,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 19246108.97847131,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0791
+     }
+    },
+    {
+     "title": "Exit plan, data export and escrow terms",
+     "run_id": "run_06",
+     "scenario": "vendor_insolvency",
+     "ale_after": 416.90639383976287,
+     "p99_after": 0.0,
+     "parameter": null,
+     "tested_by": "code",
+     "ale_before": 833.8127876795257,
+     "control_id": "exit_plan_and_escrow",
+     "p99_before": 0.0,
+     "base_run_id": "run_01",
+     "recommended": false,
+     "combined_after": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 975890.5035682621,
+      "p95": 2969035.8484363547,
+      "p99": 9410178.070907906,
+      "ale_mean": 489771.6778479162,
+      "prob_any_loss": 0.2043,
+      "loss_exceedance_curve": [
+       {
+        "loss": 113227.881743787,
+        "probability": 0.20430000000000004
+       },
+       {
+        "loss": 126651.98756412255,
+        "probability": 0.2037
+       },
+       {
+        "loss": 141667.6326263858,
+        "probability": 0.20289999999999997
+       },
+       {
+        "loss": 158463.50712659355,
+        "probability": 0.20189999999999997
+       },
+       {
+        "loss": 177250.67205070992,
+        "probability": 0.20040000000000002
+       },
+       {
+        "loss": 198265.2114175997,
+        "probability": 0.1986
+       },
+       {
+        "loss": 221771.19896741165,
+        "probability": 0.19630000000000003
+       },
+       {
+        "loss": 248064.01657551425,
+        "probability": 0.19340000000000002
+       },
+       {
+        "loss": 277474.0660919615,
+        "probability": 0.1894
+       },
+       {
+        "loss": 310370.9212503566,
+        "probability": 0.18469999999999998
+       },
+       {
+        "loss": 347167.97182000044,
+        "probability": 0.1794
+       },
+       {
+        "loss": 388327.6183608467,
+        "probability": 0.17300000000000004
+       },
+       {
+        "loss": 434367.0828598007,
+        "probability": 0.1673
+       },
+       {
+        "loss": 485864.9082662213,
+        "probability": 0.16069999999999995
+       },
+       {
+        "loss": 543468.2286013325,
+        "probability": 0.1523
+       },
+       {
+        "loss": 607900.9009994882,
+        "probability": 0.14359999999999995
+       },
+       {
+        "loss": 679972.6018704813,
+        "probability": 0.13390000000000002
+       },
+       {
+        "loss": 760589.0014874352,
+        "probability": 0.12290000000000001
+       },
+       {
+        "loss": 850763.1448565958,
+        "probability": 0.11399999999999999
+       },
+       {
+        "loss": 951628.1818837766,
+        "probability": 0.10229999999999995
+       },
+       {
+        "loss": 1064451.606807757,
+        "probability": 0.09260000000000002
+       },
+       {
+        "loss": 1190651.1858367757,
+        "probability": 0.08379999999999999
+       },
+       {
+        "loss": 1331812.77313864,
+        "probability": 0.07679999999999998
+       },
+       {
+        "loss": 1489710.23906442,
+        "probability": 0.07030000000000003
+       },
+       {
+        "loss": 1666327.7610285745,
+        "probability": 0.06279999999999997
+       },
+       {
+        "loss": 1863884.7571580869,
+        "probability": 0.05830000000000002
+       },
+       {
+        "loss": 2084863.7760327717,
+        "probability": 0.055300000000000016
+       },
+       {
+        "loss": 2332041.6929859323,
+        "probability": 0.05359999999999998
+       },
+       {
+        "loss": 2608524.60498561,
+        "probability": 0.05169999999999997
+       },
+       {
+        "loss": 2917786.8625937956,
+        "probability": 0.05010000000000003
+       },
+       {
+        "loss": 3263714.7294885847,
+        "probability": 0.04730000000000001
+       },
+       {
+        "loss": 3650655.218185365,
+        "probability": 0.04469999999999996
+       },
+       {
+        "loss": 4083470.7156383162,
+        "probability": 0.04149999999999998
+       },
+       {
+        "loss": 4567600.085160657,
+        "probability": 0.03869999999999996
+       },
+       {
+        "loss": 5109127.012485112,
+        "probability": 0.035699999999999954
+       },
+       {
+        "loss": 5714856.454817449,
+        "probability": 0.031000000000000028
+       },
+       {
+        "loss": 6392400.153560237,
+        "probability": 0.026599999999999957
+       },
+       {
+        "loss": 7150272.28528039,
+        "probability": 0.021599999999999953
+       },
+       {
+        "loss": 7997996.452893235,
+        "probability": 0.016900000000000026
+       },
+       {
+        "loss": 8946225.36154009,
+        "probability": 0.01200000000000001
+       },
+       {
+        "loss": 10006874.68303526,
+        "probability": 0.007600000000000051
+       },
+       {
+        "loss": 11193272.791054927,
+        "probability": 0.0048000000000000265
+       },
+       {
+        "loss": 12520328.248676326,
+        "probability": 0.0029000000000000137
+       },
+       {
+        "loss": 14004717.15295598,
+        "probability": 0.0016000000000000458
+       },
+       {
+        "loss": 15665092.690763544,
+        "probability": 0.0010000000000000009
+       },
+       {
+        "loss": 17522319.539200213,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 19599736.056133877,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 21923447.555599667,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 24522654.353434984,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 27430018.705449697,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0983
+     }
+    }
+   ],
+   "evidence": [
+    {
+     "id": "ev_1",
+     "kind": "finding",
+     "title": "Financial score 70/100 (confidence 70%)",
+     "detail": "Veeva Systems shows strong liquidity, low leverage, high profitability and robust growth, yielding a moderate overall risk score.",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_2",
+     "kind": "finding",
+     "title": "current_ratio: 5.458",
+     "detail": "",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_3",
+     "kind": "finding",
+     "title": "debt_equity_ratio: 0.0204",
+     "detail": "",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_4",
+     "kind": "finding",
+     "title": "net_margin: 29.34%",
+     "detail": "",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_5",
+     "kind": "finding",
+     "title": "revenue_growth: 17.6%",
+     "detail": "",
+     "citation": "Financial agent"
+    },
+    {
+     "id": "ev_6",
+     "kind": "finding",
+     "title": "Compliance score 95/100 (confidence 99%)",
+     "detail": "Veeva holds the required SOC2_Type2 certification plus ISO27001 and ISO9001, and cleared OFAC screening. All legal, data privacy (HIPAA) and ESG criteria are met, yielding a high compliance score.",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_7",
+     "kind": "finding",
+     "title": "ISO27001 [CORROBORATED]",
+     "detail": "",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_8",
+     "kind": "finding",
+     "title": "ISO9001 [CORROBORATED]",
+     "detail": "",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_9",
+     "kind": "finding",
+     "title": "SOC2_Type2 [CORROBORATED]",
+     "detail": "",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_10",
+     "kind": "finding",
+     "title": "OFAC screening: CLEAR",
+     "detail": "",
+     "citation": "Compliance agent"
+    },
+    {
+     "id": "ev_11",
+     "kind": "finding",
+     "title": "Certification ISO27001: CORROBORATED",
+     "detail": "",
+     "citation": "Certification discovery (evidence tier)"
+    },
+    {
+     "id": "ev_12",
+     "kind": "finding",
+     "title": "Certification ISO9001: CORROBORATED",
+     "detail": "",
+     "citation": "Certification discovery (evidence tier)"
+    },
+    {
+     "id": "ev_13",
+     "kind": "finding",
+     "title": "Certification SOC2_Type2: CORROBORATED",
+     "detail": "",
+     "citation": "Certification discovery (evidence tier)"
+    },
+    {
+     "id": "ev_14",
+     "kind": "finding",
+     "title": "Operational score 85/100 (confidence 85%)",
+     "detail": "Veeva Systems shows strong operational capability due to its large size, 19\u2011year history, and position in the regulated healthcare sector.",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_15",
+     "kind": "finding",
+     "title": "19 years in operation [provided data]",
+     "detail": "",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_16",
+     "kind": "finding",
+     "title": "large company size [provided data]",
+     "detail": "",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_17",
+     "kind": "finding",
+     "title": "healthcare industry context [provided data]",
+     "detail": "",
+     "citation": "Operational agent"
+    },
+    {
+     "id": "ev_18",
+     "kind": "finding",
+     "title": "Reputation score 90/100 (confidence 85%)",
+     "detail": "Veeva Systems enjoys positive recent coverage, no scandals, strong certifications and growth, yielding a low reputation risk.",
+     "citation": "Reputation agent"
+    },
+    {
+     "id": "ev_19",
+     "kind": "finding",
+     "title": "Improving Software Sentiment and Positive News Fuel Veeva Systems\u2019 Share Price Appreciation",
+     "detail": "",
+     "citation": "Reputation agent"
+    },
+    {
+     "id": "ev_20",
+     "kind": "finding",
+     "title": "Leading Biotech Selects Veeva Vault CRM Globally",
+     "detail": "",
+     "citation": "Reputation agent"
+    },
+    {
+     "id": "ev_21",
+     "kind": "finding",
+     "title": "Veeva (VEEV) Stock May Be 17% Undervalued On Cash Flow Expectations",
+     "detail": "",
+     "citation": "Reputation agent"
+    },
+    {
+     "id": "ev_22",
+     "kind": "finding",
+     "title": "Strategic score 74/100 (confidence 90%)",
+     "detail": "Veeva meets both security and compliance priorities fully, shows strong financial capability, lacks only HIPAA certification among nice\u2011to\u2011haves, and presents a solid long\u2011term partnership outlook.",
+     "citation": "Strategic agent"
+    },
+    {
+     "id": "ev_23",
+     "kind": "finding",
+     "title": "ISO27001, ISO9001, SOC2_Type2 certifications satisfy security priority [vendor data \u2013 certifications]",
+     "detail": "",
+     "citation": "Strategic agent"
+    },
+    {
+     "id": "ev_24",
+     "kind": "finding",
+     "title": "ISO27001, ISO9001, SOC2_Type2 certifications satisfy compliance priority [vendor data \u2013 certifications]",
+     "detail": "",
+     "citation": "Strategic agent"
+    },
+    {
+     "id": "ev_25",
+     "kind": "finding",
+     "title": "Revenue growth 17.6% exceeds benchmark >5% indicating capability to deliver [vendor data \u2013 revenue_growth; rag_context \u2013 \u201cRevenue growth healthy above 5% YoY\u201d]",
+     "detail": "",
+     "citation": "Strategic agent"
+    },
+    {
+     "id": "ev_26",
+     "kind": "finding",
+     "title": "Gross margin 74.96% far above typical 25-40% showing financial strength [vendor data \u2013 gross_margin; rag_context \u2013 \u201cGross margin typically 25-40%\u201d]",
+     "detail": "",
+     "citation": "Strategic agent"
+    }
+   ],
+   "llm_calls": 8,
+   "narrative": "The analysis shows that Veeva Systems\u2019 financial health makes insolvency risk essentially immaterial, well under the client\u2019s $1\u202fM tolerance. Outage risk, driven primarily by productivity loss, has an expected annual loss of $120\u202fK but a tail risk (P99) of $1.57\u202fM, giving a 4.2% chance of exceeding tolerance; applying the \u2018fallback_service\u2019 control reduces the expected loss to $56.7\u202fK and the P99 to $1.24\u202fM, lowering the exceed\u2011tolerance chance to 1.9%. Breach risk, with a $369\u202fK expected loss, has a heavy tail (P99 $9.31\u202fM); limiting the records shared to 50% cuts the expected loss to $185\u202fK and the P99 to $4.65\u202fM, modestly reducing the exceed\u2011tolerance probability. Overall, the vendor\u2019s breach and outage exposures merit targeted mitigations, while insolvency poses little concern.",
+   "scenarios": [
+    {
+     "loss": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "ale_mean": 833.8127876795257,
+      "prob_any_loss": 0.0009,
+      "loss_exceedance_curve": [
+       {
+        "loss": 446215.3835290916,
+        "probability": 0.0009000000000000119
+       },
+       {
+        "loss": 455585.867567941,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 465153.130952289,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 474921.3060311856,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 484894.61193264846,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 495077.35638601764,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 505473.9375825698,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 516088.8460752146,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 526926.6667180805,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 537992.0806468315,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 549289.8673005715,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 560824.9064862062,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 572602.1804861635,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 584626.7762103627,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 596903.8873933883,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 609438.8168377967,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 622236.9787045344,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 635303.9008514541,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 648645.2272209394,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 662266.7202776736,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 676174.2634975913,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 690373.863909108,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 704871.6546877113,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 719673.8978050371,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 734786.9867335788,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 750217.4492081912,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 765971.9500455951,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 782057.2940230747,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 798480.4288176442,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 815248.4480069276,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 832368.5941330583,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 849848.2618309218,
+        "probability": 0.0006000000000000449
+       },
+       {
+        "loss": 867695.0010220873,
+        "probability": 0.0006000000000000449
+       },
+       {
+        "loss": 885916.5201758227,
+        "probability": 0.0006000000000000449
+       },
+       {
+        "loss": 904520.6896385709,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 923515.5450333637,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 942909.2907306141,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 962710.3033917964,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 982927.1355875434,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 1003568.5194917213,
+        "probability": 0.0004999999999999449
+       },
+       {
+        "loss": 1024643.3706530901,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 1046160.7918461482,
+        "probability": 0.00039999999999995595
+       },
+       {
+        "loss": 1068130.0770028646,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 1090560.7152269671,
+        "probability": 0.00019999999999997797
+       },
+       {
+        "loss": 1113462.3948925314,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 1136845.007828643,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 1160718.6535919297,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 1185093.6438288332,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 1209980.5067294615,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 1235389.991574996,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0005
+     },
+     "label": "vendor_insolvency_adjusted",
+     "title": "Vendor insolvency",
+     "inputs": [
+      {
+       "max": 0.0015,
+       "min": 0.0001,
+       "mode": 0.0005,
+       "path": "threat_event_frequency",
+       "source": "ev_1,ev_2,ev_3,ev_4,ev_5",
+       "rationale": "Strong liquidity, low leverage and high profitability indicate default probability far below benchmark."
+      },
+      {
+       "max": 1.0,
+       "min": 1.0,
+       "mode": 1.0,
+       "path": "vulnerability",
+       "source": "derived:every_default_is_loss",
+       "rationale": "Every default results in loss."
+      },
+      {
+       "max": 1000000.0,
+       "min": 66666.66666666667,
+       "mode": 333333.3333333333,
+       "path": "primary_loss.productivity",
+       "source": "assumption",
+       "rationale": "Disruption while switching, high service criticality."
+      },
+      {
+       "max": 1333333.3333333333,
+       "min": 166666.66666666666,
+       "mode": 500000.0,
+       "path": "primary_loss.replacement",
+       "source": "assumption",
+       "rationale": "Switching and migration cost assumed at 0.25-2x the annual contract value."
+      }
+     ],
+     "run_id": "run_01",
+     "drivers": [
+      {
+       "path": "threat_event_frequency",
+       "share": 0.6366774809832163,
+       "swing": 2759.9914127597544,
+       "low_ale": 0.0,
+       "high_ale": 2759.9914127597544
+      },
+      {
+       "path": "primary_loss.replacement",
+       "share": 0.20184584389821317,
+       "swing": 874.9999999999999,
+       "low_ale": 225.21092232408486,
+       "high_ale": 1100.2109223240848
+      },
+      {
+       "path": "primary_loss.productivity",
+       "share": 0.16147667511857056,
+       "swing": 700.0,
+       "low_ale": 501.74846432858044,
+       "high_ale": 1201.7484643285804
+      }
+     ],
+     "scenario": "vendor_insolvency",
+     "breakdown": {
+      "primary_loss.replacement": 573.4282026646339,
+      "primary_loss.productivity": 260.3845850148919
+     },
+     "assumption_count": 2,
+     "loss_event_frequency_mean": 0.0009
+    },
+    {
+     "loss": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 532353.2456926167,
+      "p95": 913919.1583006041,
+      "p99": 1574988.0515215523,
+      "ale_mean": 120240.0500553966,
+      "prob_any_loss": 0.1535,
+      "loss_exceedance_curve": [
+       {
+        "loss": 113227.881743787,
+        "probability": 0.15349999999999997
+       },
+       {
+        "loss": 120920.81554835614,
+        "probability": 0.15300000000000002
+       },
+       {
+        "loss": 129136.42300547507,
+        "probability": 0.15290000000000004
+       },
+       {
+        "loss": 137910.2156318169,
+        "probability": 0.15200000000000002
+       },
+       {
+        "loss": 147280.11766910958,
+        "probability": 0.15159999999999996
+       },
+       {
+        "loss": 157286.6300096071,
+        "probability": 0.15090000000000003
+       },
+       {
+        "loss": 167973.00525899732,
+        "probability": 0.15000000000000002
+       },
+       {
+        "loss": 179385.4346934365,
+        "probability": 0.14900000000000002
+       },
+       {
+        "loss": 191573.2479188324,
+        "probability": 0.14749999999999996
+       },
+       {
+        "loss": 204589.1260953818,
+        "probability": 0.14639999999999997
+       },
+       {
+        "loss": 218489.32964902473,
+        "probability": 0.14470000000000005
+       },
+       {
+        "loss": 233333.94145407458,
+        "probability": 0.14370000000000005
+       },
+       {
+        "loss": 249187.12653817984,
+        "probability": 0.14159999999999995
+       },
+       {
+        "loss": 266117.4094321648,
+        "probability": 0.1391
+       },
+       {
+        "loss": 284197.97036359314,
+        "probability": 0.13649999999999995
+       },
+       {
+        "loss": 303506.9615743199,
+        "probability": 0.13319999999999999
+       },
+       {
+        "loss": 324127.84512931266,
+        "probability": 0.13049999999999995
+       },
+       {
+        "loss": 346149.7536768892,
+        "probability": 0.1271
+       },
+       {
+        "loss": 369667.8757197436,
+        "probability": 0.12280000000000002
+       },
+       {
+        "loss": 394783.86706207646,
+        "probability": 0.1199
+       },
+       {
+        "loss": 421606.2902112844,
+        "probability": 0.11599999999999999
+       },
+       {
+        "loss": 450251.0836334965,
+        "probability": 0.11299999999999999
+       },
+       {
+        "loss": 480842.06289128895,
+        "probability": 0.10840000000000005
+       },
+       {
+        "loss": 513511.455829731,
+        "probability": 0.1028
+       },
+       {
+        "loss": 548400.4741240502,
+        "probability": 0.09799999999999998
+       },
+       {
+        "loss": 585659.9236594313,
+        "probability": 0.09230000000000005
+       },
+       {
+        "loss": 625450.8563812489,
+        "probability": 0.08699999999999997
+       },
+       {
+        "loss": 667945.2664333573,
+        "probability": 0.08130000000000004
+       },
+       {
+        "loss": 713326.8335934177,
+        "probability": 0.07520000000000004
+       },
+       {
+        "loss": 761791.7172187645,
+        "probability": 0.06779999999999997
+       },
+       {
+        "loss": 813549.4041345537,
+        "probability": 0.061899999999999955
+       },
+       {
+        "loss": 868823.6141291898,
+        "probability": 0.05559999999999998
+       },
+       {
+        "loss": 927853.2669709382,
+        "probability": 0.04820000000000002
+       },
+       {
+        "loss": 990893.5151256487,
+        "probability": 0.042200000000000015
+       },
+       {
+        "loss": 1058216.8466394157,
+        "probability": 0.036900000000000044
+       },
+       {
+        "loss": 1130114.2629533398,
+        "probability": 0.031200000000000006
+       },
+       {
+        "loss": 1206896.5367414537,
+        "probability": 0.026100000000000012
+       },
+       {
+        "loss": 1288895.555208697,
+        "probability": 0.02190000000000003
+       },
+       {
+        "loss": 1376465.7546553377,
+        "probability": 0.017800000000000038
+       },
+       {
+        "loss": 1469985.652508595,
+        "probability": 0.013800000000000034
+       },
+       {
+        "loss": 1569859.4834436662,
+        "probability": 0.010199999999999987
+       },
+       {
+        "loss": 1676518.9466661136,
+        "probability": 0.006800000000000028
+       },
+       {
+        "loss": 1790425.0719082414,
+        "probability": 0.0048000000000000265
+       },
+       {
+        "loss": 1912070.2122050272,
+        "probability": 0.0030999999999999917
+       },
+       {
+        "loss": 2041980.1720633828,
+        "probability": 0.0021999999999999797
+       },
+       {
+        "loss": 2180716.4802235244,
+        "probability": 0.0013999999999999568
+       },
+       {
+        "loss": 2328878.8168364572,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 2487107.605548824,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 2656086.7816992933,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 2836546.748591898,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0418
+     },
+     "label": "vendor_outage_adjusted",
+     "title": "Vendor service outage",
+     "inputs": [
+      {
+       "max": 2.0,
+       "min": 0.5,
+       "mode": 1.0,
+       "path": "threat_event_frequency",
+       "source": "ev_14,ev_15,ev_16,ev_17",
+       "rationale": "Operational strength reduces expected number of significant outages per year."
+      },
+      {
+       "max": 0.3,
+       "min": 0.05,
+       "mode": 0.15,
+       "path": "vulnerability",
+       "source": "ev_14,ev_15",
+       "rationale": "Robust operations and fallback capability lower chance outage impacts business."
+      },
+      {
+       "max": 2400000.0,
+       "min": 100000.0,
+       "mode": 400000.0,
+       "path": "primary_loss.productivity",
+       "source": "client, assumption",
+       "rationale": "Revenue at risk per hour multiplied by assumed outage duration."
+      },
+      {
+       "max": 50000.0,
+       "min": 2000.0,
+       "mode": 10000.0,
+       "path": "primary_loss.response",
+       "source": "assumption",
+       "rationale": "Staff time to handle incident."
+      }
+     ],
+     "run_id": "run_02",
+     "drivers": [
+      {
+       "path": "primary_loss.productivity",
+       "share": 0.5225127893942096,
+       "swing": 400200.0,
+       "low_ale": 20134.387865437926,
+       "high_ale": 420334.38786543795
+      },
+      {
+       "path": "vulnerability",
+       "share": 0.25266785392711966,
+       "swing": 193521.91409298708,
+       "low_ale": 38630.311202010955,
+       "high_ale": 232152.22529499803
+      },
+      {
+       "path": "threat_event_frequency",
+       "share": 0.21391474194348728,
+       "swing": 163840.35274052626,
+       "low_ale": 57953.03362036908,
+       "high_ale": 221793.38636089535
+      },
+      {
+       "path": "primary_loss.response",
+       "share": 0.010904614735183506,
+       "swing": 8352.0,
+       "low_ale": 122511.39585848749,
+       "high_ale": 130863.39585848749
+      }
+     ],
+     "scenario": "vendor_outage",
+     "breakdown": {
+      "primary_loss.response": 2604.008044857093,
+      "primary_loss.productivity": 117636.04201053953
+     },
+     "assumption_count": 1,
+     "loss_event_frequency_mean": 0.1684
+    },
+    {
+     "loss": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 2831948.3624813347,
+      "p99": 9309368.443269739,
+      "ale_mean": 369114.72139867995,
+      "prob_any_loss": 0.0584,
+      "loss_exceedance_curve": [
+       {
+        "loss": 873443.2582190931,
+        "probability": 0.05840000000000001
+       },
+       {
+        "loss": 936968.65410955,
+        "probability": 0.05830000000000002
+       },
+       {
+        "loss": 1005114.2424224296,
+        "probability": 0.05830000000000002
+       },
+       {
+        "loss": 1078216.0490529046,
+        "probability": 0.05800000000000005
+       },
+       {
+        "loss": 1156634.539008608,
+        "probability": 0.05789999999999995
+       },
+       {
+        "loss": 1240756.3938625937,
+        "probability": 0.057699999999999974
+       },
+       {
+        "loss": 1330996.4184801597,
+        "probability": 0.057599999999999985
+       },
+       {
+        "loss": 1427799.5864216362,
+        "probability": 0.05720000000000003
+       },
+       {
+        "loss": 1531643.2341070075,
+        "probability": 0.05679999999999996
+       },
+       {
+        "loss": 1643039.4145617948,
+        "probability": 0.05569999999999997
+       },
+       {
+        "loss": 1762537.4223505075,
+        "probability": 0.05500000000000005
+       },
+       {
+        "loss": 1890726.502148153,
+        "probability": 0.054300000000000015
+       },
+       {
+        "loss": 2028238.7543057096,
+        "probability": 0.053300000000000014
+       },
+       {
+        "loss": 2175752.251736953,
+        "probability": 0.05249999999999999
+       },
+       {
+        "loss": 2333994.38349599,
+        "probability": 0.052200000000000024
+       },
+       {
+        "loss": 2503745.4415326603,
+        "probability": 0.05159999999999998
+       },
+       {
+        "loss": 2685842.4683121545,
+        "probability": 0.050799999999999956
+       },
+       {
+        "loss": 2881183.3842713865,
+        "probability": 0.049900000000000055
+       },
+       {
+        "loss": 3090731.4154646597,
+        "probability": 0.04800000000000004
+       },
+       {
+        "loss": 3315519.8432313357,
+        "probability": 0.04590000000000005
+       },
+       {
+        "loss": 3556657.099306083,
+        "probability": 0.044499999999999984
+       },
+       {
+        "loss": 3815332.2314957823,
+        "probability": 0.04279999999999995
+       },
+       {
+        "loss": 4092820.766874227,
+        "probability": 0.04079999999999995
+       },
+       {
+        "loss": 4390491.001406113,
+        "probability": 0.03920000000000001
+       },
+       {
+        "loss": 4709810.747014424,
+        "probability": 0.037699999999999956
+       },
+       {
+        "loss": 5052354.56936102,
+        "probability": 0.03539999999999999
+       },
+       {
+        "loss": 5419811.552029852,
+        "probability": 0.03269999999999995
+       },
+       {
+        "loss": 5813993.625398159,
+        "probability": 0.02939999999999998
+       },
+       {
+        "loss": 6236844.5012650965,
+        "probability": 0.026800000000000046
+       },
+       {
+        "loss": 6690449.257294604,
+        "probability": 0.023499999999999965
+       },
+       {
+        "loss": 7177044.618533354,
+        "probability": 0.02070000000000005
+       },
+       {
+        "loss": 7699029.98670188,
+        "probability": 0.017900000000000027
+       },
+       {
+        "loss": 8258979.27164451,
+        "probability": 0.01539999999999997
+       },
+       {
+        "loss": 8859653.583278727,
+        "probability": 0.012199999999999989
+       },
+       {
+        "loss": 9504014.846628152,
+        "probability": 0.009299999999999975
+       },
+       {
+        "loss": 10195240.407074802,
+        "probability": 0.006800000000000028
+       },
+       {
+        "loss": 10936738.69784913,
+        "probability": 0.0050000000000000044
+       },
+       {
+        "loss": 11732166.04701427,
+        "probability": 0.0036000000000000476
+       },
+       {
+        "loss": 12585444.706819575,
+        "probability": 0.0027000000000000357
+       },
+       {
+        "loss": 13500782.19432656,
+        "probability": 0.0019000000000000128
+       },
+       {
+        "loss": 14482692.038675379,
+        "probability": 0.0013999999999999568
+       },
+       {
+        "loss": 15536016.037297033,
+        "probability": 0.0010999999999999899
+       },
+       {
+        "loss": 16665948.130816305,
+        "probability": 0.0008000000000000229
+       },
+       {
+        "loss": 17878060.01437311,
+        "probability": 0.0007000000000000339
+       },
+       {
+        "loss": 19178328.611651048,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 20573165.547088046,
+        "probability": 0.00029999999999996696
+       },
+       {
+        "loss": 22069448.761596374,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 23674556.42768927,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 25396403.33124931,
+        "probability": 9.999999999998899e-05
+       },
+       {
+        "loss": 27243479.899337802,
+        "probability": 9.999999999998899e-05
+       }
+      ],
+      "prob_exceeds_tolerance": 0.0583
+     },
+     "label": "vendor_breach_adjusted2",
+     "title": "Vendor data breach",
+     "inputs": [
+      {
+       "max": 0.12,
+       "min": 0.01,
+       "mode": 0.05,
+       "path": "threat_event_frequency",
+       "source": "ev_6,ev_9",
+       "rationale": "SOC2 Type 2 and ISO27001 certifications reduce likelihood of loss events."
+      },
+      {
+       "max": 1.0,
+       "min": 1.0,
+       "mode": 1.0,
+       "path": "vulnerability",
+       "source": "derived:loss_event_benchmark",
+       "rationale": "Vulnerability fixed at 1 per benchmark requirement."
+      },
+      {
+       "max": 18550000.0,
+       "min": 742000.0,
+       "mode": 4452000.0,
+       "path": "primary_loss.response",
+       "source": "benchmark:ibm_codb_2025.healthcare_avg",
+       "rationale": "IBM Cost of Data Breach 2025 healthcare average includes response, fines, lost business."
+      }
+     ],
+     "run_id": "run_03",
+     "drivers": [
+      {
+       "path": "primary_loss.response",
+       "share": 0.6101844907070987,
+       "swing": 1161972.0,
+       "low_ale": 48415.5,
+       "high_ale": 1210387.5
+      },
+      {
+       "path": "threat_event_frequency",
+       "share": 0.38981550929290126,
+       "swing": 742324.188605965,
+       "low_ale": 56464.40382539387,
+       "high_ale": 798788.5924313589
+      }
+     ],
+     "scenario": "vendor_breach",
+     "breakdown": {
+      "primary_loss.response": 369114.72139867995
+     },
+     "assumption_count": 0,
+     "loss_event_frequency_mean": 0.0601
+    }
+   ],
+   "tolerance": {
+    "source": "client",
+    "rationale": "Stated by the client.",
+    "value_usd": 1000000.0
+   },
+   "tool_calls": 7,
+   "input_count": 11,
+   "generated_by": "agent",
+   "input_tokens": 39862,
+   "key_findings": [
+    "Vendor insolvency risk is negligible (expected loss $834, chance of any loss 0.1%).",
+    "Vendor outage risk has an expected loss of $120\u202fK, but the P99 ($1.57\u202fM) exceeds the $1\u202fM tolerance, with a 4.2% chance of reaching the tolerance.",
+    "Vendor breach risk shows an expected loss of $369\u202fK; however, the P99 ($9.31\u202fM) is far above tolerance, though the chance of any loss is only 5.8%."
+   ],
+   "output_tokens": 2805,
+   "paced_seconds": 420.3078454589646,
+   "missing_inputs": [],
+   "recommendations": [
+    "Implement the \u2018fallback_service\u2019 control to mitigate outage tail risk.",
+    "Adopt the \u2018limit_records_shared\u2019 control (share 50% of records) to reduce breach exposure.",
+    "Maintain current SOC\u202f2 Type\u202f2 and ISO\u202f27001 compliance posture; no further changes needed."
+   ],
+   "assumption_count": 3,
+   "assumption_share": 0.2727272727272727
+  },
+  "fair_ale_mean": 490188.58424175606,
+  "fair_prob_exceeds_tolerance": 0.0987,
+  "created_at": "2026-11-23T19:07:53.204880+00:00"
+ }
+]

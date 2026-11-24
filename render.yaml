@@ -1,0 +1,54 @@
+# Render Blueprint: the hosted demo (free plan). See docs/deploy.md.
+# Render → New → Blueprint → pick this repo; it asks for every `sync: false`
+# value. The database is Supabase (free), not Render.
+
+services:
+  # FastAPI backend: migrations, demo reports, then the API
+  - type: web
+    name: vendoriq-api
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    dockerCommand: >-
+      sh -c "alembic upgrade head
+      && python scripts/demo_reports.py import
+      && exec uvicorn main_api:app --host 0.0.0.0 --port ${PORT:-8000} --loop asyncio"
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: DATABASE_URL          # Supabase: postgresql+asyncpg://… (pooler URL)
+        sync: false
+      - key: DATABASE_SSL
+        value: require
+      - key: CORS_ALLOW_ORIGINS    # the frontend's URL, e.g. https://vendoriq.onrender.com
+        sync: false
+      # Visitors may start 3 evaluations a day between them (the free Groq key
+      # covers ~5); the passcode holder is never limited. 0 = passcode only.
+      - key: EVALUATE_PASSCODE
+        sync: false
+      - key: EVALUATE_DAILY_LIMIT
+        value: "3"
+      - key: FAIR_TOKENS_PER_MINUTE
+        value: "8000"
+      - key: LOG_FORMAT
+        value: json
+
+  # React frontend: static files, always on
+  - type: web
+    name: vendoriq
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci --no-audit --no-fund && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite              # client-side routes (/history, /jobs/…)
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL     # the backend's URL, e.g. https://vendoriq-api.onrender.com
+        sync: false
+      - key: NODE_VERSION
+        value: "22"
