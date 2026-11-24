@@ -835,3 +835,54 @@ def test_evaluate_accepts_exposure(Session, pipeline_calls):
     bad = {**EVALUATE_BODY, "client_profile": {
         **EVALUATE_BODY["client_profile"], "exposure": {"data_types": ["gold"]}}}
     assert call("POST", "/api/v1/evaluate", json=bad).status_code == 422
+
+
+# ── Who may start a live evaluation (public hosting) ──────
+
+@pytest.fixture
+def gate(monkeypatch):
+    """Set EVALUATE_PASSCODE / EVALUATE_DAILY_LIMIT for one test."""
+    from pydantic import SecretStr
+
+    def set_gate(passcode=None, limit=0):
+        monkeypatch.setattr(settings, "evaluate_passcode", SecretStr(passcode) if passcode else None)
+        monkeypatch.setattr(settings, "evaluate_daily_limit", limit)
+    return set_gate
+
+
+def test_evaluations_are_open_when_no_passcode_or_limit_is_set(Session, gate, pipeline_calls):
+    gate()
+    assert call("GET", "/api/v1/access").json() == {
+        "passcode_enabled": False, "public_runs_left": None, "daily_limit": None,
+    }
+    assert call("POST", "/api/v1/evaluate", json=EVALUATE_BODY).status_code == 202
+
+
+def test_demo_mode_refuses_visitors_and_admits_the_passcode(Session, gate, pipeline_calls):
+    gate(passcode="let-me-in")
+    assert call("GET", "/api/v1/access").json()["public_runs_left"] == 0
+
+    refused = call("POST", "/api/v1/evaluate", json=EVALUATE_BODY)
+    assert refused.status_code == 403 and "passcode" in refused.json()["detail"]
+    wrong = call("POST", "/api/v1/evaluate", json=EVALUATE_BODY,
+                 headers={"X-Evaluate-Passcode": "guess"})
+    assert wrong.status_code == 403 and "not right" in wrong.json()["detail"]
+    assert pipeline_calls == [] and fetch(Session, Job) == []
+
+    ok = call("POST", "/api/v1/evaluate", json=EVALUATE_BODY,
+              headers={"X-Evaluate-Passcode": "let-me-in"})
+    assert ok.status_code == 202 and len(pipeline_calls) == 1
+
+
+def test_daily_limit_counts_the_last_24_hours_and_spares_passcode_holders(Session, gate):
+    gate(passcode="let-me-in", limit=2)
+    add_rows(Session,
+             Job(job_id="job-old", vendor_name="Okta", status="complete", created_at=ts(25 * 60)),
+             Job(job_id="job-new", vendor_name="Okta", status="complete", created_at=ts(5)))
+    assert call("GET", "/api/v1/access").json()["public_runs_left"] == 1
+
+    assert call("POST", "/api/v1/evaluate", json=EVALUATE_BODY).status_code == 202
+    used_up = call("POST", "/api/v1/evaluate", json=EVALUATE_BODY)
+    assert used_up.status_code == 429 and "used up" in used_up.json()["detail"]
+    assert call("POST", "/api/v1/evaluate", json=EVALUATE_BODY,
+                headers={"X-Evaluate-Passcode": "let-me-in"}).status_code == 202

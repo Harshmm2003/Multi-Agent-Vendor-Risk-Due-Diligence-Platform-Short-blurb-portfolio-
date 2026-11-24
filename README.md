@@ -296,6 +296,17 @@ The frontend calls `http://localhost:8000` by default. Set `VITE_API_BASE_URL` t
 
 > On first start, ChromaDB downloads a ~80 MB embedding model, so the first run needs internet access.
 
+### Option C — Host it for free
+
+[`render.yaml`](render.yaml) deploys the frontend and backend to Render's free plan, with Supabase (free) as the database. On the hosted version:
+
+- **Anyone can browse the saved reports** in [`backend/demo/reports.json`](backend/demo/reports.json) (CVS Health and Northwind Health evaluating Veeva and Salesforce). They are loaded into the database on every start.
+- **Visitors can start 3 live evaluations a day** between them, because the free Groq key covers about five. The Evaluate page shows how many are left.
+- **The owner's passcode is never limited.** Enter it on the Evaluate page.
+- The free backend sleeps after 15 minutes idle, so the first visit after that takes about a minute.
+
+Setup steps, and the options for letting more people run evaluations: [`docs/deploy.md`](docs/deploy.md).
+
 ## Configuration
 
 All settings live in `backend/.env`. See [`backend/.env.example`](backend/.env.example) for the full annotated list.
@@ -311,7 +322,9 @@ All settings live in `backend/.env`. See [`backend/.env.example`](backend/.env.e
 | `AGENT_STRUCTURED_OUTPUT` | no | `true` (JSON schema, default) or `false` (text parsing) |
 | `CORS_ALLOW_ORIGINS` | no | Allowed browser origins, comma-separated |
 | `CERT_CACHE_VALID_AFTER` | no | Treat cached certification results older than this date as expired |
-| `CSA_STAR_API_KEY` | no | Live CSA STAR API (only when demo mode is off) |
+| `CSA_STAR_API_KEY` | no | Live CSA STAR API (unused while the CSA connector uses its seed dataset) |
+| `EVALUATE_PASSCODE` | no | Passcode for live evaluations on a hosted demo; holders are never limited |
+| `EVALUATE_DAILY_LIMIT` | no | Evaluations anyone may start per rolling 24 h; `0` (default) means none if a passcode is set, unlimited if not |
 
 Never commit `.env`. CI scans for secrets with gitleaks.
 
@@ -321,7 +334,8 @@ Interactive docs are at `/docs` when the backend is running. The main endpoints,
 
 | Method | Path | Purpose |
 |---|---|---|
-| `POST` | `/evaluate` | Start an evaluation. Returns `job_id` and `evaluation_id` |
+| `POST` | `/evaluate` | Start an evaluation. Returns `job_id` and `evaluation_id`. On a locked demo, send the `X-Evaluate-Passcode` header |
+| `GET` | `/access` | Whether visitors may start evaluations: passcode on, free runs left today |
 | `GET` | `/jobs/{job_id}` | Job status, progress %, current step, and the result once complete |
 | `GET` | `/jobs` | Recent jobs |
 | `GET` | `/evaluations` | Past evaluations |

@@ -108,7 +108,7 @@ test("requires vendor, company, industry and contract value", async () => {
   expect(screen.getByText("Enter your company name.")).toBeInTheDocument();
   expect(screen.getByText("Enter your industry.")).toBeInTheDocument();
   expect(screen.getByText("Enter a contract value greater than 0.")).toBeInTheDocument();
-  expect(fetchMock).not.toHaveBeenCalled();
+  expect(fetchMock.mock.calls.some(([, init]) => init?.method === "POST")).toBe(false);
 });
 
 test("reports an unreachable API", async () => {
@@ -162,4 +162,62 @@ test("rejects a zero tolerance or fractional record count before submitting", as
   expect(screen.getByText("Enter an amount greater than 0.")).toBeInTheDocument();
   expect(screen.getByText("Enter a whole number.")).toBeInTheDocument();
   expect(fetchMock.mock.calls.some(([, init]) => init?.method === "POST")).toBe(false);
+});
+
+const accepted = on("POST", "/api/v1/evaluate", () =>
+  json(202, { job_id: "job-abc", evaluation_id: "eval-1", vendor_name: "Okta, Inc.", status: "pending",
+              message: "", poll_url: "/api/v1/jobs/job-abc" }));
+
+test("demo mode locks live runs until a passcode is entered, then sends it", async () => {
+  sessionStorage.clear();
+  const fetchMock = mockFetch(
+    companySearch,
+    on("GET", "/api/v1/access", () => json(200, { passcode_enabled: true, public_runs_left: 0, daily_limit: null })),
+    accepted,
+  );
+  const user = userEvent.setup({ delay: null });
+  renderPage();
+  expect(await screen.findByRole("heading", { name: "Live evaluations are locked on this demo" })).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "Browse the saved reports" })).toHaveAttribute("href", "/history");
+  await fillValidForm(user);
+  expect(screen.getByRole("button", { name: "Start evaluation" })).toBeDisabled();
+
+  await user.type(screen.getByLabelText("Passcode"), "let-me-in");
+  await user.click(screen.getByRole("button", { name: "Start evaluation" }));
+  expect(await screen.findByText("job page")).toBeInTheDocument();
+  const post = fetchMock.mock.calls.find(([, init]) => init?.method === "POST")!;
+  expect((post[1]!.headers as Record<string, string>)["X-Evaluate-Passcode"]).toBe("let-me-in");
+});
+
+test("a daily allowance shows how many free runs are left and needs no passcode", async () => {
+  sessionStorage.clear();
+  const fetchMock = mockFetch(
+    companySearch,
+    on("GET", "/api/v1/access", () => json(200, { passcode_enabled: true, public_runs_left: 2, daily_limit: 3 })),
+    accepted,
+  );
+  const user = userEvent.setup({ delay: null });
+  renderPage();
+  expect(await screen.findByRole("heading", { name: "2 free evaluations left today" })).toBeInTheDocument();
+  await fillValidForm(user);
+  await user.click(screen.getByRole("button", { name: "Start evaluation" }));
+  expect(await screen.findByText("job page")).toBeInTheDocument();
+  const post = fetchMock.mock.calls.find(([, init]) => init?.method === "POST")!;
+  expect(post[1]!.headers as Record<string, string>).not.toHaveProperty("X-Evaluate-Passcode");
+});
+
+test("shows the server's message when the allowance runs out mid-session", async () => {
+  sessionStorage.clear();
+  mockFetch(
+    companySearch,
+    on("GET", "/api/v1/access", () => json(200, { passcode_enabled: false, public_runs_left: 1, daily_limit: 1 })),
+    on("POST", "/api/v1/evaluate", () => json(429, { detail: "Today's free evaluations are used up." })),
+  );
+  const user = userEvent.setup({ delay: null });
+  renderPage();
+  await screen.findByRole("heading", { name: "1 free evaluation left today" });
+  expect(screen.queryByLabelText(/Passcode/)).not.toBeInTheDocument();
+  await fillValidForm(user);
+  await user.click(screen.getByRole("button", { name: "Start evaluation" }));
+  await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("Today's free evaluations are used up."));
 });

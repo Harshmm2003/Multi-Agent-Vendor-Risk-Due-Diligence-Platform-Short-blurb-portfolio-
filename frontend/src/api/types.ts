@@ -310,3 +310,11 @@ export interface FairDecision {
   conditions?: string[];
   fair_note?: string | null;
 }
+
+/** GET /access: who may start a live evaluation on this deployment. */
+export interface EvaluationAccess {
+  passcode_enabled: boolean;
+  /** Runs a visitor without the passcode may still start today; null = unlimited. */
+  public_runs_left: number | null;
+  daily_limit: number | null;
+}

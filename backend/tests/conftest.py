@@ -66,6 +66,8 @@ TEST_ENV = {
     "FAIR_TOKENS_PER_MINUTE": "8000",
     "FAIR_REASONING_EFFORT": "low",
     "FAIR_MAX_SECONDS": "300",
+    "EVALUATE_PASSCODE": "",                      # blank → open; tests opt in
+    "EVALUATE_DAILY_LIMIT": "0",
 }
 os.environ.update(TEST_ENV)
 
